@@ -1,0 +1,178 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-weight: 400;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 20px;
+}
+
+.no-scroll {
+  overflow: hidden;
+}
+.scroll {
+  overflow: auto;
+}
+
+.hide-scrollbars {
+  display: none;
+}
+
+.section {
+  width: 1300px;
+  margin: 0 auto;
+}
+
+/* Загальний стиль для скроллбарів */
+.firefox .scroll {
+  scrollbar-width: thin; /* Тонкий скроллбар */
+  scrollbar-color: #d1b5e8 #e0e0f9; /* Фіолетовий ползунок і світло-фіолетовий фон треку */
+}
+
+/* Для Chrome, Edge, Safari */
+.scroll::-webkit-scrollbar {
+  width: 12px; /* Ширина скроллбару */
+  height: 12px;
+}
+
+.scroll::-webkit-scrollbar-track {
+  cursor: pointer;
+  background: #e0e0f9;
+  border-radius: 10px;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  cursor: pointer;
+  background-color: #c396e8;
+  border-radius: 10px;
+  border: 3px solid #e0e0f9;
+}
+
+.scroll::-webkit-scrollbar-thumb:hover {
+  background-color: #c396e8; /* Можна змінити на інший фіолетовий відтінок */
+}
+
+/* Прибираємо стрілочки на скроллбарі в Chrome, Edge, Safari */
+.scroll::-webkit-scrollbar-button {
+  display: none;
+}
+
+input:focus,
+textarea:focus {
+  outline: 2px solid rgba(38, 28, 53, 0.5); /* Задайте тут свій колір */
+}
+.gradiant-violet {
+  background: linear-gradient(to bottom, #d7beeb, #f1e4fb);
+  margin: 0;
+}
+
+.gradiant-violet-reverse {
+  background: linear-gradient(to bottom, #f1e4fb, #d7beeb);
+  margin: 0;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0px 1000px #d7beeb inset; /* Задає колір фону */
+  box-shadow: 0 0 0px 1000px #d7beeb inset;
+  -webkit-text-fill-color: #271d37; /* Колір тексту */
+}
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.none {
+  display: none;
+}
+dialog {
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+.full-screen-div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  border: none;
+  height: 100vh;
+  min-height: 400px;
+  background-color: rgba(56, 40, 67, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 500;
+  backdrop-filter: blur(5px);
+}
+.no-select {
+  -webkit-user-select: none; /* Chrome, Safari, Edge */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version */
+  -webkit-user-drag: none; /* Safari, Chrome */
+  user-drag: none; /* Firefox */
+}
+.no-select-img {
+  -webkit-user-drag: none;
+  user-drag: none;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+::selection {
+  background-color: #4d3472; /* Колір фону виділення */
+  color: #f1e4fb; /* Колір тексту при виділенні */
+}
+
+/* Для браузерів Safari */
+::-webkit-selection {
+  background-color: #4d3472;
+  color: #f1e4fb;
+}
+.pointer {
+  cursor: pointer;
+}
+.scrollable-div {
+  overflow: auto; /* Дозволяємо прокручування */
+  scrollbar-width: none; /* Приховуємо скролбар у Firefox */
+}
+
+.scrollable-div::-webkit-scrollbar {
+  display: none; /* Приховуємо скролбар у Chrome, Safari та Opera */
+}
+.relative-div {
+  position: relative;
+}
+ul {
+  list-style-type: none; /* Убирает маркеры (точки) у элементов списка */
+  margin: 0; /* Убирает отступы у списка */
+  padding: 0; /* Убирает внутренние отступы у списка */
+}
+
+li {
+  margin: 0; /* Убирает отступы у элементов списка */
+  padding: 0; /* Убирает внутренние отступы у элементов списка */
+}
+@media (min-width: 1801px) {
+  .section {
+    width: 1540px;
+  }
+}
+@media (max-width: 1201px) {
+  .section {
+    width: 100%;
+    padding: 20px;
+  }
+}

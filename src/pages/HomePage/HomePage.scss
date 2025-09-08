@@ -1,0 +1,193 @@
+.section__preview {
+  display: grid;
+  width: 1120px;
+  grid-template-columns: 1fr 300px;
+  gap: 10px;
+  margin: 0 auto;
+  background-color: #6d5b98;
+  transform: scale(1.2);
+  border-radius: 9px;
+  padding: 36px 0px 26px 40px;
+  position: relative;
+}
+.home__padding__top {
+  padding-top: 100px;
+}
+//.section__preview::before {
+//  opacity: 0.9; /* Зменшити прозорість картинки */
+//  z-index: 8;
+//  transform: scaleX(-1);
+//  content: "";
+//  position: absolute; /* Абсолютне позиціонування всередині батьківського елемента */
+//  bottom: -36px;
+//  right: 10px;
+//  width: 260px; /* Ширина картинки */
+//  height: 260px; /* Висота картинки */
+//  background: url("../../images/icon_unit_scout.png") no-repeat center center; /* Вставити картинку */
+//  background-size: cover; /* Підлаштовує розмір картинки під псевдоелемент */
+//}
+.dog__div {
+  display: flex;
+  align-items: center;
+}
+.dog__design {
+  margin-top: 16px;
+  opacity: 0.925; /* Зменшити прозорість картинки */
+  //user-select: none;
+  //pointer-events: none;
+  transform: scaleX(-1);
+  bottom: -36px;
+  right: 10px;
+  width: 100%; /* Ширина картинки */
+  height: inherit; /* Висота картинки */
+}
+
+.section__preview-h1 {
+  text-transform: uppercase;
+  word-spacing: 6px;
+  //color: #271d37;
+  color: #f5f5f5;
+  font-weight: 300;
+  font-size: 92px;
+  border-bottom: 4px solid #9d8bb9;
+}
+
+.section__preview-p {
+  z-index: 999;
+  margin-top: 5px;
+  font-weight: 400;
+  font-size: 24px;
+  letter-spacing: -0.5px;
+  line-height: 1.4;
+  color: rgba(231, 231, 231, 0.91);
+}
+
+.section-grid {
+  padding-top: 90px;
+  padding-bottom: 30px;
+  display: grid;
+  grid-template-columns: 5fr 3fr;
+  gap: 40px;
+}
+
+.title-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px 0 32px;
+  font-size: 24px;
+  font-weight: 500;
+  color: #271d37;
+  width: 100%;
+  border-bottom: 2px solid #271d37;
+  height: 54px;
+  background-color: #ccb3ea;
+  /* box-shadow: inset 0 0 16px 1px rgba(92, 66, 132, 0.6); */
+  box-shadow:
+    inset 16px 0 32px -10px #8576af,
+    /* тінь зліва */ inset -16px 0 32px -10px #8576af; /* тінь справа */
+}
+
+img {
+  transition: 0.1s ease-out;
+}
+@media (max-width: 1201px) {
+  .home__padding__top {
+    padding-top: 60px;
+  }
+
+  .section__preview {
+    width: 95%;
+
+    grid-template-columns: 1fr;
+    padding: 36px 20px 26px 20px;
+    transform: scale(1);
+  }
+  .dog__design {
+    display: none;
+  }
+  .section-grid {
+    width: calc(100% - 40px);
+    justify-content: center;
+    padding: 60px 20px 20px 20px;
+    grid-template-columns: 785px;
+  }
+}
+@media (max-width: 901px) {
+  .home__padding__top {
+    padding-top: 40px;
+  }
+  .section__preview {
+    transform: scale(0.92);
+  }
+}
+@media (max-width: 751px) {
+  .section__preview-h1 {
+    font-size: 64px;
+  }
+  .section__preview {
+    width: 97%;
+    margin: 0;
+    padding: 36px 20px 26px 20px;
+  }
+  .section__preview-p {
+    font-size: 20px;
+  }
+}
+@media (max-width: 551px) {
+  .section__preview-h1 {
+    font-size: 48px;
+  }
+  .section__preview {
+    width: 93%;
+    margin: 0;
+    grid-template-columns: 1fr;
+  }
+  .section__preview-p {
+    font-size: 18px;
+  }
+}
+@media (max-width: 451px) {
+  .section__preview {
+    width: 91%;
+    margin: 0;
+  }
+}
+@media (max-width: 421px) {
+  .section__preview-h1 {
+    font-size: 36px;
+  }
+  .section__preview-p {
+    font-size: 16px;
+  }
+  .section__preview {
+    transform: scale(0.95);
+  }
+}
+@media (max-width: 321px) {
+  .section__preview {
+    transform: scale(0.98);
+  }
+  .section__preview-h1 {
+    font-size: 32px;
+  }
+}
+@media (min-width: 1801px) {
+  .section__preview-p {
+    font-size: 28px;
+  }
+  .dog__design {
+    margin: 0;
+  }
+  .section__preview-h1 {
+    font-size: 108px;
+  }
+  .section__preview {
+    width: 1400px;
+    grid-template-columns: 1fr 400px;
+    padding: 52px 40px 26px 40px;
+  }
+  .section {
+    width: 1400px;
+  }
+}

@@ -1,0 +1,529 @@
+.lobby {
+  background-color: #f7edfe;
+  border-radius: 9px;
+  overflow: hidden;
+  border: 2px solid #271d37;
+  &__area {
+    width: 100%;
+    overflow: auto;
+    padding: 0 14px;
+    height: 542px;
+  }
+  &__room {
+    margin-top: 14px;
+    padding: 4px 6px 8px 6px;
+  }
+  &__name {
+    display: flex;
+    justify-content: space-between;
+    color: #271d37;
+    font-size: 24px;
+    text-decoration: none;
+    background-color: #f1e4fb;
+    padding: 3px 6px;
+    border-radius: 6px;
+    margin-right: 3px;
+    transition: 0.3s ease;
+    border: none;
+    margin-bottom: 14px;
+  }
+  &__members {
+    display: flex;
+    gap: 40px;
+  }
+  &__member {
+    width: 90px;
+    position: relative;
+
+    &-avatar {
+      display: inline-block;
+      margin-left: 5px;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      box-shadow: 0 0 5px 1px rgba(39, 29, 55, 0.7);
+      &-img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+      }
+    }
+    &-btn {
+      border: none;
+    }
+    &-nickname {
+      width: 100%;
+      text-align: center;
+      color: #271d37;
+      text-decoration: underline 1px solid;
+      letter-spacing: 0.5px; /* Невеликий відступ між літерами */
+      line-height: 0.9; /* Оптимальний відступ між рядками */
+      display: inline-block; /* Зробити елемент блочним, але таким, що вписується в текстовий рядок */
+      /* Обмежити ширину до 100px */
+      word-wrap: break-word; /* Переносити слова, якщо вони завеликі */
+      transition: 0.3s ease-in;
+      overflow-wrap: break-word; /* Додаткове правило для переносу довгих слів */
+    }
+  }
+
+  &__room:not(:last-child) {
+    border-bottom: 3px solid #271d37;
+  }
+}
+
+.create-btn {
+  background-color: #d6b3ea;
+  border-radius: 8px;
+  font-size: 24px;
+  color: #271d37;
+  padding: 2px 6px 3px 6px;
+  border: 2px solid #271d37;
+  transition: 0.3s ease;
+}
+.create-btn:disabled,
+.chat__typing-btn:disabled {
+  background-color: rgba(214, 179, 234, 0.71);
+  color: #7a6c91;
+}
+.chat__typing-input:disabled {
+  background-color: rgba(214, 179, 234, 0.71);
+  color: #7c708e;
+}
+.create-btn:hover,
+.create-btn:active {
+  cursor: pointer;
+  background-color: #d7beeb;
+  color: #5c4284;
+}
+
+.create-btn:active {
+  background-color: #f7edfe;
+}
+
+.lobby__member-nickname:hover,
+.lobby__member-nickname:active,
+.lobby__member-nickname:focus {
+  color: #5c4284;
+}
+
+.lobby__member-btn img:hover {
+  cursor: pointer;
+  filter: contrast(108%);
+}
+
+.lobby__member-btn img:active {
+  filter: contrast(120%);
+}
+
+.lobby__member-btn:hover,
+.lobby__member-btn:active {
+  box-shadow: 0 0 5px 2px rgba(39, 29, 55, 0.5);
+}
+
+button:disabled,
+button[disabled] {
+  cursor: not-allowed;
+  pointer-events: none;
+  filter: none; /* Вимкнення будь-яких фільтрів */
+  box-shadow: none; /* Вимкнення тіней */
+}
+
+/* Вимкнення ефектів при наведенні та нажатті для зображень всередині disabled кнопок */
+button:disabled img,
+button[disabled] img {
+  filter: none; /* Вимкнення будь-яких фільтрів */
+}
+
+.leader {
+  position: relative;
+}
+
+.leader::after {
+  content: '';
+  position: absolute;
+  top: -18%;
+  left: -16%;
+  width: 70px; /* Задайте ширину зображення */
+  height: 70px; /* Задайте висоту зображення */
+  background-image: url('../../images/leader-crown.png'); /* Посилання на зображення */
+  background-size: contain;
+  background-repeat: no-repeat;
+  transform: rotate(-35deg);
+}
+
+.lobby__member-avatar {
+  position: relative;
+}
+
+.lobby__member::before {
+  content: '';
+  position: absolute;
+
+  z-index: 300;
+  transition: transform 0.3s ease;
+  transform: scale(0);
+  transform-origin: center;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="%23f7edfe"%3E%3Cpath stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/%3E%3C/svg%3E');
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.kick-btn {
+  position: absolute;
+  color: #f1e4fb;
+  top: 0;
+  right: 0;
+  width: 24px;
+  height: 24px;
+  background-color: #fe0e3ee3;
+  border-radius: 50%;
+  border: none;
+  transform: scale(0); /* Початковий скейл 0 */
+  transition: all 0.25s ease; /* Плавний перехід */
+}
+
+.kick-btn:hover {
+  background-color: #ff0033;
+  cursor: pointer;
+}
+
+.lobby__member:hover .kick-btn {
+  transform: scale(
+    1
+  ); /* Зміна скейлу на 1 при наведенні на батьківський елемент */
+}
+
+.kick-svg {
+  width: 24px;
+}
+
+.lobby__member:hover::before {
+  cursor: pointer;
+  transform: scale(1);
+  transition: transform 0.3s ease-in;
+}
+
+.in-room-btns {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
+}
+
+.btn-in {
+  color: #271d37;
+  cursor: pointer;
+  padding: 5px 10px;
+  font-size: 24px;
+  background-color: #d1b5e8;
+  border: none;
+  border-radius: 6px;
+  transition: all 0.15s ease-in;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+.btn-in:hover {
+  color: #f1e4fb;
+}
+
+.leave-btn {
+  margin-right: 8px;
+}
+
+.leave-btn:hover,
+.leave-btn:active {
+  background-color: #fe0e3ee3;
+}
+
+.move-to-lobby-btn {
+  text-decoration: none;
+}
+
+.move-to-lobby-btn:hover,
+.move-to-lobby-btn:active {
+  background-color: #a5d97acf;
+}
+
+/* ======== dialog ======== */
+
+.lobby-dialog {
+  width: 400px;
+  height: 400px;
+  background-color: #f1e4fb;
+  border: 1px solid #271d37;
+  border-radius: 10px;
+  padding: 40px 20px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1001; /* Ensure the dialog is above the blurred background */
+}
+
+.lobby-dialog form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 22px;
+  color: #271d37;
+}
+
+.lobby-dialog label {
+  font-size: 22px;
+  color: #271d37;
+}
+
+.lobby-dialog input {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 18px;
+  background-color: #faf4fe;
+  border: 1px solid #271d37;
+  border-radius: 6px;
+  color: #271d37;
+}
+
+.lobby-dialog button:hover {
+  background-color: #d7beeb;
+}
+
+.lobby-dialog button[type='button'] {
+  background-color: #fe0e3ee3;
+  color: #f1e4fb;
+}
+
+.lobby-dialog button[type='button']:hover {
+  background-color: #ff0033;
+}
+
+.lobby-label {
+  display: flex;
+  flex-direction: column;
+}
+.radio-buttons {
+  display: flex;
+  gap: 14px;
+}
+.radio-buttons label {
+  margin-top: 4px;
+  cursor: pointer;
+  background-color: #aaa;
+  width: 34px;
+  height: 34px;
+  font-size: 24px;
+  color: #f1e4fb;
+  padding-top: 3px;
+  text-align: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+.radio-buttons label:hover {
+  background-color: #bbb;
+}
+.radio-buttons label:active {
+  background-color: #ccc;
+}
+.radio-buttons input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.lobby-input {
+  margin-top: 4px;
+  transition: all 0.3s ease;
+}
+.radio-buttons input[type='radio']:checked + label {
+  background-color: #5c4284;
+}
+/* чекбокс */
+/* Основний стиль для контейнера переключателя */
+/* Основний стиль для контейнера переключателя */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 58px; /* Було 60px, тепер 58px */
+  height: 34px;
+}
+
+/* Ховаємо стандартний чекбокс */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Стилі для слайдера */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #aaa;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+/* Стиль для кругляка всередині слайдера */
+.slider:before {
+  position: absolute;
+  content: '';
+  height: 26px;
+  width: 26px;
+  border-radius: 50%;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 0.4s;
+}
+
+/* Перемикаємо слайдер, коли чекбокс увімкнено */
+input:checked + .slider {
+  background-color: #5c4284;
+}
+
+/* Переміщуємо кругляк, коли чекбокс увімкнено */
+input:checked + .slider:before {
+  transform: translateX(24px); /* Було 26px, тепер 24px */
+}
+
+.private-checkbox:checked ~ .lobby-input {
+  background-color: pink;
+}
+.lobby-input-disabled {
+  background-color: #cbbcd781 !important;
+}
+.dialog-submit {
+  margin-top: 12px;
+  color: #271d37;
+  cursor: pointer;
+  padding: 6px 10px;
+  font-size: 24px;
+  background-color: #d1b5e8;
+  border: none;
+  border-radius: 6px;
+  font-family: 'Ubuntu', sans-serif;
+  transition: all 0.3s ease;
+}
+.dialog-submit:hover {
+  cursor: pointer;
+  background-color: #d7beeb;
+  color: #5c4284;
+}
+
+.dialog-close {
+  cursor: pointer;
+  position: absolute;
+  color: #f1e4fb;
+  top: -20px;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  background-color: #fe0e3ee3;
+  border-radius: 9px;
+  border: none;
+
+  transition: all 0.25s ease;
+}
+.kick-svg2 {
+  width: 30px;
+}
+.lobby-dialog-join {
+  height: 200px;
+}
+.lobby-dialog-join form {
+  gap: 2px;
+}
+.view-img-btn {
+  width: 35px; /* Ширина кнопки */
+  height: 35px; /* Висота кнопки */
+  padding: 0; /* Відсутність внутрішніх відступів */
+  border: none; /* Видалити рамку кнопки, якщо потрібно */
+  cursor: pointer; /* Зміна курсору при наведенні на кнопку */
+  background: none; /* Видалити стандартний фон кнопки */
+  border-radius: 4px;
+  overflow: hidden;
+  outline: 2px solid #a084aa;
+  transition: all 0.1s ease-in;
+}
+.view-img {
+  width: 100%; /* Ширина зображення на всю ширину кнопки */
+  height: 100%; /* Висота зображення на всю висоту кнопки */
+  display: block; /* Видалити пробіли навколо зображення */
+  object-fit: cover; /* Масштабування зображення, щоб воно повністю покрило кнопку */
+  pointer-events: none; /* Вимкнення подій миші для зображення */
+  -webkit-user-drag: none; /* Заборона перетягування для WebKit-браузерів */
+  user-drag: none; /* Firefox */
+  transition: all 0.2s ease-in;
+}
+.lobby__header {
+  display: flex;
+  justify-content: space-between;
+
+  padding: 2px 15px 0 2px;
+}
+.lobby__header .view-img-btn {
+}
+
+/* Ефект при наведенні */
+.view-img-btn:hover {
+  box-shadow: 0 0 5px 0 rgba(39, 29, 55, 0.5);
+}
+
+/* Ефект при натисканні */
+.view-img-btn:active {
+  box-shadow: 0 0 5px 2px rgba(39, 29, 55, 0.7);
+}
+
+/* Ефект зміни прозорості зображення при наведенні */
+.view-img-btn:hover .view-img {
+  transition: opacity 0.3s ease; /* Плавний перехід */
+}
+.game-started {
+  background-color: #ecd2edd2;
+  border-radius: 6px 6px 0 0;
+}
+.in-game-div {
+  display: flex;
+}
+.in-game-p {
+  margin: 2px 10px 0 0;
+  font-size: 22px;
+  color: #77617f;
+  font-weight: 500;
+}
+.not-authorized-div__img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin: 0 auto;
+}
+.not-authorized-div {
+  padding-top: 120px;
+  width: 100%;
+}
+.not-authorized-div__p {
+  margin-top: 4px;
+  text-align: center;
+  color: #675576;
+  font-size: 28px;
+  letter-spacing: 0.5px;
+  line-height: 1.25;
+  font-weight: 500;
+}
+.not-authorized-div__a {
+  color: #7a4597;
+  text-decoration: underline 2px;
+  margin-bottom: -3px;
+}
+.not-authorized-div__a:hover {
+  color: #b38fc7;
+}
