@@ -16,8 +16,8 @@ const LobbyList = () => {
   const [error, setError] = useState(null);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
 
-  const onRoomMessageReceived = (message) => {
-    const { room, type } = JSON.parse(message.body);
+  const onRoomMessageReceived = (wsMessage) => {
+    const { room, type } = JSON.parse(wsMessage.body);
     switch (type) {
       case 'CREATE':
         setRooms((prevRooms) => [...prevRooms, room]);

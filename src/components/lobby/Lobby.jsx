@@ -5,11 +5,20 @@ import { Link } from 'react-router-dom';
 import Member from './Member.jsx';
 import { useSelector } from 'react-redux';
 import { joinRoom, leaveRoom } from '../../http/requests/room.js';
+import JoinLobbyDialog from './JoinLobbyDialog.jsx';
+import { useState } from 'react';
 
 const Lobby = ({ room }) => {
   const { user } = useSelector((state) => state.auth);
 
+  const [isJoinDialogOpen, setIsJoinDialogOpen] = useState(false);
+
   const onJoin = () => {
+    if (room.hasPassword) {
+      setIsJoinDialogOpen(true);
+      return;
+    }
+
     joinRoom({
       reference: room.reference,
       password: '',
@@ -30,13 +39,17 @@ const Lobby = ({ room }) => {
 
   const isUserLeaderCookies = () => {
     const members = room.members;
-    if (members?.length === 0) return false;
+    if (members?.length === 0) {
+      return false;
+    }
     return user?.username === members[0]?.username;
   };
 
   const isUserInRoom = () => {
     const members = room.members;
-    if (members?.length === 0) return false;
+    if (members?.length === 0) {
+      return false;
+    }
     return members.some((member) => member.username === user?.username);
   };
 
@@ -75,6 +88,11 @@ const Lobby = ({ room }) => {
 
   return (
     <div className={`lobby__room${room.isStarted ? ' game-started' : ''}`}>
+      <JoinLobbyDialog
+        reference={room.reference}
+        isOpen={isJoinDialogOpen}
+        setIsOpened={setIsJoinDialogOpen}
+      />
       <div className="lobby__header">
         <button className="lobby__name">{room.name}</button>
         {room.isStarted && (
@@ -93,7 +111,23 @@ const Lobby = ({ room }) => {
           generateEmptySlots(room.memberLimit - room.members.length)}
       </div>
 
-      {isUserInRoom() && <button onClick={onLeave}>leave</button>}
+      {isUserInRoom() && (
+        <div className="in-room-btns">
+          {!room.isStarted && (
+            <div>
+              <button onClick={onLeave} className="leave-btn btn-in">
+                leave
+              </button>
+            </div>
+          )}
+          <Link
+            to={`/game/${room.name}`}
+            className="move-to-lobby-btn btn-in no-select"
+          >
+            Move to Lobby
+          </Link>
+        </div>
+      )}
     </div>
   );
 };

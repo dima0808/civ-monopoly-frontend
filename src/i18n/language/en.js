@@ -175,7 +175,7 @@ export const en = {
       'per turn icon.',
   },
   chat: {
-    public: 'Public Chat',
+    public: 'public Chat',
     loggedIN: 'logged in',
   },
   authentication: {
@@ -188,7 +188,7 @@ export const en = {
     youAreNot: 'You are not',
     loggedIN: 'logged in',
     dialogCreate: {
-      lobbyName: 'Lobby Name',
+      lobbyName: 'lobby Name',
       sizeLabel: 'Size (2–6)',
       password: 'Password',
       create: 'Create',

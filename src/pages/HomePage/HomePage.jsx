@@ -1,10 +1,10 @@
 import './HomePage.scss';
 import { Scrollbars } from 'react-custom-scrollbars';
-import Header from '../../components/Header/Header.jsx';
-// import Chat from "../../components/Chat/Public/Chat.jsx";
+import Header from '../../components/header/Header.jsx';
+import Chat from '../../components/Chat/public/Chat.jsx';
 import dog from '../../images/icon_unit_scout.png';
 import { useTranslation } from 'react-i18next';
-import LobbyList from '../../components/Lobby/LobbyList.jsx';
+import LobbyList from '../../components/lobby/LobbyList.jsx';
 
 const HomePage = () => {
   const { t } = useTranslation();
@@ -27,7 +27,7 @@ const HomePage = () => {
 
         <section className="section section-grid">
           <LobbyList />
-          {/*<Chat />*/}
+          <Chat />
         </section>
       </main>
     </Scrollbars>

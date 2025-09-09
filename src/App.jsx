@@ -7,14 +7,15 @@ import { useTranslation } from 'react-i18next';
 import { DEFAULT_LANGUAGE, LANGUAGES } from './constants/lang.js';
 import { useEffect, useState } from 'react';
 import { getMe } from './store/slices/authSlice.js';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   connectWebSocket,
   disconnectWebSocket,
 } from './store/slices/wsSlice.js';
+import PrivateChatDialog from './components/chat/private/PrivateChatDialog.jsx';
+import NotificationList from './components/notification/NotificationList.jsx';
 
 const App = () => {
-  const { i18n } = useTranslation();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -24,24 +25,35 @@ const App = () => {
     return () => {
       dispatch(disconnectWebSocket());
     };
-  }, []);
+  }, [dispatch]);
 
   return (
-    <Routes>
-      <Route
-        path="/"
-        element={<Navigate to={`/${i18n.language}/home`} replace />}
-      />
+    <ChatAndNotificationLayout>
+      <Routes>
+        <Route path="/" element={<Navigate to="/home" replace />} />
 
-      <Route path="/:lang" element={<LanguageValidator />}>
-        <Route index element={<Navigate to="home" replace />} />
-        <Route path="home" element={<HomePage />} />
-        <Route path="rules" element={<RulesPage />} />
-        <Route path="signin" element={<SignInPage />} />
-        <Route path="signup" element={<SignUpPage />} />
-        <Route path="*" element={<div>404 Not Found</div>} /> // TODO: 404 page
-      </Route>
-    </Routes>
+        <Route path="/:lang" element={<LanguageValidator />}>
+          <Route index element={<Navigate to="home" replace />} />
+          <Route path="home" element={<HomePage />} />
+          <Route path="rules" element={<RulesPage />} />
+          <Route path="signin" element={<SignInPage />} />
+          <Route path="signup" element={<SignUpPage />} />
+          <Route path="*" element={<div>404 Not Found</div>} /> // TODO: 404page
+        </Route>
+      </Routes>
+    </ChatAndNotificationLayout>
+  );
+};
+
+const ChatAndNotificationLayout = ({ children }) => {
+  const isChatOpen = useSelector((state) => state.chat.isOpen);
+
+  return (
+    <>
+      {children}
+      {isChatOpen && <PrivateChatDialog />}
+      <NotificationList />
+    </>
   );
 };
 
@@ -68,7 +80,9 @@ const LanguageValidator = () => {
   if (!LANGUAGES.includes(segments[0])) {
     return (
       <Navigate
-        to={`/${!isInternalLangValid ? DEFAULT_LANGUAGE : i18n.language}/${segments.join('/')}`}
+        to={`/${
+          !isInternalLangValid ? DEFAULT_LANGUAGE : i18n.language
+        }/${segments.join('/')}`}
         replace
       />
     );
@@ -77,7 +91,9 @@ const LanguageValidator = () => {
   if (i18n.language !== segments[0]) {
     return (
       <Navigate
-        to={`/${!isInternalLangValid ? DEFAULT_LANGUAGE : i18n.language}/${segments.slice(1).join('/')}`}
+        to={`/${
+          !isInternalLangValid ? DEFAULT_LANGUAGE : i18n.language
+        }/${segments.slice(1).join('/')}`}
         replace
       />
     );

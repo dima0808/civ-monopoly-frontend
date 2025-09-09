@@ -1,16 +1,18 @@
-import '../styles.css';
+import '../Chat.scss';
 import { Link } from 'react-router-dom';
 
-export default function Message({ nickname, children }) {
+const Message = ({ sender, children }) => {
   return (
     <p className="chat__element">
       <Link
-        to={`/profile/${nickname}`}
+        to={`/profile/${sender}`}
         className="chat__element chat__element-username"
       >
-        {nickname}:
+        {sender}:
       </Link>
       {children}
     </p>
   );
-}
+};
+
+export default Message;

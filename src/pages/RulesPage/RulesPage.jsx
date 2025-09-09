@@ -5,13 +5,14 @@ import rules22Img from '../../images/rules22.png';
 import rules24Img from '../../images/rules24.png';
 import rules25Img from '../../images/rules25.png';
 import rules26Img from '../../images/rules26.png';
-import Header from '../../components/Header/Header.jsx';
+import Header from '../../components/header/Header.jsx';
 import { useTranslation } from 'react-i18next';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 export default function RulesPage() {
   const { t } = useTranslation();
   return (
-    <>
+    <Scrollbars style={{ height: '100vh' }}>
       <Header />
       <main>
         <div className=" ">
@@ -108,6 +109,6 @@ export default function RulesPage() {
           </div>
         </div>
       </main>
-    </>
+    </Scrollbars>
   );
 }

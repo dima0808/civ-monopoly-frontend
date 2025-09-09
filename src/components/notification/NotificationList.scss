@@ -1,0 +1,84 @@
+.notification {
+  position: relative;
+  &--list {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    top: 110px;
+    right: 1.5%;
+
+    width: 400px;
+    z-index: 500;
+  }
+  &--item {
+    align-items: center;
+    min-height: 60px;
+    border-radius: 40px 4px 30px 40px;
+    padding: 8px;
+    display: grid;
+    align-items: start;
+    grid-template-columns: 56px 1fr;
+    gap: 8px;
+    //#f5eeff
+    background-color: #f6f3ff;
+    color: #271d37;
+    font-size: 22px;
+  }
+  &--p {
+    overflow-wrap: anywhere; /* сучасний спосіб, ламає слово будь-де за потреби */
+    word-break: break-word; /* fallback для Safari/старих браузерів */
+    hyphens: auto;
+  }
+  &---messege {
+  }
+  &--name {
+    color: #f1e4fb;
+    text-decoration: none;
+    background-color: #5c4284;
+    padding: 2px 4px;
+    border-radius: 6px;
+    display: inline-block;
+  }
+  &--error {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    min-height: 40px;
+    justify-content: center;
+    border-radius: 40px 4px 30px 40px;
+    padding: 8px 12px;
+    background-color: #ff9c9c;
+    color: #f04c44;
+    align-items: start;
+    &--img {
+      width: 42px;
+      height: 42px;
+      margin: 2px 0;
+      border-radius: 50%;
+      display: block;
+      border: 4px solid #f04c44;
+    }
+    &--p {
+      overflow-wrap: anywhere; /* сучасний спосіб, ламає слово будь-де за потреби */
+      word-break: break-word; /* fallback для Safari/старих браузерів */
+      hyphens: auto;
+      align-self: center;
+      font-size: 22px;
+    }
+  }
+  &--avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: block;
+
+    border: 4px solid #5c4284;
+  }
+  &--other {
+    background-color: #f8eac7;
+    color: #f06830;
+    .notification--error--img {
+      border: 4px solid #f06830;
+    }
+  }
+}

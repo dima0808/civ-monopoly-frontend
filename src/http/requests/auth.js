@@ -1,8 +1,10 @@
 import axios from '../config/axios.js';
 import Cookies from 'js-cookie';
 
+const REQUEST_MAPPING = '/auth';
+
 export const registerUser = async ({ username, password }) => {
-  const { data } = await axios.post('/auth/register', {
+  const { data } = await axios.post(`${REQUEST_MAPPING}/register`, {
     username,
     password,
   });
@@ -11,7 +13,7 @@ export const registerUser = async ({ username, password }) => {
 };
 
 export const loginUser = async ({ username, password }) => {
-  const { data } = await axios.post('/auth/login', {
+  const { data } = await axios.post(`${REQUEST_MAPPING}/login`, {
     username,
     password,
   });
@@ -20,6 +22,6 @@ export const loginUser = async ({ username, password }) => {
 };
 
 export const getCurrent = async () => {
-  const { data } = await axios.get(`auth/current`);
+  const { data } = await axios.get(`${REQUEST_MAPPING}/current`);
   return data;
 };
