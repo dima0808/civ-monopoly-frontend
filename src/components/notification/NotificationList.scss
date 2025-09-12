@@ -12,7 +12,6 @@
     z-index: 500;
   }
   &--item {
-    align-items: center;
     min-height: 60px;
     border-radius: 40px 4px 30px 40px;
     padding: 8px;
@@ -30,13 +29,13 @@
     word-break: break-word; /* fallback для Safari/старих браузерів */
     hyphens: auto;
   }
-  &---messege {
+  &---message {
   }
   &--name {
     color: #f1e4fb;
     text-decoration: none;
-    background-color: #5c4284;
-    padding: 2px 4px;
+    background-color: #937cd7;
+    padding: 2px 8px;
     border-radius: 6px;
     display: inline-block;
   }
@@ -71,8 +70,7 @@
     height: 56px;
     border-radius: 50%;
     display: block;
-
-    border: 4px solid #5c4284;
+    border: 3px solid #937cd7;
   }
   &--other {
     background-color: #f8eac7;

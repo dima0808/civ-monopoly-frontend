@@ -5,15 +5,23 @@ import SignInPage from './pages/authentication/SignInPage.jsx';
 import SignUpPage from './pages/authentication/SignUpPage.jsx';
 import { useTranslation } from 'react-i18next';
 import { DEFAULT_LANGUAGE, LANGUAGES } from './constants/lang.js';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { getMe } from './store/slices/authSlice.js';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   connectWebSocket,
   disconnectWebSocket,
+  getStompClient,
 } from './store/slices/wsSlice.js';
 import PrivateChatDialog from './components/chat/private/PrivateChatDialog.jsx';
 import NotificationList from './components/notification/NotificationList.jsx';
+import Cookies from 'js-cookie';
+import { pushNotification } from './store/slices/notificationSlice.js';
+import {
+  NOTIFICATION_MESSAGE,
+  NOTIFICATION_OTHER,
+} from './constants/notification.js';
+import { findSecondUser } from './utils/chat.js';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -46,7 +54,60 @@ const App = () => {
 };
 
 const ChatAndNotificationLayout = ({ children }) => {
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+  const { openedChat } = useSelector((state) => state.chat);
+  const wsConnected = useSelector((state) => state.ws.connected);
   const isChatOpen = useSelector((state) => state.chat.isOpen);
+
+  const openedChatRef = useRef(openedChat);
+  useEffect(() => {
+    openedChatRef.current = openedChat;
+  }, [openedChat]);
+
+  const onNotificationMessageReceived = useCallback(
+    (wsMessage) => {
+      const { message, messagePayload, type } = JSON.parse(wsMessage.body);
+      switch (type) {
+        case 'PRIVATE_MESSAGE_SENT':
+          if (
+            findSecondUser(openedChatRef.current?.users, user?.username) ===
+            message.sender
+          ) {
+            return;
+          }
+          dispatch(pushNotification({ type: NOTIFICATION_MESSAGE, message }));
+          break;
+        case 'USER_WAS_KICKED':
+        case 'USER_BECAME_OWNER':
+          dispatch(
+            pushNotification({ type: NOTIFICATION_OTHER, messagePayload }),
+          );
+          break;
+        default:
+          break;
+      }
+    },
+    [dispatch, user],
+  );
+
+  useEffect(() => {
+    if (!user) return;
+    const client = getStompClient();
+    if (!client || !wsConnected) return;
+
+    const subscription = client.subscribe(
+      `/user/${user.username}/notifications`,
+      onNotificationMessageReceived,
+      {
+        Authorization: `Bearer ${Cookies.get('token')}`,
+      },
+    );
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [onNotificationMessageReceived, user, wsConnected]);
 
   return (
     <>

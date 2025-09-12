@@ -33,3 +33,7 @@ export const scrollToBottom = (container, messages, user) => {
     container.scrollTop = container.scrollHeight;
   }
 };
+
+export const forceScrollToBottom = (container) => {
+  container.scrollTop = container.scrollHeight;
+};

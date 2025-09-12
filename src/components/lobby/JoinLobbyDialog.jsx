@@ -2,8 +2,12 @@ import './Lobby.scss';
 import { createPortal } from 'react-dom';
 import { joinRoom } from '../../http/requests/room.js';
 import { useRef } from 'react';
+import { pushNotification } from '../../store/slices/notificationSlice.js';
+import { NOTIFICATION_ERROR } from '../../constants/notification.js';
+import { useDispatch } from 'react-redux';
 
 const JoinLobbyDialog = ({ isOpen, setIsOpened, reference }) => {
+  const dispatch = useDispatch();
   const passwordRef = useRef(null);
 
   const onClose = (event) => {
@@ -19,7 +23,10 @@ const JoinLobbyDialog = ({ isOpen, setIsOpened, reference }) => {
     })
       .then(() => setIsOpened(false))
       .catch((e) => {
-        console.error('Error joining room:', e); // TODO: move to notifications
+        dispatch(
+          pushNotification({ type: NOTIFICATION_ERROR, error: e.message }),
+        );
+        setIsOpened(false);
       });
   };
 

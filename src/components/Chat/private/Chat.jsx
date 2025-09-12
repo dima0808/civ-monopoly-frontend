@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom';
 import {
   clearInput,
   findSecondUser,
+  forceScrollToBottom,
   handleInputChange,
   onEnterClick,
   scrollToBottom,
@@ -19,10 +20,13 @@ import {
 import { getStompClient } from '../../../store/slices/wsSlice.js';
 import Cookies from 'js-cookie';
 import { turnOffChat } from '../../../store/slices/chatSlice.js';
+import { pushNotification } from '../../../store/slices/notificationSlice.js';
+import { NOTIFICATION_ERROR } from '../../../constants/notification.js';
 
-const Chat = ({ openedContact }) => {
+const Chat = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const openedContact = useSelector((state) => state.chat.openedChat);
   const wsConnected = useSelector((state) => state.ws.connected);
 
   const [chat, setChat] = useState(null);
@@ -55,9 +59,16 @@ const Chat = ({ openedContact }) => {
       return;
     }
 
+    messageInputRef.current.focus();
+
     if (openedContact.reference) {
       getChat(openedContact.reference)
-        .then((data) => setChat(data))
+        .then((data) => {
+          setChat(data);
+          setTimeout(() => {
+            forceScrollToBottom(chatContainerRef.current);
+          }, 100);
+        })
         .catch((e) => setError(e.message));
     } else if (openedContact.users) {
       setChat(openedContact);
@@ -101,7 +112,9 @@ const Chat = ({ openedContact }) => {
       })
         .then(() => clearInput(messageInputRef))
         .catch((e) => {
-          console.error('Failed to send message:', e); // TODO: move to notifications
+          dispatch(
+            pushNotification({ type: NOTIFICATION_ERROR, error: e.message }),
+          );
         });
       messageInputRef.current.focus();
     } else if (chat.users) {
@@ -110,21 +123,35 @@ const Chat = ({ openedContact }) => {
       })
         .then(() => clearInput(messageInputRef))
         .catch((e) => {
-          console.error('Failed to send message:', e); // TODO: move to notifications
+          dispatch(
+            pushNotification({ type: NOTIFICATION_ERROR, error: e.message }),
+          );
         });
     }
   };
 
   const displayLoading = () => {
-    return <div>Loading...</div>; // TODO: better loader
+    return (
+      <div className="loading">
+        <p className="loading--message"> Loading...</p>
+      </div>
+    ); // TODO: better loader
   };
 
   const displayNoMessages = () => {
-    return <div>No messages</div>; // TODO: better no messages state
+    return (
+      <div className="loading">
+        <p className="loading--message"> No messages</p>
+      </div>
+    ); // TODO: better no messages state
   };
 
   const displayError = () => {
-    return <div>{error}</div>; // TODO: better error display
+    return (
+      <div className="loading">
+        <p className="loading--message"> {error}</p>
+      </div>
+    ); // TODO: better error display
   };
 
   const displayMessages = () => {
@@ -176,17 +203,21 @@ const Chat = ({ openedContact }) => {
           </svg>
         </button>
       </div>
+      <div className="chat--padding--bottom">
+        <div ref={chatContainerRef} className="chat-zone scroll">
+          {openedContact && (
+            <>
+              {chat == null && !error && displayLoading()}
+              {chat &&
+                user &&
+                chat.messages.length === 0 &&
+                displayNoMessages()}
+              {error && displayError()}
 
-      <div ref={chatContainerRef} className="chat-zone scroll">
-        {openedContact && (
-          <>
-            {chat == null && !error && displayLoading()}
-            {chat && user && chat.messages.length === 0 && displayNoMessages()}
-            {error && displayError()}
-
-            {chat && user && chat.messages.length > 0 && displayMessages()}
-          </>
-        )}
+              {chat && user && chat.messages.length > 0 && displayMessages()}
+            </>
+          )}
+        </div>
       </div>
 
       <div className="chat__typing chat__typing-dialog">
@@ -198,7 +229,11 @@ const Chat = ({ openedContact }) => {
           className="chat__typing-input chat__typing-input-dialog scroll"
           maxLength={PRIVATE_CHAT_SYMBOL_LIMIT}
         ></textarea>
-        <button onClick={onSendPrivateMessage} className="chat__typing-btn">
+        <button
+          onClick={onSendPrivateMessage}
+          disabled={!openedContact}
+          className="chat__typing-btn"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

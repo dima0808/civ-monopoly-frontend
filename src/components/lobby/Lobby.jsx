@@ -3,12 +3,15 @@ import plusImg from '../../images/plus.png';
 import viewImg from '../../images/view-icon.png';
 import { Link } from 'react-router-dom';
 import Member from './Member.jsx';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { joinRoom, leaveRoom } from '../../http/requests/room.js';
 import JoinLobbyDialog from './JoinLobbyDialog.jsx';
 import { useState } from 'react';
+import { pushNotification } from '../../store/slices/notificationSlice.js';
+import { NOTIFICATION_ERROR } from '../../constants/notification.js';
 
 const Lobby = ({ room }) => {
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
 
   const [isJoinDialogOpen, setIsJoinDialogOpen] = useState(false);
@@ -25,7 +28,9 @@ const Lobby = ({ room }) => {
     })
       .then()
       .catch((e) => {
-        console.error('Error joining room:', e); // TODO: move to notifications
+        dispatch(
+          pushNotification({ type: NOTIFICATION_ERROR, error: e.message }),
+        );
       });
   };
 
@@ -33,7 +38,9 @@ const Lobby = ({ room }) => {
     leaveRoom()
       .then()
       .catch((e) => {
-        console.error('Error leaving room:', e); // TODO: move to notifications
+        dispatch(
+          pushNotification({ type: NOTIFICATION_ERROR, error: e.message }),
+        );
       });
   };
 

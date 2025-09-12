@@ -1,12 +1,14 @@
 import './NotificationList.scss';
 import otherImg from '../../images/other-img.png';
-const OtherNotification = () => {
+
+const OtherNotification = ({ information, isDisappearing }) => {
   return (
-    <div className=" notification--error notification--other">
+    <div
+      className={`notification--error notification--other
+    ${isDisappearing ? ' set__opacity' : ''}`}
+    >
       <img src={otherImg} className="notification--error--img" alt="error" />
-      <p className="notification--error--p">
-        Your ass is too big and your cock is in my big..... fweffwfwe
-      </p>
+      <p className="notification--error--p">{information}</p>
     </div>
   );
 };

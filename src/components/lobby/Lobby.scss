@@ -14,6 +14,10 @@
     padding: 4px 6px 8px 6px;
     border-radius: 6px 6px 0 0;
     background-color: #f4e6fd;
+    &-load {
+      height: 190px;
+      border: none !important;
+    }
   }
   &__name {
     display: flex;
@@ -56,6 +60,7 @@
     &-nickname {
       width: 100%;
       text-align: center;
+      height: 36px;
       color: #271d37;
       text-decoration: underline 1px solid;
       letter-spacing: 0.5px; /* Невеликий відступ між літерами */
@@ -72,6 +77,93 @@
     border-bottom: 3px solid #271d37;
   }
 }
+.chat-color {
+  &-red {
+    background-color: #db4444;
+    color: #f8faff;
+  }
+  &-green {
+    background-color: #56aa59;
+    color: #f8faff;
+  }
+  &-orange {
+    background-color: #f79633;
+    color: #f8faff;
+  }
+  &-turquoise {
+    background-color: #1e9eae;
+    color: #f8faff;
+  }
+  &-pink {
+    background-color: #ff87c3;
+    color: #f8faff;
+  }
+  &-violet {
+    background-color: #b052c0;
+    color: #f8faff;
+  }
+  &-blue {
+    background-color: #5f65a8;
+    color: #f8faff;
+  }
+  &-yellow {
+    background-color: #ffef62;
+    color: #1141ff;
+  }
+  &-purple {
+    background-color: #5c4284;
+    color: #f8faff;
+  }
+  &-brown {
+    background-color: #964b00;
+    color: #f8faff;
+  }
+  &-emerald {
+    background-color: #135943;
+    color: #f8faff;
+  }
+  &-strawberry {
+    background-color: #ef0048;
+    color: #f8faff;
+  }
+  &-sky {
+    background-color: #7ad4fa;
+    color: #183bec;
+    /* небесно-блакитний */
+  }
+  &-olive {
+    background-color: #808000;
+    color: #fdfdbd; /* оливковий */
+  }
+  &-indigo {
+    background-color: #4b0082; /* індиго */
+    color: #f8faff;
+  }
+  &-mint {
+    background-color: #98ff98;
+    color: #0d621f; /* м’ятний, легкий */
+  }
+  &-salmon {
+    background-color: #fa8072;
+    color: #f8faff; /* ніжний рожево-помаранчевий */
+  }
+  &-navy {
+    background-color: #001f3f; /* темно-синій (майже чорний) */
+    color: #f8faff;
+  }
+  &-cobalt {
+    background-color: #0047ab; /* кобальтовий синій */
+    color: #f8faff;
+  }
+  &-rose {
+    background-color: #ff66cc;
+    color: #f8faff; /* яскраво-рожевий */
+  }
+  &-brick {
+    background-color: #592420;
+    color: #ffdc9d;
+  }
+}
 
 .create-btn {
   background-color: #d6b3ea;
@@ -85,7 +177,9 @@
 .create-btn:disabled,
 .chat__typing-btn:disabled {
   background-color: rgba(214, 179, 234, 0.71);
-  color: #7a6c91;
+  color: #7c708e;
+  border: 1px solid #271d37;
+  cursor: none;
 }
 .chat__typing-input:disabled {
   background-color: rgba(214, 179, 234, 0.71);
@@ -429,9 +523,12 @@ input:checked + .slider:before {
   right: 0;
   width: 30px;
   height: 30px;
-  background-color: #fe0e3ee3;
+  background-color: #6d5b98;
   border-radius: 9px;
   border: none;
+  &:hover {
+    background-color: #fe0e3ee3;
+  }
 
   transition: all 0.25s ease;
 }

@@ -61,15 +61,28 @@ const LobbyList = () => {
   };
 
   const displayLoading = () => {
-    return <div>Loading...</div>; // TODO: better loader
+    return (
+      <>
+        <div className="lobby__room lobby__room-load"></div>
+        <div className="lobby__room lobby__room-load"></div>
+      </>
+    );
   };
 
   const displayNoRooms = () => {
-    return <div>No rooms</div>; // TODO: better no rooms state
+    return (
+      <div className="loading loading-home">
+        <p className="loading--message">No rooms</p>
+      </div>
+    );
   };
 
   const displayError = () => {
-    return <div>{error}</div>; // TODO: better error display
+    return (
+      <div className="loading loading-home">
+        <p className="loading--message">{error}</p>
+      </div>
+    );
   };
 
   const displayLobbies = () => {

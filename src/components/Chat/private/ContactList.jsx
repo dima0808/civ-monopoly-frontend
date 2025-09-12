@@ -2,13 +2,16 @@ import Contact from './Contact.jsx';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { getAllPrivateChats } from '../../../http/requests/chatPrivate.js';
 import { PRIVATE_CHAT_CONTACTS_DEBOUNCE_DELAY } from '../../../constants/chat.js';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getStompClient } from '../../../store/slices/wsSlice.js';
 import Cookies from 'js-cookie';
 import { findSecondUser } from '../../../utils/chat.js';
+import { setOpenedChat } from '../../../store/slices/chatSlice.js';
 
-const ContactList = ({ openedChat, setOpenedChat }) => {
+const ContactList = () => {
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const { openedChat } = useSelector((state) => state.chat);
   const wsConnected = useSelector((state) => state.ws.connected);
 
   const [chats, setChats] = useState(null);
@@ -25,7 +28,7 @@ const ContactList = ({ openedChat, setOpenedChat }) => {
 
     const delayDebounce = setTimeout(() => {
       if (!user) {
-        setOpenedChat(null);
+        dispatch(setOpenedChat(null));
         setError('User not logged in');
       }
       getAllPrivateChats(search || null)
@@ -37,7 +40,7 @@ const ContactList = ({ openedChat, setOpenedChat }) => {
     }, PRIVATE_CHAT_CONTACTS_DEBOUNCE_DELAY);
 
     return () => clearTimeout(delayDebounce);
-  }, [search, setOpenedChat, user]);
+  }, [dispatch, search, user]);
 
   const onContactMessageReceived = useCallback(
     (wsMessage) => {
@@ -60,7 +63,7 @@ const ContactList = ({ openedChat, setOpenedChat }) => {
               su ===
                 findSecondUser(openedChatRef.current?.users, user?.username)
             ) {
-              setTimeout(() => setOpenedChat(chat), 0);
+              setTimeout(() => dispatch(setOpenedChat(chat)), 0);
             }
 
             const filtered = prevChats.filter(
@@ -74,7 +77,7 @@ const ContactList = ({ openedChat, setOpenedChat }) => {
           break;
       }
     },
-    [setChats, setOpenedChat, user],
+    [dispatch, setChats, user],
   );
 
   useEffect(() => {
@@ -96,15 +99,27 @@ const ContactList = ({ openedChat, setOpenedChat }) => {
   }, [onContactMessageReceived, user, wsConnected]);
 
   const displayLoading = () => {
-    return <div>Loading...</div>; // TODO: better loader
+    return (
+      <div className="loading loading--list">
+        <p className="loading--message"> Loading...</p>
+      </div>
+    ); // TODO: better loader
   };
 
   const displayNoContacts = () => {
-    return <div>No contacts</div>; // TODO: better no contacts state
+    return (
+      <div className="loading loading--list">
+        <p className="loading--message"> No contacts</p>
+      </div>
+    ); // TODO: better no contacts state
   };
 
   const displayError = () => {
-    return <div>{error}</div>; // TODO: better error display
+    return (
+      <div className="loading loading--list">
+        <p className="loading--message"> {error}</p>
+      </div>
+    ); // TODO: better error display
   };
 
   const displayContacts = () => {
@@ -116,7 +131,7 @@ const ContactList = ({ openedChat, setOpenedChat }) => {
           lastMessage={chat.messages.at(-1)?.message}
           secondUser={su}
           isSelected={findSecondUser(openedChat?.users, user?.username) === su}
-          onClick={() => setOpenedChat(chat)}
+          onClick={() => dispatch(setOpenedChat(chat))}
         />
       );
     });

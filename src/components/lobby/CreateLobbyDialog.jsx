@@ -2,8 +2,12 @@ import './Lobby.scss';
 import { createPortal } from 'react-dom';
 import { useRef, useState } from 'react';
 import { createRoom } from '../../http/requests/room.js';
+import { pushNotification } from '../../store/slices/notificationSlice.js';
+import { NOTIFICATION_ERROR } from '../../constants/notification.js';
+import { useDispatch } from 'react-redux';
 
 const CreateLobbyDialog = ({ isOpened, setIsOpened }) => {
+  const dispatch = useDispatch();
   const nameRef = useRef(null);
   const passwordRef = useRef(null);
   const [size, setSize] = useState(4);
@@ -24,7 +28,9 @@ const CreateLobbyDialog = ({ isOpened, setIsOpened }) => {
     })
       .then(() => setIsOpened(false))
       .catch((e) => {
-        console.error('Error creating room:', e); // TODO: move to notifications
+        dispatch(
+          pushNotification({ type: NOTIFICATION_ERROR, error: e.message }),
+        );
       });
   };
 

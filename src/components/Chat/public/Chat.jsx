@@ -1,23 +1,27 @@
 import '../Chat.scss';
 import { useTranslation } from 'react-i18next';
 import Message from './Message.jsx';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useRef, useState } from 'react';
 import { getChat, sendMessage } from '../../../http/requests/chatPublic.js';
 import {
-  CHAT_SCROLL_DETECTION_THRESHOLD,
+  AVAILABLE_COLORS,
   PUBLIC_CHAT_REFERENCE,
   PUBLIC_CHAT_SYMBOL_LIMIT,
 } from '../../../constants/chat.js';
 import { getStompClient } from '../../../store/slices/wsSlice.js';
 import {
   clearInput,
+  forceScrollToBottom,
   handleInputChange,
   onEnterClick,
   scrollToBottom,
 } from '../../../utils/chat.js';
+import { pushNotification } from '../../../store/slices/notificationSlice.js';
+import { NOTIFICATION_ERROR } from '../../../constants/notification.js';
 
 const Chat = () => {
+  const dispatch = useDispatch();
   const { t } = useTranslation();
   const { user } = useSelector((state) => state.auth);
   const wsConnected = useSelector((state) => state.ws.connected);
@@ -26,6 +30,8 @@ const Chat = () => {
 
   const [messages, setMessages] = useState(null);
   const [error, setError] = useState(null);
+
+  const userColors = {}; // кеш для відповідності sender → color
 
   const onChatMessageReceived = (wsMessage) => {
     const { message, type } = JSON.parse(wsMessage.body);
@@ -43,7 +49,12 @@ const Chat = () => {
 
   useEffect(() => {
     getChat(PUBLIC_CHAT_REFERENCE)
-      .then((data) => setMessages(data.messages))
+      .then((data) => {
+        setMessages(data.messages);
+        setTimeout(() => {
+          forceScrollToBottom(chatContainerRef.current);
+        }, 100);
+      })
       .catch((e) => setError(e.message));
   }, []);
 
@@ -80,26 +91,59 @@ const Chat = () => {
     })
       .then(() => clearInput(messageInputRef))
       .catch((e) => {
-        console.error('Failed to send message:', e); // TODO: move to notifications
+        dispatch(
+          pushNotification({ type: NOTIFICATION_ERROR, error: e.message }),
+        );
       });
     messageInputRef.current.focus();
   };
 
   const displayLoading = () => {
-    return <div>Loading...</div>; // TODO: better loader
+    return (
+      <div className="loading loading-home">
+        <p className="loading--message">Loading...</p>
+      </div>
+    );
   };
 
   const displayNoMessages = () => {
-    return <div>No messages</div>; // TODO: better no messages state
+    return (
+      <div className="loading loading-home">
+        <p className="loading--message">No messages</p>
+      </div>
+    );
   };
 
   const displayError = () => {
-    return <div>{error}</div>; // TODO: better error display
+    return (
+      <div className="loading loading-home">
+        <p className="loading--message">{error}</p>
+      </div>
+    );
   };
+
+  function getUserColor(sender) {
+    if (!userColors[sender]) {
+      const assignedColors = Object.values(userColors);
+      let color;
+      if (assignedColors.length < AVAILABLE_COLORS.length) {
+        color = AVAILABLE_COLORS[assignedColors.length];
+      } else {
+        color =
+          AVAILABLE_COLORS[Math.floor(Math.random() * AVAILABLE_COLORS.length)];
+      }
+      userColors[sender] = color;
+    }
+    return userColors[sender];
+  }
 
   const displayMessages = () => {
     return messages.map((msg) => (
-      <Message key={msg.reference} sender={msg.sender}>
+      <Message
+        key={msg.reference}
+        sender={msg.sender}
+        color={getUserColor(msg.sender)}
+      >
         {msg.message}
       </Message>
     ));
@@ -126,7 +170,11 @@ const Chat = () => {
           className="chat__typing-input scroll"
           maxLength={PUBLIC_CHAT_SYMBOL_LIMIT}
         ></textarea>
-        <button onClick={onSendPublicMessage} className="chat__typing-btn">
+        <button
+          onClick={onSendPublicMessage}
+          disabled={user == null}
+          className="chat__typing-btn"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

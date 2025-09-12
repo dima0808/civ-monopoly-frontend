@@ -1,12 +1,14 @@
 import './NotificationList.scss';
 import errorImg from '../../images/error-img.png';
-const ErrorNotification = () => {
+
+const ErrorNotification = ({ error, isDisappearing }) => {
   return (
-    <div className=" notification--error">
+    <div
+      className={`notification--error
+    ${isDisappearing ? ' set__opacity' : ''}`}
+    >
       <img src={errorImg} className="notification--error--img" alt="error" />
-      <p className="notification--error--p">
-        Your ass is too big and your cock is in my big..... fweffwfwe
-      </p>
+      <p className="notification--error--p">{error}</p>
     </div>
   );
 };

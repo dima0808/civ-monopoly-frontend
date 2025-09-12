@@ -2,13 +2,20 @@ import './Lobby.scss';
 import avatarImg from '../../images/avatar.png';
 import { Link } from 'react-router-dom';
 import { kickMember } from '../../http/requests/room.js';
+import { pushNotification } from '../../store/slices/notificationSlice.js';
+import { NOTIFICATION_ERROR } from '../../constants/notification.js';
+import { useDispatch } from 'react-redux';
 
 const Member = ({ member, isLeader, showKickButton }) => {
+  const dispatch = useDispatch();
+
   const onKick = () => {
     kickMember(member.reference)
       .then()
       .catch((e) => {
-        console.error('Failed to kick member:', e); // TODO: move to notifications
+        dispatch(
+          pushNotification({ type: NOTIFICATION_ERROR, error: e.message }),
+        );
       });
   };
 
