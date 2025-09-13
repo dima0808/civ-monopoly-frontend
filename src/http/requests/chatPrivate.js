@@ -20,7 +20,7 @@ export const createPrivateChat = async (receiverUsername, { message }) => {
   return data;
 };
 
-export const getChat = async (reference) => {
+export const getChatByReference = async (reference) => {
   const { data } = await axios.get(`${REQUEST_MAPPING}/${reference}`);
   return data;
 };

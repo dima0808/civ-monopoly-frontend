@@ -1,0 +1,76 @@
+.border {
+  outline: 1px solid #636466;
+  border-collapse: collapse;
+  outline-offset: -1px;
+}
+
+.firefox .border {
+  outline-offset: 0;
+}
+
+.board {
+  position: relative;
+  /* макет 1700 на 1500 */
+  margin: 0 auto;
+
+  /* поділити на 2 і -6px з кожної сторони, щоб вмістилася сама гра хоч якось,
+    можливо ще обрізання треба */
+  height: 720px;
+  width: 820px;
+  display: grid;
+  /* За макетом 100 звичайна клітинка, тому кути: (1700-1200)/2=250, а під наший екран 250/2-6й */
+  grid-template-columns: 110px 600px 110px;
+  grid-template-rows: 110px 500px 110px;
+}
+.game-chip {
+  position: absolute;
+  content: ' ';
+  height: 26px;
+  width: 26px;
+  border-radius: 50%;
+  transition: all 0.6s ease-in-out;
+  border: 2px solid #3c3c3c;
+  box-shadow: 0 0.5px 2px 2px #332f375a;
+  transform: none;
+}
+.pl .board__element-edge {
+  background-color: #222222;
+}
+.board__element-center {
+  position: relative;
+  background-color: #eee;
+}
+
+.board__element-side {
+  background-color: #eee;
+}
+
+.logo-center {
+  width: 100%;
+  height: 100%;
+  opacity: 0.2;
+}
+/* Загальний стиль для скроллбарів */
+.firefox .chat-monopoly .scroll {
+  scrollbar-width: thin; /* Тонкий скроллбар */
+  scrollbar-color: #9f8bbc #d5cbe7; /* Фіолетовий ползунок і світло-фіолетовий фон треку */
+}
+.chat-monopoly .scroll::-webkit-scrollbar-track {
+  cursor: pointer;
+  background: #d5cbe7;
+  border-radius: 10px;
+}
+
+.chat-monopoly .scroll::-webkit-scrollbar-thumb {
+  cursor: pointer;
+  background-color: #9f8bbc;
+  border-radius: 10px;
+  border: 3px solid #d5cbe7;
+}
+
+.scroll::-webkit-scrollbar-thumb:hover {
+  background-color: #9f8bbc; /* Можна змінити на інший фіолетовий відтінок */
+}
+.hole-animation {
+  filter: contrast(180%);
+}

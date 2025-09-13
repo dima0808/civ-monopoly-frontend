@@ -5,8 +5,10 @@ import { registerUser } from '../../http/requests/auth.js';
 import Cookies from 'js-cookie';
 import { getMe } from '../../store/slices/authSlice.js';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
-export default function SignUpPage() {
+const SignUpPage = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -40,26 +42,26 @@ export default function SignUpPage() {
     <main>
       <div className="authentication-section-fon gradiant-violet">
         <div className="authentication-section">
-          <h1 className="authentication-h1">Sign Up</h1>
+          <h1 className="authentication-h1">{t('authentication.signUp')}</h1>
           <form className="authentication-form">
             <input
               ref={usernameRef}
               type="text"
-              placeholder="Username"
+              placeholder={t('authentication.userName')}
               className="authentication-input"
               autoComplete="new-password"
             />
             <input
               ref={passwordRef}
               type="password"
-              placeholder="Password"
+              placeholder={t('authentication.password')}
               className="authentication-input"
               autoComplete="new-password"
             />
             <input
               ref={confirmPasswordRef}
               type="password"
-              placeholder="Confirm Password"
+              placeholder={t('authentication.confirmPassword')}
               className="authentication-input"
               autoComplete="new-password"
             />
@@ -71,11 +73,13 @@ export default function SignUpPage() {
               🠚
             </button>
             <Link to="/signin" className="authentication-link">
-              Already have an account? Sign In
+              {t('authentication.alreadyHave')}
             </Link>
           </form>
         </div>
       </div>
     </main>
   );
-}
+};
+
+export default SignUpPage;

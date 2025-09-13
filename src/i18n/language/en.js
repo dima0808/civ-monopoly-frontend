@@ -7,12 +7,12 @@ export const en = {
   },
   homePage: {
     aboutGame:
-      'Introducing "Civ monopoly" — a strategic turn-based game that blends the best elements of Civilization VI with the world of Monopoly! Imagine building your own economic empire, acquiring properties and constructing monopolies while also managing diplomacy and war. In this high-stakes game, players must balance their business ambitions with their military might, as rivals can invade your territories and seize your assets.',
+      'Introducing "Civ monopoly" — a strategic turn-based game that blends the best elements of Civilization VI with the world of Monopoly! Imagine building your own economic empire, acquiring properties and constructing monopolies while also managing diplomacy and war. In this high-stakes game, members must balance their business ambitions with their military might, as rivals can invade your territories and seize your assets.',
   },
   rulesPage: {
     mainRulesH: 'The basics of the game:',
     mainRulesP1:
-      'The game has three interfaces: on the left, players ' +
+      'The game has three interfaces: on the left, members ' +
       'and their characteristics are displayed; in the ' +
       "center, there's the field with all the content; on " +
       'the right, there’s an area where you manage and ' +
@@ -174,30 +174,27 @@ export const en = {
       'detailed income statistics by clicking on the gold ' +
       'per turn icon.',
   },
-  chat: {
-    public: 'public Chat',
-    loggedIN: 'logged in',
-  },
   authentication: {
+    signUp: 'Sign Up',
     signIn: 'Sign in',
+    userName: 'User Name',
+    password: 'Password',
+    confirmPassword: 'Confirm Password',
+    alreadyHave: 'Already have an account? Sign In',
     haveNotAccount: "Don't have an account? Sign Up",
   },
   lobby: {
     lobbies: 'Lobbies',
     create: 'Create',
-    youAreNot: 'You are not',
-    loggedIN: 'logged in',
+    gameStarted: 'Game started',
+    leave: 'leave',
+    moveToLobby: 'Move to Lobby',
     dialogCreate: {
-      lobbyName: 'lobby Name',
-      sizeLabel: 'Size (2–6)',
-      password: 'Password',
+      lobbyName: 'Lobby Name:',
+      sizeLabel: 'Size (2–6):',
+      password: 'Password:',
       create: 'Create',
-      close: 'Close',
-    },
-    dialogJoin: {
-      password: 'Password',
       join: 'Join',
-      close: 'Close',
     },
   },
   admin: {
@@ -247,5 +244,15 @@ export const en = {
     notFoundMessagePrefix: "User with nickname '",
     notFoundMessageSuffix: "' not found",
     privateProfileClass: 'your-profile',
+  },
+  notification: {
+    clearAll: 'Clear All',
+  },
+  chat: {
+    loading: 'Loading...',
+    noContacts: 'No contacts',
+    findUser: 'Find user',
+    noMessages: 'No messages',
+    public: 'Public chat',
   },
 };

@@ -9,8 +9,11 @@ import JoinLobbyDialog from './JoinLobbyDialog.jsx';
 import { useState } from 'react';
 import { pushNotification } from '../../store/slices/notificationSlice.js';
 import { NOTIFICATION_ERROR } from '../../constants/notification.js';
+import { useTranslation } from 'react-i18next';
+import { isUserLeaderCookies } from '../../utils/room.js';
 
 const Lobby = ({ room }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
 
@@ -44,14 +47,6 @@ const Lobby = ({ room }) => {
       });
   };
 
-  const isUserLeaderCookies = () => {
-    const members = room.members;
-    if (members?.length === 0) {
-      return false;
-    }
-    return user?.username === members[0]?.username;
-  };
-
   const isUserInRoom = () => {
     const members = room.members;
     if (members?.length === 0) {
@@ -68,7 +63,7 @@ const Lobby = ({ room }) => {
           member={member}
           isLeader={index === 0}
           showKickButton={
-            !room.isStarted && index !== 0 && isUserLeaderCookies()
+            !room.isStarted && index !== 0 && isUserLeaderCookies(members, user)
           }
         />
       );
@@ -104,7 +99,7 @@ const Lobby = ({ room }) => {
         <button className="lobby__name">{room.name}</button>
         {room.isStarted && (
           <div className="in-game-div">
-            <p className="in-game-p">Game started</p>
+            <p className="in-game-p">{t('lobby.gameStarted')}</p>
             <Link to={`/game/${room.name}`} className="view-img-btn">
               <img src={viewImg} alt="viewImg" className="view-img" />
             </Link>
@@ -123,15 +118,15 @@ const Lobby = ({ room }) => {
           {!room.isStarted && (
             <div>
               <button onClick={onLeave} className="leave-btn btn-in">
-                leave
+                {t('lobby.leave')}
               </button>
             </div>
           )}
           <Link
-            to={`/game/${room.name}`}
+            to={`/game/${room.reference}`}
             className="move-to-lobby-btn btn-in no-select"
           >
-            Move to Lobby
+            {t('lobby.moveToLobby')}
           </Link>
         </div>
       )}

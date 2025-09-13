@@ -5,6 +5,7 @@ export const ua = {
     admin: 'Адмінка',
     login: 'Увійти',
   },
+
   homePage: {
     aboutGame:
       'Представляємо "Civ Monopoly" — покрокову стратегічну гру, ' +
@@ -123,30 +124,28 @@ export const ua = {
       'також додаткове золото в хід приходить від альянсу. Також цей показник може бути навіть негативно так які в себе він і включає витрати, наприклад на армію чи від кількості армії. ' +
       'Детальну статистику по свому доходу ти може переглянути натиснувши на іконку золота в хід',
   },
-  chat: {
-    public: 'Чат публічний',
-    loggedIN: 'Увійдено',
-  },
+
   authentication: {
+    signUp: 'Зареєструватись',
     signIn: 'Увійти',
+    userName: "Ім'я користувача",
+    confirmPassword: 'Підтвердити пароль',
+    password: 'Пароль',
+    alreadyHave: 'Вже маєте акаунт? Увійти',
     haveNotAccount: 'Ще не маєте акаунта? Зареєструйтесь',
   },
   lobby: {
     lobbies: 'Кімнати',
     create: 'Створити',
-    youAreNot: 'Ви не',
-    loggedIN: 'увійшли в систему',
+    gameStarted: 'Гра почалась',
+    leave: 'Покинути',
+    moveToLobby: 'Перейти в кімнату',
     dialogCreate: {
-      lobbyName: 'Назва кімнати',
-      sizeLabel: 'Розмір (2–6)',
-      password: 'Пароль',
+      lobbyName: 'Назва кімнати:',
+      sizeLabel: 'Розмір (2–6):',
+      password: 'Пароль:',
       create: 'Створити',
-      close: 'Закрити',
-    },
-    dialogJoin: {
-      password: 'Пароль',
       join: 'Приєднатися',
-      close: 'Закрити',
     },
   },
   admin: {
@@ -196,5 +195,15 @@ export const ua = {
     notFoundMessagePrefix: "Користувача з нікнеймом '",
     notFoundMessageSuffix: "' не знайдено",
     privateProfileClass: 'твій-профіль', // або залишити без перекладу, якщо це CSS клас
+  },
+  notification: {
+    clearAll: 'Почистити все',
+  },
+  chat: {
+    loading: 'Загрузка...',
+    noContacts: 'Немає контактів',
+    findUser: 'Шукати',
+    noMessages: 'Повідомлення відсутні',
+    public: 'Публічний чат',
   },
 };

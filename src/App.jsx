@@ -22,6 +22,7 @@ import {
   NOTIFICATION_OTHER,
 } from './constants/notification.js';
 import { findSecondUser } from './utils/chat.js';
+import Game from './pages/Game/Game.jsx';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -46,6 +47,7 @@ const App = () => {
           <Route path="rules" element={<RulesPage />} />
           <Route path="signin" element={<SignInPage />} />
           <Route path="signup" element={<SignUpPage />} />
+          <Route path="game/:reference" element={<Game />} />
           <Route path="*" element={<div>404 Not Found</div>} /> // TODO: 404page
         </Route>
       </Routes>

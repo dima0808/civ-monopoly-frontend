@@ -2,7 +2,7 @@ import axios from '../config/axios.js';
 
 const REQUEST_MAPPING = '/chats/public';
 
-export const getChat = async (reference) => {
+export const getChatByReference = async (reference) => {
   const { data } = await axios.get(`${REQUEST_MAPPING}/${reference}`);
   return data;
 };

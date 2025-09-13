@@ -3,7 +3,7 @@ import Message from './Message.jsx';
 import { useEffect, useRef, useState } from 'react';
 import {
   createPrivateChat,
-  getChat,
+  getChatByReference,
   sendMessage,
 } from '../../../http/requests/chatPrivate.js';
 import { PRIVATE_CHAT_SYMBOL_LIMIT } from '../../../constants/chat.js';
@@ -22,8 +22,10 @@ import Cookies from 'js-cookie';
 import { turnOffChat } from '../../../store/slices/chatSlice.js';
 import { pushNotification } from '../../../store/slices/notificationSlice.js';
 import { NOTIFICATION_ERROR } from '../../../constants/notification.js';
+import { useTranslation } from 'react-i18next';
 
 const Chat = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const openedContact = useSelector((state) => state.chat.openedChat);
@@ -62,7 +64,7 @@ const Chat = () => {
     messageInputRef.current.focus();
 
     if (openedContact.reference) {
-      getChat(openedContact.reference)
+      getChatByReference(openedContact.reference)
         .then((data) => {
           setChat(data);
           setTimeout(() => {
@@ -133,17 +135,17 @@ const Chat = () => {
   const displayLoading = () => {
     return (
       <div className="loading">
-        <p className="loading--message"> Loading...</p>
+        <p className="loading--message"> {t('chat.loading')}</p>
       </div>
-    ); // TODO: better loader
+    );
   };
 
   const displayNoMessages = () => {
     return (
       <div className="loading">
-        <p className="loading--message"> No messages</p>
+        <p className="loading--message"> {t('chat.noMessages')}</p>
       </div>
-    ); // TODO: better no messages state
+    );
   };
 
   const displayError = () => {
@@ -151,7 +153,7 @@ const Chat = () => {
       <div className="loading">
         <p className="loading--message"> {error}</p>
       </div>
-    ); // TODO: better error display
+    );
   };
 
   const displayMessages = () => {

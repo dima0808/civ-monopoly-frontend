@@ -7,8 +7,10 @@ import { getStompClient } from '../../../store/slices/wsSlice.js';
 import Cookies from 'js-cookie';
 import { findSecondUser } from '../../../utils/chat.js';
 import { setOpenedChat } from '../../../store/slices/chatSlice.js';
+import { useTranslation } from 'react-i18next';
 
 const ContactList = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { openedChat } = useSelector((state) => state.chat);
@@ -101,7 +103,7 @@ const ContactList = () => {
   const displayLoading = () => {
     return (
       <div className="loading loading--list">
-        <p className="loading--message"> Loading...</p>
+        <p className="loading--message"> {t('chat.loading')}</p>
       </div>
     ); // TODO: better loader
   };
@@ -109,7 +111,7 @@ const ContactList = () => {
   const displayNoContacts = () => {
     return (
       <div className="loading loading--list">
-        <p className="loading--message"> No contacts</p>
+        <p className="loading--message"> {t('chat.noContacts')}</p>
       </div>
     ); // TODO: better no contacts state
   };
@@ -119,7 +121,7 @@ const ContactList = () => {
       <div className="loading loading--list">
         <p className="loading--message"> {error}</p>
       </div>
-    ); // TODO: better error display
+    );
   };
 
   const displayContacts = () => {
@@ -146,7 +148,7 @@ const ContactList = () => {
           disabled={!user}
           type="text"
           className="search-user-contacts search-user-contacts-input"
-          placeholder="Find User"
+          placeholder={t('chat.findUser')}
         ></input>
       </div>
       <div className="your-contacts scrollable-div">

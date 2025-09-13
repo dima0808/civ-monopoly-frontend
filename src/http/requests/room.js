@@ -8,6 +8,11 @@ export const getAllRooms = async () => {
   return data;
 };
 
+export const getRoomByReference = async (reference) => {
+  const { data } = await axios.get(`${REQUEST_MAPPING}/${reference}`);
+  return data;
+};
+
 export const createRoom = async ({ name, memberLimit, password }) => {
   const { data } = await axios.post(
     REQUEST_MAPPING,

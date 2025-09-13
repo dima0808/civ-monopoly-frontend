@@ -5,8 +5,10 @@ import { createRoom } from '../../http/requests/room.js';
 import { pushNotification } from '../../store/slices/notificationSlice.js';
 import { NOTIFICATION_ERROR } from '../../constants/notification.js';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 const CreateLobbyDialog = ({ isOpened, setIsOpened }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const nameRef = useRef(null);
   const passwordRef = useRef(null);
@@ -52,7 +54,7 @@ const CreateLobbyDialog = ({ isOpened, setIsOpened }) => {
       <div className="lobby-dialog">
         <form>
           <label className="lobby-label">
-            Lobby Name:
+            {t('lobby.dialogCreate.lobbyName')}
             <input
               ref={nameRef}
               type="text"
@@ -61,7 +63,7 @@ const CreateLobbyDialog = ({ isOpened, setIsOpened }) => {
               autoComplete="new-password"
             />
           </label>
-          Size (2-6):
+          {t('lobby.dialogCreate.sizeLabel')}
           <div className="radio-buttons" onChange={handleSizeChange}>
             <input type="radio" id="size2" name="size" value={2} />
             <label htmlFor="size2">2</label>
@@ -87,7 +89,7 @@ const CreateLobbyDialog = ({ isOpened, setIsOpened }) => {
           <div className="private-lobby-settings">
             <div className="flex-between">
               <label className="lobby-label" htmlFor="input-password">
-                Password:
+                {t('lobby.dialogCreate.password')}
               </label>
               <label className="switch">
                 <input
@@ -108,7 +110,7 @@ const CreateLobbyDialog = ({ isOpened, setIsOpened }) => {
             />
           </div>
           <button onClick={onCreate} className="dialog-submit">
-            Create
+            {t('lobby.dialogCreate.create')}
           </button>
           <button onClick={onClose} className="dialog-close">
             <svg

@@ -5,8 +5,10 @@ import { useRef } from 'react';
 import { pushNotification } from '../../store/slices/notificationSlice.js';
 import { NOTIFICATION_ERROR } from '../../constants/notification.js';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 const JoinLobbyDialog = ({ isOpen, setIsOpened, reference }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const passwordRef = useRef(null);
 
@@ -37,7 +39,7 @@ const JoinLobbyDialog = ({ isOpen, setIsOpened, reference }) => {
       <div className="lobby-dialog lobby-dialog-join">
         <form>
           <label>
-            Password:
+            {t('lobby.dialogCreate.password')}
             <input
               ref={passwordRef}
               type="password"
@@ -47,7 +49,7 @@ const JoinLobbyDialog = ({ isOpen, setIsOpened, reference }) => {
           </label>
 
           <button onClick={onJoin} className="dialog-submit">
-            Join
+            {t('lobby.dialogCreate.join')}
           </button>
 
           <button onClick={onClose} className="dialog-close">

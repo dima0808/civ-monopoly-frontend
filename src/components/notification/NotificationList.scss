@@ -5,7 +5,7 @@
     display: flex;
     flex-direction: column;
     gap: 5px;
-    top: 110px;
+    top: 88px;
     right: 1.5%;
 
     width: 400px;
@@ -77,6 +77,34 @@
     color: #f06830;
     .notification--error--img {
       border: 4px solid #f06830;
+    }
+  }
+  &--btn {
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    background-color: #ebe8ff;
+    border: 1px solid #937cd7;
+    color: #a695c2;
+    font-weight: 600;
+    font-size: 24px;
+    transition: 0.3s ease;
+    &:hover,
+    &:active {
+      background-color: #d8d1fd;
+      color: #8f79bb;
+      border-color: #8f79bb;
+    }
+  }
+}
+
+@media (min-width: 1801px) {
+  .notification {
+    &--list {
+      top: 110px;
+      width: 500px;
+      font-size: 28px;
+      padding: 6px 8px;
     }
   }
 }

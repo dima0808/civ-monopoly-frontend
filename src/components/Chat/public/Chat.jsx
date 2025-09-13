@@ -3,7 +3,10 @@ import { useTranslation } from 'react-i18next';
 import Message from './Message.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useRef, useState } from 'react';
-import { getChat, sendMessage } from '../../../http/requests/chatPublic.js';
+import {
+  getChatByReference,
+  sendMessage,
+} from '../../../http/requests/chatPublic.js';
 import {
   AVAILABLE_COLORS,
   PUBLIC_CHAT_REFERENCE,
@@ -31,7 +34,8 @@ const Chat = () => {
   const [messages, setMessages] = useState(null);
   const [error, setError] = useState(null);
 
-  const userColors = {}; // кеш для відповідності sender → color
+  const userColors = {};
+  let assignedCount = 0;
 
   const onChatMessageReceived = (wsMessage) => {
     const { message, type } = JSON.parse(wsMessage.body);
@@ -48,7 +52,7 @@ const Chat = () => {
   };
 
   useEffect(() => {
-    getChat(PUBLIC_CHAT_REFERENCE)
+    getChatByReference(PUBLIC_CHAT_REFERENCE)
       .then((data) => {
         setMessages(data.messages);
         setTimeout(() => {
@@ -101,7 +105,7 @@ const Chat = () => {
   const displayLoading = () => {
     return (
       <div className="loading loading-home">
-        <p className="loading--message">Loading...</p>
+        <p className="loading--message">{t('chat.loading')}</p>
       </div>
     );
   };
@@ -109,7 +113,7 @@ const Chat = () => {
   const displayNoMessages = () => {
     return (
       <div className="loading loading-home">
-        <p className="loading--message">No messages</p>
+        <p className="loading--message">{t('chat.noMessages')}</p>
       </div>
     );
   };
@@ -122,20 +126,14 @@ const Chat = () => {
     );
   };
 
-  function getUserColor(sender) {
+  const getUserColor = (sender) => {
     if (!userColors[sender]) {
-      const assignedColors = Object.values(userColors);
-      let color;
-      if (assignedColors.length < AVAILABLE_COLORS.length) {
-        color = AVAILABLE_COLORS[assignedColors.length];
-      } else {
-        color =
-          AVAILABLE_COLORS[Math.floor(Math.random() * AVAILABLE_COLORS.length)];
-      }
-      userColors[sender] = color;
+      userColors[sender] =
+        AVAILABLE_COLORS[assignedCount % AVAILABLE_COLORS.length];
+      assignedCount++;
     }
     return userColors[sender];
-  }
+  };
 
   const displayMessages = () => {
     return messages.map((msg) => (

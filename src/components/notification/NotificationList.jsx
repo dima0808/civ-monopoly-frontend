@@ -3,14 +3,18 @@ import MessageNotification from './MessageNotification';
 import ErrorNotification from './ErrorNotification';
 import OtherNotification from './OtherNotification';
 import { createPortal } from 'react-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import {
   NOTIFICATION_ERROR,
   NOTIFICATION_MESSAGE,
   NOTIFICATION_OTHER,
 } from '../../constants/notification.js';
+import { clearNotifications } from '../../store/slices/notificationSlice.js';
 
 const NotificationList = () => {
+  const dispatch = useDispatch();
+  const { t } = useTranslation();
   const { notifications } = useSelector((state) => state.notification);
 
   const displayNotifications = () => {
@@ -49,7 +53,17 @@ const NotificationList = () => {
 
   return createPortal(
     <div className="notification">
-      <div className="notification--list">{displayNotifications()}</div>
+      <div className="notification--list">
+        {notifications.length > 0 && (
+          <button
+            onClick={() => dispatch(clearNotifications())}
+            className="notification--btn"
+          >
+            {t('notification.clearAll')}
+          </button>
+        )}
+        {displayNotifications()}
+      </div>
     </div>,
     document.getElementById('modal'),
   );

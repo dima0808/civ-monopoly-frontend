@@ -40,13 +40,13 @@ const SignInPage = () => {
             <input
               ref={usernameRef}
               type="text"
-              placeholder="Login"
+              placeholder={t('authentication.userName')}
               className="authentication-input"
             />
             <input
               ref={passwordRef}
               type="password"
-              placeholder="Password"
+              placeholder={t('authentication.password')}
               className="authentication-input"
             />
             {error && <p>{error}</p>} {/* TODO: better error display */}
@@ -57,7 +57,7 @@ const SignInPage = () => {
               🠚
             </button>
             <Link to="/signup/" className="authentication-link">
-              {t('authentication.haveNotAccount')}
+              {t('authentication.alreadyHave')}
             </Link>
           </form>
         </div>

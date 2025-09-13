@@ -9,7 +9,7 @@ import Header from '../../components/header/Header.jsx';
 import { useTranslation } from 'react-i18next';
 import { Scrollbars } from 'react-custom-scrollbars';
 
-export default function RulesPage() {
+const RulesPage = () => {
   const { t } = useTranslation();
   return (
     <Scrollbars style={{ height: '100vh' }}>
@@ -111,4 +111,6 @@ export default function RulesPage() {
       </main>
     </Scrollbars>
   );
-}
+};
+
+export default RulesPage;

@@ -1,0 +1,26 @@
+.grid-3 {
+  justify-content: center;
+  align-items: center;
+  display: grid;
+  grid-template-columns: 250px 820px 300px;
+  padding-top: 4px;
+  gap: 40px;
+}
+.grid-3 img {
+  -webkit-user-drag: none; /* Safari, Chrome */
+  user-drag: none; /* Firefox */
+  pointer-events: none; /* Забороняє перетягування через всі способи */
+  user-select: none; /* Забороняє виділення */
+  -webkit-user-select: none; /* Safari, Chrome */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+}
+.game-html body {
+  background: #222222;
+}
+
+.game-html,
+.game-html body {
+  height: 100%;
+  display: grid;
+}

@@ -1,0 +1,92 @@
+.chat-monopoly {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  border-radius: 4px;
+  background: linear-gradient(to bottom, #43444700, #4d45570d);
+}
+.chat-zone-monopoly {
+  width: 560px;
+  height: 410px;
+}
+.monopoly-chat__typing-input {
+  background-color: #f0e8f389;
+  color: #3a2f4c;
+  border: 1px solid #846ea4;
+  width: 100%;
+}
+.board-chat__typing-btn-svg {
+  margin-left: 2px;
+}
+.monopoly-chat__typing-btn {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+  background-color: #846ea4;
+
+  color: #f1e4fb;
+  border: 2px solid #846ea4;
+}
+.monopoly-chat__typing-btn:hover {
+  background-color: #eae2ee;
+}
+.monopoly-chat__typing-btn:active {
+  background-color: #f1ecf4;
+}
+.monopoly-flex-between {
+  display: flex;
+  gap: 12px;
+  padding: 5px 10px;
+}
+.chat-zone-monopoly-div {
+  color: #3a2f4c;
+  width: 532px;
+  margin: 0 0 0 10px;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  line-height: 1.25;
+  display: flex;
+  overflow-wrap: break-word;
+  justify-content: space-between;
+}
+.chat-zone-monopoly-message {
+  width: 430px;
+}
+.chat-zone-monopoly-div:not(:last-child) {
+  margin-bottom: 3px;
+}
+.nickname-span {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+  cursor: pointer;
+  color: #f1e4fb;
+  text-decoration: none;
+  background-color: #846ea4;
+  padding: 1px 2px;
+  border-radius: 6px;
+  margin-right: 3px;
+  transition: 0.3s ease;
+}
+.nickname-span:hover {
+  background-color: #9f8bbc;
+}
+.nickname-span:active {
+  background-color: #bdadd4;
+}
+.chat-zone-monopoly-time {
+  color: #463c56;
+}
+.system-span {
+  color: #392954;
+  letter-spacing: -0.5px;
+  font-weight: 500;
+  margin-right: 3px;
+}
+.system-tile-span {
+  color: #715b92;
+  letter-spacing: -0.5px;
+  font-weight: 500;
+  margin-right: 3px;
+}
