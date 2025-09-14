@@ -1,6 +1,6 @@
 import './Cell.scss';
 
-import blueStarImg from '../../../../images/star-blue.png';
+// import blueStarImg from '../../../../images/star-blue.png';
 // import yellowStarImg from '../../../../images/star-yellow.png';
 
 import { CELL_IMAGES } from '../../../../constants/game.js';
@@ -25,7 +25,7 @@ const Cell = ({
     const lastLevelUpgraded = 'LEVEL_1';
     return (
       <div
-        className={`object-${orientation}__cell ${!upgrades && `object-${orientation}__cell-none-upgrades`}`}
+        className={`object-${orientation}__cell ${Object.keys(upgrades).length < 2 && `object-${orientation}__cell-none-upgrades`}`}
       >
         <div className="not-blur">
           <img
@@ -39,12 +39,12 @@ const Cell = ({
   };
 
   const displayUpgrades = () => {
-    if (!upgrades) return null;
+    if (Object.keys(upgrades).length < 2) return null;
 
     return (
       <div className={`object-${orientation}__upgrades`}>
-        <img src={blueStarImg} alt="Blue Star" className="star-blue" />
-        <img src={blueStarImg} alt="Blue Star" className="star-blue" />
+        {/*<img src={blueStarImg} alt="Blue Star" className="star-blue" />*/}
+        {/*<img src={blueStarImg} alt="Blue Star" className="star-blue" />*/}
       </div>
     );
   };

@@ -17,6 +17,11 @@ const gameSlice = createSlice({
   initialState: {
     room: null,
   },
+  reducers: {
+    setRoom: (state, action) => {
+      state.room = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getRoom.fulfilled, (state, action) => {
@@ -28,4 +33,5 @@ const gameSlice = createSlice({
   },
 });
 
+export const { setRoom } = gameSlice.actions;
 export default gameSlice.reducer;

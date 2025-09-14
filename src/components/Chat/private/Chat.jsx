@@ -13,7 +13,6 @@ import {
   clearInput,
   findSecondUser,
   forceScrollToBottom,
-  handleInputChange,
   onEnterClick,
   scrollToBottom,
 } from '../../../utils/chat.js';
@@ -225,7 +224,6 @@ const Chat = () => {
       <div className="chat__typing chat__typing-dialog">
         <textarea
           ref={messageInputRef}
-          onChange={(e) => handleInputChange(e, PRIVATE_CHAT_SYMBOL_LIMIT)}
           onKeyDown={(e) => onEnterClick(e, onSendPrivateMessage)}
           disabled={!openedContact}
           className="chat__typing-input chat__typing-input-dialog scroll"

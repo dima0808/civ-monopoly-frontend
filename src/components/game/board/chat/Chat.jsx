@@ -1,21 +1,157 @@
 import './Chat.scss';
 
 import civkaLogoImg from '../../../../images/civka-logo.png';
+import { useEffect, useRef, useState } from 'react';
+import {
+  getChatByReference,
+  sendMessage,
+} from '../../../../http/requests/chatPublic.js';
+import {
+  clearInput,
+  forceScrollToBottom,
+  onEnterClick,
+  scrollToBottom,
+} from '../../../../utils/chat.js';
+import { getStompClient } from '../../../../store/slices/wsSlice.js';
+import { pushNotification } from '../../../../store/slices/notificationSlice.js';
+import { NOTIFICATION_ERROR } from '../../../../constants/notification.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
+import Message from './Message.jsx';
+import { PUBLIC_CHAT_SYMBOL_LIMIT } from '../../../../constants/chat.js';
 
 const Chat = () => {
+  const dispatch = useDispatch();
+  const { t } = useTranslation();
+  const { reference } = useParams();
+  const { user } = useSelector((state) => state.auth);
+  const { room } = useSelector((state) => state.game);
+  const wsConnected = useSelector((state) => state.ws.connected);
+  const messageInputRef = useRef(null);
+  const chatContainerRef = useRef(null);
+
+  const [messages, setMessages] = useState(null);
+  const [error, setError] = useState(null);
+
+  const onChatMessageReceived = (wsMessage) => {
+    const { message, type } = JSON.parse(wsMessage.body);
+    switch (type) {
+      case 'SEND':
+        setMessages((prevMessages) => [...prevMessages, message]);
+        break;
+      case 'DELETE':
+        setMessages((prevMessages) =>
+          prevMessages.filter((m) => m.reference !== message.reference),
+        );
+        break;
+    }
+  };
+
+  useEffect(() => {
+    getChatByReference(reference)
+      .then((data) => {
+        setMessages(data.messages);
+        setTimeout(() => {
+          forceScrollToBottom(chatContainerRef.current);
+        }, 100);
+      })
+      .catch((e) => setError(e.message));
+  }, [reference]);
+
+  useEffect(() => {
+    const client = getStompClient();
+    if (!client || !wsConnected) {
+      return;
+    }
+
+    const subscription = client.subscribe(
+      '/topic/chats/' + reference,
+      onChatMessageReceived,
+    );
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [reference, wsConnected]);
+
+  useEffect(() => {
+    const container = chatContainerRef.current;
+    if (!container) {
+      return;
+    }
+
+    scrollToBottom(container, messages, user);
+  }, [messages, user]);
+
+  const onSendPublicMessage = () => {
+    if (messageInputRef?.current?.value.trim() === '') {
+      return;
+    }
+    sendMessage(reference, {
+      message: messageInputRef.current.value,
+    })
+      .then(() => clearInput(messageInputRef))
+      .catch((e) => {
+        dispatch(
+          pushNotification({ type: NOTIFICATION_ERROR, error: e.message }),
+        );
+      });
+    messageInputRef.current.focus();
+  };
+
+  const displayLoading = () => {
+    return (
+      <div className="loading loading-home">
+        <p className="loading--message">{t('chat.loading')}</p>
+      </div>
+    );
+  };
+
+  const displayError = () => {
+    return (
+      <div className="loading loading-home">
+        <p className="loading--message">{error}</p>
+      </div>
+    );
+  };
+
+  const displayMessages = () => {
+    return messages.map((msg) => (
+      <Message
+        key={msg.reference}
+        sender={msg.sender}
+        timeStamp={msg.timeStamp}
+        color={room.members.find((m) => m.username === msg.sender)?.color}
+      >
+        {msg.message}
+      </Message>
+    ));
+  };
+
   return (
     <div className="board__element board__element-center border">
       <img src={civkaLogoImg} alt="civka logo" className="logo-center" />
       <div className="chat-monopoly">
-        <div className="chat-zone-monopoly scroll">
-          {/* Messages will be displayed here */}
+        <div ref={chatContainerRef} className="chat-zone-monopoly scroll">
+          {messages == null && !error && displayLoading()}
+          {error && displayError()}
+
+          {messages && messages.length > 0 && displayMessages()}
         </div>
+
         <div className="monopoly-flex-between">
           <textarea
+            ref={messageInputRef}
+            onKeyDown={(e) => onEnterClick(e, onSendPublicMessage)}
+            disabled={user == null}
             className="chat__typing-input monopoly-chat__typing-input scroll"
-            maxLength={250}
+            maxLength={PUBLIC_CHAT_SYMBOL_LIMIT}
           ></textarea>
-          <button className="chat__typing-btn monopoly-chat__typing-btn">
+          <button
+            onClick={onSendPublicMessage}
+            disabled={user == null}
+            className="chat__typing-btn monopoly-chat__typing-btn"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

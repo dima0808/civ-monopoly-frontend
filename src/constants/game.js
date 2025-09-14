@@ -105,6 +105,18 @@ import wonderOxfordUniversityImg from '../images/wonder_oxford_university.png';
 
 import districtSpaceportImg from '../images/icon_district_spaceport.png';
 
+import leaderRandomImg from '../images/unknown.png';
+import leaderAmericaImg from '../images/leader_america_abraham_lincoln.png';
+import leaderAztecImg from '../images/leader_aztec_montezuma.png';
+import leaderBabylonImg from '../images/leader_babylon_hammurabi.png';
+import leaderColombiaImg from '../images/leader_colombia_simon_bolivar.png';
+import leaderEgyptImg from '../images/leader_egypt_cleopatra.png';
+import leaderEnglandImg from '../images/leader_england_victoria.png';
+import leaderFranceImg from '../images/leader_france_catherine_de_medici.png';
+import leaderGaulImg from '../images/leader_gaul_ambiorix.png';
+import leaderJapanImg from '../images/leader_japan_tokugawa.png';
+import leaderOttomanImg from '../images/leader_ottoman_suleiman_kanuni_.png';
+
 export const CELL_IMAGES = {
   Horses: {
     LEVEL_1: resourceHorsesImg,
@@ -245,6 +257,64 @@ export const CELL_IMAGES = {
   },
   Spaceport: {
     LEVEL_1: districtSpaceportImg,
+  },
+};
+
+export const LEADERS = {
+  RANDOM: {
+    src: leaderRandomImg,
+    name: 'Random',
+    civilization: 'Frustration',
+  },
+  AMERICA: {
+    src: leaderAmericaImg,
+    name: 'Abraham Lincoln',
+    civilization: 'America',
+  },
+  AZTEC: {
+    src: leaderAztecImg,
+    name: 'Montezuma',
+    civilization: 'Aztec',
+  },
+  BABYLON: {
+    src: leaderBabylonImg,
+    name: 'Hammurabi',
+    civilization: 'Babylon',
+  },
+  COLOMBIA: {
+    src: leaderColombiaImg,
+    name: 'Simón Bolívar',
+    civilization: 'Colombia',
+  },
+  EGYPT: {
+    src: leaderEgyptImg,
+    name: 'Cleopatra',
+    civilization: 'Egypt',
+  },
+  ENGLAND: {
+    src: leaderEnglandImg,
+    name: 'Victoria',
+    civilization: 'England',
+  },
+  FRANCE: {
+    src: leaderFranceImg,
+    name: 'Catherine de Medici',
+    civilization: 'France',
+  },
+  GAUL: {
+    src: leaderGaulImg,
+    name: 'Ambiorix',
+    civilization: 'Gaul',
+  },
+  JAPAN: {
+    src: leaderJapanImg,
+    name: 'Tokugawa',
+    civilization: 'Japan',
+  },
+  OTTOMAN: {
+    src: leaderOttomanImg,
+    name: 'Suleiman Kanuni',
+    civilization: 'Ottoman',
   },
 };
 

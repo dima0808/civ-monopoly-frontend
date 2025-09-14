@@ -5,31 +5,85 @@ import { useDispatch, useSelector } from 'react-redux';
 import { leaveRoom } from '../../../http/requests/room.js';
 import { pushNotification } from '../../../store/slices/notificationSlice.js';
 import { NOTIFICATION_ERROR } from '../../../constants/notification.js';
-import { useNavigate } from 'react-router-dom';
-import { isUserLeaderCookies } from '../../../utils/room.js';
+import { useNavigate, useParams } from 'react-router-dom';
+import { isUserInRoom, isUserLeaderCookies } from '../../../utils/room.js';
+import { useCallback, useEffect, useRef } from 'react';
+import { getStompClient } from '../../../store/slices/wsSlice.js';
+import { setRoom } from '../../../store/slices/gameSlice.js';
 
 const MemberList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { reference } = useParams();
   const { room } = useSelector((state) => state.game);
   const { user } = useSelector((state) => state.auth);
+  const wsConnected = useSelector((state) => state.ws.connected);
+
+  const userRef = useRef(user);
+  const roomRef = useRef(room);
+
+  const onRoomMessageReceived = useCallback(
+    (wsMessage) => {
+      const {
+        room: updatedRoom,
+        member: updatedMember,
+        type,
+      } = JSON.parse(wsMessage.body);
+
+      switch (type) {
+        case 'KICK':
+          if (
+            isUserInRoom(roomRef.current.members, userRef.current) &&
+            !isUserInRoom(updatedRoom.members, userRef.current)
+          ) {
+            navigate('/home');
+          }
+          dispatch(setRoom(updatedRoom));
+          break;
+        case 'JOIN':
+        case 'LEAVE':
+          dispatch(setRoom(updatedRoom));
+          break;
+        case 'DELETE':
+          navigate('/home');
+          break;
+        case 'CHANGE_CIVILIZATION':
+        case 'CHANGE_COLOR': {
+          const newRoom = {
+            ...roomRef.current,
+            members: roomRef.current.members.map((m) =>
+              m.username === updatedMember.username ? updatedMember : m,
+            ),
+          };
+          dispatch(setRoom(newRoom));
+          break;
+        }
+      }
+    },
+    [dispatch, navigate],
+  );
+
+  useEffect(() => {
+    const client = getStompClient();
+    if (!client || !wsConnected) return;
+
+    const subscription = client.subscribe(
+      '/topic/rooms/' + reference,
+      onRoomMessageReceived,
+    );
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [onRoomMessageReceived, reference, wsConnected]);
 
   const onLeave = () => {
     leaveRoom()
-      .then()
+      .then(() => navigate('/home'))
       .catch((e) => {
         dispatch(
           pushNotification({ type: NOTIFICATION_ERROR, error: e.message }),
         );
       });
-  };
-
-  const displayLoading = () => {
-    return (
-      <div className="loading">
-        <p className="loading--message">Loading...</p>
-      </div>
-    ); // TODO: make translation
   };
 
   const displayMembers = () => {
@@ -58,41 +112,48 @@ const MemberList = () => {
     );
   };
 
+  const displayBottomPanel = () => {
+    return (
+      <>
+        {isUserInRoom(room.members, user) && !room.isStarted && (
+          <div className="btns-player">
+            <div className="flex-between">
+              <button onClick={onLeave} className="leave-btn btn-in no-select">
+                leave
+              </button>
+              <button
+                onClick={() => navigate('/home')}
+                className="btn-in no-select move-to-lobby-btn "
+              >
+                home
+              </button>
+            </div>
+
+            {isUserLeaderCookies(room.members, user) && (
+              <div className="flex-between">
+                <button className="move-to-lobby-btn bc-light-green btn-in no-select">
+                  start
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
+        {room.isStarted && (
+          <div className="turn-and-era">
+            <div className="torn-counter">{room.turn}</div>
+          </div>
+        )}
+      </>
+    );
+  };
+
   return (
     <section className="players">
       <div className="player-game">
-        {room ? (
-          <>
-            {displayMembers()}
-            {generateEmptySlots()}
-          </>
-        ) : (
-          displayLoading()
-        )}
-
-        <div className="btns-player">
-          <div className="flex-between">
-            <button onClick={onLeave} className="leave-btn btn-in no-select">
-              leave
-            </button>
-            <button
-              onClick={() => navigate('/home')}
-              className="btn-in no-select move-to-lobby-btn "
-            >
-              home
-            </button>
-          </div>
-
-          <div className="flex-between">
-            <button className="move-to-lobby-btn bc-light-green btn-in no-select">
-              start
-            </button>
-          </div>
-        </div>
-
-        {/*<div className="turn-and-era">*/}
-        {/*  <div className="torn-counter">1</div>*/}
-        {/*</div>*/}
+        {displayMembers()}
+        {generateEmptySlots()}
+        {displayBottomPanel()}
       </div>
     </section>
   );

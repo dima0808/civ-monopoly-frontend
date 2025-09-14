@@ -10,7 +10,7 @@ import { useState } from 'react';
 import { pushNotification } from '../../store/slices/notificationSlice.js';
 import { NOTIFICATION_ERROR } from '../../constants/notification.js';
 import { useTranslation } from 'react-i18next';
-import { isUserLeaderCookies } from '../../utils/room.js';
+import { isUserInRoom, isUserLeaderCookies } from '../../utils/room.js';
 
 const Lobby = ({ room }) => {
   const { t } = useTranslation();
@@ -47,14 +47,6 @@ const Lobby = ({ room }) => {
       });
   };
 
-  const isUserInRoom = () => {
-    const members = room.members;
-    if (members?.length === 0) {
-      return false;
-    }
-    return members.some((member) => member.username === user?.username);
-  };
-
   const displayMembers = (members) => {
     return members.map((member, index) => {
       return (
@@ -75,7 +67,7 @@ const Lobby = ({ room }) => {
       <div className="lobby__member" key={index}>
         <button
           onClick={onJoin}
-          disabled={isUserInRoom()}
+          disabled={isUserInRoom(room.members, user)}
           className="lobby__member-avatar lobby__member-btn"
         >
           <img
@@ -113,7 +105,7 @@ const Lobby = ({ room }) => {
           generateEmptySlots(room.memberLimit - room.members.length)}
       </div>
 
-      {isUserInRoom() && (
+      {isUserInRoom(room.members, user) && (
         <div className="in-room-btns">
           {!room.isStarted && (
             <div>

@@ -16,7 +16,6 @@ import { getStompClient } from '../../../store/slices/wsSlice.js';
 import {
   clearInput,
   forceScrollToBottom,
-  handleInputChange,
   onEnterClick,
   scrollToBottom,
 } from '../../../utils/chat.js';
@@ -126,15 +125,6 @@ const Chat = () => {
     );
   };
 
-  const getUserColor = (sender) => {
-    if (!userColors[sender]) {
-      userColors[sender] =
-        AVAILABLE_COLORS[assignedCount % AVAILABLE_COLORS.length];
-      assignedCount++;
-    }
-    return userColors[sender];
-  };
-
   const displayMessages = () => {
     return messages.map((msg) => (
       <Message
@@ -145,6 +135,15 @@ const Chat = () => {
         {msg.message}
       </Message>
     ));
+  };
+
+  const getUserColor = (sender) => {
+    if (!userColors[sender]) {
+      userColors[sender] =
+        AVAILABLE_COLORS[assignedCount % AVAILABLE_COLORS.length];
+      assignedCount++;
+    }
+    return userColors[sender];
   };
 
   return (
@@ -162,7 +161,6 @@ const Chat = () => {
       <div className="chat__typing">
         <textarea
           ref={messageInputRef}
-          onChange={(e) => handleInputChange(e, PUBLIC_CHAT_REFERENCE)}
           onKeyDown={(e) => onEnterClick(e, onSendPublicMessage)}
           disabled={user == null}
           className="chat__typing-input scroll"

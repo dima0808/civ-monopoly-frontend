@@ -1,13 +1,17 @@
 import './MemberList.scss';
 
 import aztecImg from '../../../images/leader_aztec_montezuma.png';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { kickMember } from '../../../http/requests/room.js';
 import { pushNotification } from '../../../store/slices/notificationSlice.js';
 import { NOTIFICATION_ERROR } from '../../../constants/notification.js';
+import MemberSetupDialog from './MemberSetupDialog.jsx';
+import { useState } from 'react';
 
 const Member = ({ member, isLeader, showKickButton }) => {
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+  const [isMemberSetupOpened, setIsMemberSetupOpened] = useState(false);
 
   const onKick = () => {
     kickMember(member.reference)
@@ -20,7 +24,13 @@ const Member = ({ member, isLeader, showKickButton }) => {
   };
 
   return (
-    <div className={`player color-${member.color}`}>
+    <div className={`player color-${member.color.toLowerCase()}`}>
+      {isMemberSetupOpened && (
+        <MemberSetupDialog
+          member={member}
+          setIsOpened={setIsMemberSetupOpened}
+        />
+      )}
       <div className={`player__div${isLeader ? ' leader' : ''}`}>
         <img src={aztecImg} className="player__div-img" alt="avatar" />
         {showKickButton && (
@@ -47,13 +57,16 @@ const Member = ({ member, isLeader, showKickButton }) => {
         <h2 className="player__stats-h2">{member.username}</h2>
 
         <div className="player-stats-grid">
-          <div className="civ-selector">
-            <button className="civ-button">{member.civilization}</button>
-          </div>
-
-          <div className="color-selector">
-            <button className={`color-button color-${member.color}`} />
-          </div>
+          {user?.username === member.username ? (
+            <div
+              onClick={() => setIsMemberSetupOpened((prev) => !prev)}
+              className="civ-selector"
+            >
+              <button className="civ-button">{member.civilization}</button>
+            </div>
+          ) : (
+            <p>{member.civilization}</p>
+          )}
         </div>
       </div>
     </div>

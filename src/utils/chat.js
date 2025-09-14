@@ -13,12 +13,6 @@ export const onEnterClick = (event, action) => {
   }
 };
 
-export const handleInputChange = (event, symbolLimit) => {
-  if (event.target.value.length > symbolLimit) {
-    event.target.value = event.target.value.slice(0, symbolLimit);
-  }
-};
-
 export const findSecondUser = (users, currentUsername) => {
   return users?.find((username) => username !== currentUsername);
 };

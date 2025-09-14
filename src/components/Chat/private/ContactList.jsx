@@ -105,7 +105,7 @@ const ContactList = () => {
       <div className="loading loading--list">
         <p className="loading--message"> {t('chat.loading')}</p>
       </div>
-    ); // TODO: better loader
+    );
   };
 
   const displayNoContacts = () => {
