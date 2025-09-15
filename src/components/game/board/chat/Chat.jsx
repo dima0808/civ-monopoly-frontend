@@ -87,10 +87,14 @@ const Chat = () => {
     if (messageInputRef?.current?.value.trim() === '') {
       return;
     }
+
+    const messageToSend = messageInputRef.current.value;
+    clearInput(messageInputRef);
+
     sendMessage(reference, {
-      message: messageInputRef.current.value,
+      message: messageToSend,
     })
-      .then(() => clearInput(messageInputRef))
+      .then()
       .catch((e) => {
         dispatch(
           pushNotification({ type: NOTIFICATION_ERROR, error: e.message }),

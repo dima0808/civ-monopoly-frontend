@@ -25,6 +25,13 @@ export const getChatByReference = async (reference) => {
   return data;
 };
 
+export const getChatByUsernames = async (username1, username2) => {
+  const { data } = await axios.get(`${REQUEST_MAPPING}/between`, {
+    params: { username1, username2 },
+  });
+  return data;
+};
+
 export const sendMessage = async (reference, { message }) => {
   const { data } = await axios.post(`${REQUEST_MAPPING}/${reference}`, {
     message,

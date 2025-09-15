@@ -77,6 +77,10 @@
     border-bottom: 3px solid #271d37;
   }
 }
+.nickname-span {
+  background-color: #9a78d0;
+  color: #f8faff;
+}
 .chat-color {
   &-red {
     background-color: #db4444;
@@ -312,21 +316,20 @@ button[disabled] img {
 }
 
 .btn-in {
-  color: #271d37;
+  color: #fbefff;
   cursor: pointer;
   padding: 5px 10px;
   font-size: 24px;
-  background-color: #d1b5e8;
+  background-color: #b192d3;
   border: none;
   border-radius: 6px;
   transition: all 0.15s ease-in;
   font-family: 'Ubuntu', sans-serif;
 }
-
-.btn-in:hover {
-  color: #f1e4fb;
+.btns-player .btn-in {
+  background-color: #a67ed9;
+  color: #effaff;
 }
-
 .leave-btn {
   margin-right: 8px;
 }

@@ -20,8 +20,3 @@ export const loginUser = async ({ username, password }) => {
   Cookies.set('token', data.token);
   return data;
 };
-
-export const getCurrent = async () => {
-  const { data } = await axios.get(`${REQUEST_MAPPING}/current`);
-  return data;
-};

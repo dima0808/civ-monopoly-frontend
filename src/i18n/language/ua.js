@@ -138,7 +138,10 @@ export const ua = {
     lobbies: 'Кімнати',
     create: 'Створити',
     gameStarted: 'Гра почалась',
+    availableSlot: 'Вільне місце',
     leave: 'Покинути',
+    home: 'Додому',
+    start: 'Почати гру',
     moveToLobby: 'Перейти в кімнату',
     dialogCreate: {
       lobbyName: 'Назва кімнати:',
@@ -205,5 +208,11 @@ export const ua = {
     findUser: 'Шукати',
     noMessages: 'Повідомлення відсутні',
     public: 'Публічний чат',
+  },
+  game: {
+    leaderChoose: {
+      chooseLeader: 'Оберіть лідера',
+      chooseColor: 'Оберіть колір',
+    },
   },
 };

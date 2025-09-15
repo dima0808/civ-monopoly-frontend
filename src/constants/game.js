@@ -105,7 +105,7 @@ import wonderOxfordUniversityImg from '../images/wonder_oxford_university.png';
 
 import districtSpaceportImg from '../images/icon_district_spaceport.png';
 
-import leaderRandomImg from '../images/unknown.png';
+import leaderRandomImg from '../images/leader_random.png';
 import leaderAmericaImg from '../images/leader_america_abraham_lincoln.png';
 import leaderAztecImg from '../images/leader_aztec_montezuma.png';
 import leaderBabylonImg from '../images/leader_babylon_hammurabi.png';

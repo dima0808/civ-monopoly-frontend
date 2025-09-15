@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getCurrent } from '../../http/requests/auth.js';
 import Cookies from 'js-cookie';
+import { getCurrent } from '../../http/requests/user.js';
 
 export const getMe = createAsyncThunk('auth/getMe', getCurrent);
 

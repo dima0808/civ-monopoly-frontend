@@ -4,8 +4,10 @@ import { getAllCivilizations } from '../../../http/requests/game.js';
 import LeaderOption from './LeaderOption.jsx';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { displayError, displayLoading } from '../../../utils/component.jsx';
+import { useTranslation } from 'react-i18next';
 
 const MemberChooseLeader = ({ member }) => {
+  const { t } = useTranslation();
   const { room } = useSelector((state) => state.game);
 
   const [civilizations, setCivilizations] = useState(null);
@@ -30,8 +32,9 @@ const MemberChooseLeader = ({ member }) => {
 
   return (
     <div className="member-setup--leader-div">
-      <h1 className="member-setup--h1">Choose your leader</h1>
-
+      <h1 className="member-setup--h1">
+        {t('game.leaderChoose.chooseLeader')}
+      </h1>
       <div className="member-setup--list">
         <Scrollbars className="member-setup--scroll">
           {civilizations == null && !error && displayLoading()}

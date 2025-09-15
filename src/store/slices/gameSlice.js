@@ -21,6 +21,12 @@ const gameSlice = createSlice({
     setRoom: (state, action) => {
       state.room = action.payload;
     },
+    updateMember: (state, action) => {
+      const updatedMember = action.payload;
+      state.room.members = state.room.members.map((m) =>
+        m.username === updatedMember.username ? updatedMember : m,
+      );
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -34,4 +40,5 @@ const gameSlice = createSlice({
 });
 
 export const { setRoom } = gameSlice.actions;
+export const { updateMember } = gameSlice.actions;
 export default gameSlice.reducer;

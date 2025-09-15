@@ -8,7 +8,7 @@ const LeaderOption = ({ isChosen, isTaken, civilization }) => {
   const dispatch = useDispatch();
 
   const onChangeCivilization = () => {
-    if (isChosen || isTaken) return;
+    if ((isChosen || isTaken) && civilization !== 'RANDOM') return;
 
     changeCivilization(civilization)
       .then()
@@ -22,7 +22,7 @@ const LeaderOption = ({ isChosen, isTaken, civilization }) => {
   return (
     <div
       onClick={onChangeCivilization}
-      className={`member-setup--list--item ${isChosen ? 'member-setup--list--item--selected' : ''} ${!isChosen && isTaken ? 'member-setup--list--item--disabled' : ''}`}
+      className={`member-setup--list--item ${isChosen ? 'member-setup--list--item--selected' : ''} ${!isChosen && isTaken && civilization !== 'RANDOM' ? 'member-setup--list--item--disabled' : ''}`}
     >
       <img
         src={LEADERS[civilization].src}

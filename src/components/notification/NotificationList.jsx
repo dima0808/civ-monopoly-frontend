@@ -27,6 +27,7 @@ const NotificationList = () => {
             return (
               <MessageNotification
                 key={index}
+                id={notification.id}
                 message={notification.message}
                 isDisappearing={notification.isDisappearing}
               />

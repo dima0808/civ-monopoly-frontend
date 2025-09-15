@@ -9,43 +9,45 @@ export const getPropertiesForPlacement = (side, properties) => {
   );
 };
 
+const CELL_SIZE = 50;
+
 export const calculatePosition = (position) => {
   if (position === 0) {
-    return { topValue: 42, leftValue: 42, position: 'vertical' };
+    return { topValue: 42, leftValue: 42, orientation: 'vertical' };
   } else if (position < 13) {
     return {
       topValue: 42,
-      leftValue: 122 + 50 * (position - 1),
-      position: 'vertical',
+      leftValue: 122 + CELL_SIZE * (position - 1),
+      orientation: 'vertical',
     };
   } else if (position === 13) {
-    return { topValue: 42, leftValue: 752, position: 'horizontal' };
+    return { topValue: 42, leftValue: 752, orientation: 'horizontal' };
   } else if (position < 24) {
     return {
-      topValue: 122 + 50 * (position - 14),
+      topValue: 122 + CELL_SIZE * (position - 14),
       leftValue: 752,
-      position: 'horizontal',
+      orientation: 'horizontal',
     };
   } else if (position === 24) {
-    return { topValue: 652, leftValue: 752, position: 'vertical' };
+    return { topValue: 652, leftValue: 752, orientation: 'vertical' };
   } else if (position < 37) {
     return {
       topValue: 652,
-      leftValue: 672 - 50 * (position - 25),
-      position: 'vertical',
+      leftValue: 672 - CELL_SIZE * (position - 25),
+      orientation: 'vertical',
     };
   } else if (position === 37) {
-    return { topValue: 652, leftValue: 42, position: 'horizontal' };
+    return { topValue: 652, leftValue: 42, orientation: 'horizontal' };
   } else {
     return {
-      topValue: 572 - 50 * (position - 38),
+      topValue: 572 - CELL_SIZE * (position - 38),
       leftValue: 42,
-      position: 'horizontal',
+      orientation: 'horizontal',
     };
   }
 };
 
-export const getTransform = (index, total, position) => {
+export const getTransform = (index, total, orientation) => {
   const transforms = {
     1: [[-10, -16]],
     2: [
@@ -81,7 +83,27 @@ export const getTransform = (index, total, position) => {
   };
 
   const [x, y] = transforms[total][index];
-  return position === 'vertical'
+  return orientation === 'vertical'
     ? `translate(${x}px, ${y}px)`
     : `translate(${y}px, ${x}px)`;
+};
+
+const EDGE_POSITIONS = [0, 13, 24, 37];
+
+export const getPath = (start, end) => {
+  if (start === end) return [];
+
+  const isForward = end > start;
+
+  if (isForward) {
+    const corners = EDGE_POSITIONS.filter(
+      (corner) => start < corner && corner < end,
+    );
+    return [...corners, end];
+  } else {
+    const corners = EDGE_POSITIONS.filter(
+      (corner) => end < corner && corner < start,
+    ).reverse();
+    return [...corners, end];
+  }
 };

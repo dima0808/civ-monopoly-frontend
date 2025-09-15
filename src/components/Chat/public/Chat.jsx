@@ -89,8 +89,12 @@ const Chat = () => {
     if (messageInputRef?.current?.value.trim() === '') {
       return;
     }
+
+    const messageToSend = messageInputRef.current.value;
+    clearInput(messageInputRef);
+
     sendMessage(PUBLIC_CHAT_REFERENCE, {
-      message: messageInputRef.current.value,
+      message: messageToSend,
     })
       .then(() => clearInput(messageInputRef))
       .catch((e) => {

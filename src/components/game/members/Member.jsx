@@ -1,12 +1,12 @@
 import './MemberList.scss';
 
-import aztecImg from '../../../images/leader_aztec_montezuma.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { kickMember } from '../../../http/requests/room.js';
 import { pushNotification } from '../../../store/slices/notificationSlice.js';
 import { NOTIFICATION_ERROR } from '../../../constants/notification.js';
 import MemberSetupDialog from './MemberSetupDialog.jsx';
 import { useState } from 'react';
+import { LEADERS } from '../../../constants/game.js';
 
 const Member = ({ member, isLeader, showKickButton }) => {
   const dispatch = useDispatch();
@@ -32,7 +32,11 @@ const Member = ({ member, isLeader, showKickButton }) => {
         />
       )}
       <div className={`player__div${isLeader ? ' leader' : ''}`}>
-        <img src={aztecImg} className="player__div-img" alt="avatar" />
+        <img
+          className="player__div-img"
+          src={LEADERS[member.civilization].src}
+          alt="avatar"
+        />
         {showKickButton && (
           <button onClick={onKick} className="kick-btn">
             <svg
@@ -62,10 +66,14 @@ const Member = ({ member, isLeader, showKickButton }) => {
               onClick={() => setIsMemberSetupOpened((prev) => !prev)}
               className="civ-selector"
             >
-              <button className="civ-button">{member.civilization}</button>
+              <button className="civ-member-choose-leader-btn">
+                {LEADERS[member.civilization].civilization}
+              </button>
             </div>
           ) : (
-            <p>{member.civilization}</p>
+            <p className="civ-leader-p">
+              {LEADERS[member.civilization].civilization}
+            </p>
           )}
         </div>
       </div>

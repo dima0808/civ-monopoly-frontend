@@ -187,7 +187,10 @@ export const en = {
     lobbies: 'Lobbies',
     create: 'Create',
     gameStarted: 'Game started',
+    availableSlot: 'Available Slot',
     leave: 'leave',
+    home: 'home',
+    start: 'Start',
     moveToLobby: 'Move to Lobby',
     dialogCreate: {
       lobbyName: 'Lobby Name:',
@@ -254,5 +257,11 @@ export const en = {
     findUser: 'Find user',
     noMessages: 'No messages',
     public: 'Public chat',
+  },
+  game: {
+    leaderChoose: {
+      chooseLeader: 'Choose your leader',
+      chooseColor: 'Choose color',
+    },
   },
 };

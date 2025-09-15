@@ -9,9 +9,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { isUserInRoom, isUserLeaderCookies } from '../../../utils/room.js';
 import { useCallback, useEffect, useRef } from 'react';
 import { getStompClient } from '../../../store/slices/wsSlice.js';
-import { setRoom } from '../../../store/slices/gameSlice.js';
+import { setRoom, updateMember } from '../../../store/slices/gameSlice.js';
+import { startGame } from '../../../http/requests/game.js';
+import { useTranslation } from 'react-i18next';
 
 const MemberList = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { reference } = useParams();
@@ -48,16 +51,9 @@ const MemberList = () => {
           navigate('/home');
           break;
         case 'CHANGE_CIVILIZATION':
-        case 'CHANGE_COLOR': {
-          const newRoom = {
-            ...roomRef.current,
-            members: roomRef.current.members.map((m) =>
-              m.username === updatedMember.username ? updatedMember : m,
-            ),
-          };
-          dispatch(setRoom(newRoom));
+        case 'CHANGE_COLOR':
+          dispatch(updateMember(updatedMember));
           break;
-        }
       }
     },
     [dispatch, navigate],
@@ -86,6 +82,16 @@ const MemberList = () => {
       });
   };
 
+  const onStartGame = () => {
+    startGame()
+      .then()
+      .catch((e) => {
+        dispatch(
+          pushNotification({ type: NOTIFICATION_ERROR, error: e.message }),
+        );
+      });
+  };
+
   const displayMembers = () => {
     const members = room.members;
     return members.map((member, index) => {
@@ -106,7 +112,7 @@ const MemberList = () => {
     return Array.from({ length: room.memberLimit - room.members.length }).map(
       (_, index) => (
         <div key={index} className="not-player no-select">
-          Available Slot
+          {t('lobby.availableSlot')}
         </div>
       ),
     );
@@ -119,20 +125,23 @@ const MemberList = () => {
           <div className="btns-player">
             <div className="flex-between">
               <button onClick={onLeave} className="leave-btn btn-in no-select">
-                leave
+                {t('lobby.leave')}
               </button>
               <button
                 onClick={() => navigate('/home')}
                 className="btn-in no-select move-to-lobby-btn "
               >
-                home
+                {t('lobby.home')}
               </button>
             </div>
 
             {isUserLeaderCookies(room.members, user) && (
               <div className="flex-between">
-                <button className="move-to-lobby-btn bc-light-green btn-in no-select">
-                  start
+                <button
+                  onClick={onStartGame}
+                  className="move-to-lobby-btn bc-light-green btn-in no-select"
+                >
+                  {t('lobby.start')}
                 </button>
               </div>
             )}

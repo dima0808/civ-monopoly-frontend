@@ -13,7 +13,7 @@ const Message = ({ sender, color, timeStamp, children }) => {
       <div className="chat-zone-monopoly-message">
         <Link
           to={`/profile/${sender}`}
-          className={`nickname-span chat-color-${color}`}
+          className={`nickname-span chat-color-${color?.toLowerCase()}`}
         >
           {sender}:
         </Link>

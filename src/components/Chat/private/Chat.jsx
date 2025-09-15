@@ -108,10 +108,14 @@ const Chat = () => {
       if (messageInputRef?.current?.value.trim() === '') {
         return;
       }
+
+      const messageToSend = messageInputRef.current.value;
+      clearInput(messageInputRef);
+
       sendMessage(chat.reference, {
-        message: messageInputRef.current.value,
+        message: messageToSend,
       })
-        .then(() => clearInput(messageInputRef))
+        .then()
         .catch((e) => {
           dispatch(
             pushNotification({ type: NOTIFICATION_ERROR, error: e.message }),
@@ -119,10 +123,13 @@ const Chat = () => {
         });
       messageInputRef.current.focus();
     } else if (chat.users) {
+      const messageToSend = messageInputRef.current.value;
+      clearInput(messageInputRef);
+
       createPrivateChat(secondUser, {
-        message: messageInputRef.current.value,
+        message: messageToSend,
       })
-        .then(() => clearInput(messageInputRef))
+        .then()
         .catch((e) => {
           dispatch(
             pushNotification({ type: NOTIFICATION_ERROR, error: e.message }),
@@ -162,7 +169,7 @@ const Chat = () => {
         index < chat.messages.length - 1 ? chat.messages[index + 1] : null;
       return (
         <Message
-          key={msg.reference}
+          key={index}
           message={msg.message}
           isYourMessage={msg.sender === user.username}
           isFirst={!prevMsg || prevMsg.sender !== msg.sender}

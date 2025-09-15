@@ -27,7 +27,7 @@ export const changeColor = async (color) => {
 };
 
 export const startGame = async () => {
-  const { data } = await axios.get(`${REQUEST_MAPPING}/start`);
+  const { data } = await axios.post(`${REQUEST_MAPPING}/start`);
   return data;
 };
 

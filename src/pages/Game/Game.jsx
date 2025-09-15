@@ -1,17 +1,50 @@
 import './Game.scss';
 
 import Board from '../../components/game/board/Board.jsx';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPropertiesConfig } from '../../store/slices/configSlice.js';
 import { useParams } from 'react-router-dom';
 import MemberList from '../../components/game/members/MemberList.jsx';
-import { getRoom } from '../../store/slices/gameSlice.js';
+import { getRoom, setRoom } from '../../store/slices/gameSlice.js';
+import { getStompClient } from '../../store/slices/wsSlice.js';
 
 const Game = () => {
   const dispatch = useDispatch();
   const { reference } = useParams();
   const { room } = useSelector((state) => state.game);
+  const wsConnected = useSelector((state) => state.ws.connected);
+
+  const onGameMessageReceived = useCallback(
+    (wsMessage) => {
+      const { room: updatedRoom, type } = JSON.parse(wsMessage.body);
+      switch (type) {
+        case 'START':
+          dispatch(setRoom(updatedRoom));
+          break;
+        case 'END_TURN':
+        case 'FORCE_END_TURN':
+        case 'ROLL_DICE':
+        case 'FORCE_ROLL_DICE':
+          dispatch(setRoom(updatedRoom));
+          break;
+      }
+    },
+    [dispatch],
+  );
+
+  useEffect(() => {
+    const client = getStompClient();
+    if (!client || !wsConnected) return;
+
+    const subscription = client.subscribe(
+      '/topic/games/' + reference,
+      onGameMessageReceived,
+    );
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [onGameMessageReceived, reference, wsConnected]);
 
   useEffect(() => {
     dispatch(getPropertiesConfig());

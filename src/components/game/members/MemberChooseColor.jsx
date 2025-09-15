@@ -4,8 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { pushNotification } from '../../../store/slices/notificationSlice.js';
 import { NOTIFICATION_ERROR } from '../../../constants/notification.js';
 import { displayError, displayLoading } from '../../../utils/component.jsx';
+import { useTranslation } from 'react-i18next';
 
 const MemberChooseColor = ({ member }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { room } = useSelector((state) => state.game);
 
@@ -46,7 +48,7 @@ const MemberChooseColor = ({ member }) => {
 
   return (
     <div className="color-picker">
-      <h1 className="color-picker--h1">Choose Color</h1>
+      <h1 className="color-picker--h1">{t('game.leaderChoose.chooseColor')}</h1>
       <div className="color-picker--div">
         {colors == null && !error && displayLoading()}
         {error && displayError(error)}

@@ -27,16 +27,18 @@
 
   color: #f1e4fb;
   border: 2px solid #846ea4;
+  &:hover {
+    background-color: #a08bbe;
+    color: #f1e4fb;
+  }
+  &:active {
+    background-color: #bca7d9;
+  }
 }
-.monopoly-chat__typing-btn:hover {
-  background-color: #eae2ee;
-}
-.monopoly-chat__typing-btn:active {
-  background-color: #f1ecf4;
-}
+
 .monopoly-flex-between {
   display: flex;
-  gap: 12px;
+  gap: 0;
   padding: 5px 10px;
 }
 .chat-zone-monopoly-div {
@@ -62,10 +64,13 @@
   user-select: none; /* Standard syntax */
   cursor: pointer;
   text-decoration: none;
-  padding: 1px 2px;
+  padding: 1px 3px 1px 5px;
   border-radius: 6px;
   margin-right: 3px;
   transition: 0.3s ease;
+  &:hover {
+    opacity: 0.7;
+  }
 }
 .chat-zone-monopoly-time {
   color: #463c56;
