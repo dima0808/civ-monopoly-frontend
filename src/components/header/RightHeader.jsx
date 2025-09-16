@@ -52,7 +52,7 @@ const RightHeader = () => {
       {user && (
         <>
           <li>
-            <Link to="/rules" className="header__anchor">
+            <Link to={`/profile/${user.username}`} className="header__anchor">
               {user.username}
             </Link>
           </li>

@@ -9,16 +9,17 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { isUserInRoom, isUserLeaderCookies } from '../../../utils/room.js';
 import { useCallback, useEffect, useRef } from 'react';
 import { getStompClient } from '../../../store/slices/wsSlice.js';
-import { setRoom, updateMember } from '../../../store/slices/gameSlice.js';
+import { setRoom, updateMember } from '../../../store/slices/roomSlice.js';
 import { startGame } from '../../../http/requests/game.js';
 import { useTranslation } from 'react-i18next';
+import Era from './Era.jsx';
 
 const MemberList = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { reference } = useParams();
-  const { room } = useSelector((state) => state.game);
+  const { room } = useSelector((state) => state.room);
   const { user } = useSelector((state) => state.auth);
   const wsConnected = useSelector((state) => state.ws.connected);
 
@@ -150,6 +151,7 @@ const MemberList = () => {
 
         {room.isStarted && (
           <div className="turn-and-era">
+            <Era turn={room.turn} />
             <div className="torn-counter">{room.turn}</div>
           </div>
         )}
@@ -161,7 +163,7 @@ const MemberList = () => {
     <section className="players">
       <div className="player-game">
         {displayMembers()}
-        {generateEmptySlots()}
+        {!room.isStarted && generateEmptySlots()}
         {displayBottomPanel()}
       </div>
     </section>

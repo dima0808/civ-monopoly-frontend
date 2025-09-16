@@ -1,0 +1,28 @@
+.btn-turn-and-roll {
+  cursor: pointer;
+  width: 100%;
+  height: 54px;
+  font-size: 26px;
+  border: none;
+  background-color: #643a12;
+  color: #ede1c9;
+  border-radius: 4px;
+  transition: all 0.2s ease-in-out;
+}
+.btn-turn-and-roll:disabled {
+  background-color: #4a3d31;
+  color: #ede1c9;
+}
+.btn-turn-and-roll:hover {
+  background-color: #8d5623;
+}
+.btn-turn-and-roll:active {
+  background-color: #c28247;
+}
+.div-btn-turn-and-roll {
+  height: 64px;
+  padding-top: 4px;
+}
+.events-hole {
+  height: 430px;
+}

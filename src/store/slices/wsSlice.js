@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Client } from '@stomp/stompjs';
-import Cookies from 'js-cookie';
-import { WS_BASE_URL } from '../../constants/api.js';
+import { WS_BASE_URL, WS_ENDPOINT } from '../../constants/api.js';
 
 let stompClient = null;
 
@@ -21,7 +20,7 @@ export const { setConnected } = wsSlice.actions;
 
 export const connectWebSocket = () => (dispatch) => {
   stompClient = new Client({
-    brokerURL: WS_BASE_URL,
+    brokerURL: `${WS_BASE_URL}${WS_ENDPOINT}`,
     reconnectDelay: 5000,
     onConnect: () => {
       console.log('[WS] WebSocket Connected');

@@ -1,9 +1,9 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { HTTP_BASE_URL } from '../../constants/api.js';
+import { HTTP_API_VERSION, HTTP_BASE_URL } from '../../constants/api.js';
 
 const instance = axios.create({
-  baseURL: HTTP_BASE_URL,
+  baseURL: `${HTTP_BASE_URL}${HTTP_API_VERSION}`,
 });
 
 instance.interceptors.request.use((request) => {

@@ -4,6 +4,7 @@ import wsReducer from './slices/wsSlice';
 import chatSlice from './slices/chatSlice.js';
 import notificationSlice from './slices/notificationSlice.js';
 import configSlice from './slices/configSlice.js';
+import roomSlice from './slices/roomSlice.js';
 import gameSlice from './slices/gameSlice.js';
 
 export const store = configureStore({
@@ -11,6 +12,7 @@ export const store = configureStore({
     auth: authReducer,
     chat: chatSlice,
     config: configSlice,
+    room: roomSlice,
     game: gameSlice,
     notification: notificationSlice,
     ws: wsReducer,

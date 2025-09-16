@@ -1,11 +1,49 @@
-import './styles.css';
+import './Profile.scss';
 
-const ProfileImage = ({ src }) => {
+import { HTTP_BASE_URL } from '../../constants/api.js';
+import { useRef, useState } from 'react';
+import { changeAvatar } from '../../http/requests/user.js';
+import { pushNotification } from '../../store/slices/notificationSlice.js';
+import { NOTIFICATION_ERROR } from '../../constants/notification.js';
+import { useDispatch } from 'react-redux';
+
+const ProfileImage = ({ user }) => {
+  const dispatch = useDispatch();
+  const [avatarUrl, setAvatarUrl] = useState(user.avatarUrl);
+  const fileInputRef = useRef(null);
+
+  const onChangeAvatarClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleFileChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      changeAvatar(e.target.files[0])
+        .then((data) => setAvatarUrl(data.avatarUrl))
+        .catch((e) => {
+          dispatch(
+            pushNotification({ type: NOTIFICATION_ERROR, error: e.message }),
+          );
+        });
+    }
+  };
+
   return (
     <div className="profile-left-top">
       <div className="violet-square">
-        <img src={src} className="profile-left-top-img" alt="avatarImg" />
-        <button className="profile-left-top-btn">
+        <img
+          src={`${HTTP_BASE_URL}${avatarUrl}`}
+          className="profile-left-top-img"
+          alt="avatar"
+        />
+
+        <input
+          type="file"
+          ref={fileInputRef}
+          style={{ display: 'none' }}
+          onChange={handleFileChange}
+        />
+        <button onClick={onChangeAvatarClick} className="profile-left-top-btn">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

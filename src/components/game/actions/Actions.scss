@@ -1,0 +1,484 @@
+.actions {
+  height: 720px;
+  /* background-color: #dac7a3; */
+  background-color: #d6bd9d;
+  border-radius: 9px;
+  overflow: hidden;
+}
+.static-choises {
+  border-radius: 8px;
+  height: 150px;
+  margin: 10px;
+  background-color: #f8f4e2;
+  padding: 4px;
+}
+.value {
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  color: #271d37;
+}
+.value h2 {
+  font-size: 18px;
+  font-weight: 600;
+}
+.actions .player-stat-gold,
+.actions .player-stat-strength,
+.actions .player-stat-tourism {
+  width: 73px;
+  height: 20px;
+  margin-left: 2px;
+}
+/* .top-flex{
+
+} */
+
+.military-economic {
+  margin-top: 4px;
+  display: flex;
+  justify-content: space-between;
+  list-style-type: none;
+}
+.military-economic .player-stat-gold,
+.military-economic .player-stat-strength {
+  width: 63px;
+  height: 20px;
+  margin-left: 0;
+  border-radius: 0;
+}
+/* .military-economic .player-stat-gold {
+  border-radius: 0 0 4px 4px;
+}
+.military-economic .player-stat-strength {
+  border-radius: 4px 4px 0 0;
+} */
+.li-army-gold {
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+}
+.li-army-gold-disabled {
+  cursor: default;
+  filter: grayscale(80%);
+  -webkit-filter: grayscale(80%);
+}
+.selected-military {
+  outline: 3px solid #db4b0d;
+}
+.military-economic-h2 {
+  margin-top: 6px;
+  color: #271d37;
+  font-size: 18px;
+  font-weight: 600;
+}
+.management-btns {
+  margin-top: 10px;
+}
+.management-btn {
+  cursor: pointer;
+  background-color: #3c220a;
+  color: #ede1c9;
+  font-size: 16px;
+  height: 26.4px;
+  border: none;
+  border-radius: 6px;
+  min-width: 84px;
+  padding: 2px;
+  transition: all 0.3s ease-in-out;
+}
+/*без релейшнс батона*/
+.management-btn {
+  min-width: 132px;
+  margin: 0 auto;
+}
+.management-btn:hover,
+.satings-btn:hover {
+  background-color: #5e3815;
+}
+.management-btn:active,
+.satings-btn:active {
+  background-color: #7d4f24;
+}
+.not-static-choises-checkbox {
+  height: 34px;
+  display: grid;
+  align-items: end;
+  grid-template-columns: 1fr 1fr;
+}
+.not-static-btn {
+  cursor: pointer;
+  background-color: #bca68a;
+  height: 30px;
+  font-size: 18px;
+  border: none;
+  border-radius: 6px 6px 0 0;
+  transition: all 0.3s ease-in-out;
+}
+.selected-static-btn {
+  background-color: #dac6ac;
+  height: 34px;
+}
+.chousen-div {
+  height: 516px;
+  background-color: #dac6ac;
+  padding: 10px;
+}
+.chousen-div-white {
+  padding: 3px 4px;
+  background-color: #f8f4e2;
+  height: 500px;
+  width: 100%;
+  border-radius: 8px;
+}
+.satings-btn {
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  background-color: #3c220a;
+  border: none;
+  border-radius: 4px;
+  color: #ede1c9;
+  transition: all 0.3s ease-in-out;
+}
+
+.satings-btn-svg {
+  width: 30px;
+  height: 30px;
+}
+
+.gold-per-turn {
+  background: linear-gradient(60deg, #f6aa39, #ebefa5);
+  box-shadow:
+    inset 4px 4px 10px rgba(145, 65, 58, 0.2),
+    inset -4px -4px 10px rgba(212, 226, 173, 0.735);
+  padding: 0 0 0 23px;
+}
+.gold-per-turn .recourse-img {
+  width: 19px;
+  height: 19px;
+  border-radius: 0;
+}
+.width-full {
+  padding-right: 5px;
+  width: fit-content !important;
+}
+
+/* Загальний стиль для скроллбарів */
+.firefox .chousen-div .scroll {
+  scrollbar-width: thin; /* Тонкий скроллбар */
+  scrollbar-color: #bca68a rgb(247, 242, 225); /* Фіолетовий ползунок і світло-фіолетовий фон треку */
+}
+.chousen-div .scroll::-webkit-scrollbar-track {
+  cursor: pointer;
+  background: rgb(247, 242, 225);
+  border-radius: 10px;
+}
+
+.chousen-div .scroll::-webkit-scrollbar-thumb {
+  cursor: pointer;
+  background-color: #bca68a;
+  border-radius: 10px;
+  border: 3px solid rgb(247, 242, 225);
+}
+
+.chousen-div .scroll::-webkit-scrollbar-thumb:hover {
+  background-color: #bca68a; /* Можна змінити на інший фіолетовий відтінок */
+}
+.settings-dialog {
+  width: 300px;
+
+  background-color: #f1e4fb;
+  border: 1px solid #271d37;
+  border-radius: 10px;
+  padding: 40px 20px 40px 20px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1001;
+}
+.relative-div .header-localization {
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: -22px;
+  left: 0;
+}
+.settings-ul {
+  padding-top: 16px;
+}
+.settings-ul li {
+  padding-top: 6px;
+}
+.settings-role-btn {
+  width: 100%;
+  font-family: 'Ubuntu', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 6px;
+  background-color: #d1b5e8;
+  font-size: 24px;
+  border: none;
+  height: 30px;
+  padding: 6px 10px;
+  letter-spacing: -0.5px;
+  word-spacing: 1px;
+  color: #271d37;
+  transition: all 0.3s ease-in-out;
+}
+.settings-role-btn:hover,
+.settings-role-btn:focus {
+  background-color: #d7beeb;
+}
+.settings-role-btn:active {
+  background-color: #ede1f7;
+}
+/* Стилі для контейнера повзунка */
+.volume-slider-container {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Відступ між повзунком і написом */
+  max-width: 300px; /* Максимальна ширина контейнера */
+}
+
+/* Стилі для повзунка гучності */
+.volume-slider {
+  cursor: pointer;
+  outline: none !important;
+  -webkit-appearance: none; /* Прибирає стандартний стиль браузера */
+  width: 100%; /* Робить повзунок повної ширини контейнера */
+  height: 8px; /* Висота повзунка */
+  background: #f4def6; /* Колір фону повзунка */
+  box-shadow: 0 0 2px rgba(126, 28, 212, 0.5);
+  border-radius: 5px; /* Скруглення країв повзунка */
+  outline: none; /* Прибирає стандартне обрамлення */
+  transition: background 0.3s ease;
+}
+
+/* Стилізація "повзунка" */
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Прибирає стандартний вигляд "повзунка" у Webkit */
+  appearance: none; /* Прибирає стандартний вигляд "повзунка" у всіх браузерах */
+  width: 16px; /* Ширина "повзунка" */
+  height: 16px; /* Висота "повзунка" */
+  border: none;
+  background: #8249b0; /* Колір "повзунка" */
+  border-radius: 50%; /* Скруглення "повзунка" */
+  cursor: pointer; /* Додає курсор у вигляді руки */
+  transition: background 0.3s ease;
+  z-index: 2000;
+}
+
+/* Зміна кольору "повзунка" при наведенні */
+.volume-slider::-webkit-slider-thumb:hover {
+  background: rgb(220, 199, 238);
+}
+
+/* Повзунок для браузера Firefox */
+.volume-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border: none;
+  background: #8249b0;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.volumeSlider-svg {
+  width: 24px;
+  height: 24px;
+  color: #8249b0;
+}
+.available-upgrade {
+  position: relative;
+}
+.available-upgrade::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-radius: 50%;
+  background-color: #79e469;
+  /*scale: (0);*/
+  transform: translate(10%, -10%);
+  height: 10px;
+  width: 10px;
+  border: 2px solid #3c220a;
+}
+.winner-dialog {
+  width: 592px;
+  background-color: #dac6ac;
+  border: 1px solid #271d37;
+  border-radius: 10px;
+  padding: 10px 5px 10px 5px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1001;
+}
+.vin-div {
+  background-color: #f8f4e2;
+  border: 1px solid #271d37;
+  width: 100%;
+  padding: 4px 20px;
+  border-radius: 9px;
+  margin-bottom: 10px;
+  display: flex;
+  gap: 20px;
+}
+
+.vin-div__div {
+  width: 100px;
+  height: 100px;
+}
+.vin-div__img {
+  width: 100px;
+  height: 100px;
+}
+.vin-div__h2 {
+  padding: 10px 10px 0 0;
+  overflow-wrap: break-word;
+  color: #321207;
+  font-size: 28px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  word-spacing: 1px;
+  line-height: 1;
+}
+.vin-table {
+  background-color: #dac6ac;
+  width: 100%;
+  overflow: hidden; /* Додано, щоб уникнути білих країв поза таблицею */
+}
+
+.vin-table table {
+  width: 100%;
+  border-collapse: separate; /* Уникання злиття кордонів */
+  border-spacing: 0; /* Відсутність простору між комірками */
+  border-radius: 9px; /* Закруглені краї таблиці */
+  overflow: hidden; /* Додано для обмеження фону таблиці */
+  background-color: #dac6ac; /* Додано, щоб уникнути білого фону позаду */
+}
+
+/* Окремі бордери для комірок */
+.vin-table th,
+.vin-table td {
+  border: 1px solid #271d37; /* Бордери для комірок */
+  padding: 8px;
+}
+
+/* Закруглення кутових комірок */
+.vin-table th:first-child {
+  border-top-left-radius: 9px;
+}
+.vin-table th:last-child {
+  border-top-right-radius: 9px;
+}
+
+/* Закруглення тільки для останнього рядка */
+.vin-table tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 9px;
+}
+.vin-table tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 9px;
+}
+
+.tc1 {
+  min-width: 60px;
+}
+.tc2 {
+  min-width: 60px;
+  padding: 0 5px !important;
+}
+.tr-div {
+  width: 50px;
+  height: 50px;
+}
+.tr-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+.tc3 {
+  width: 100%;
+}
+tbody .tc3 {
+  padding-left: 14px;
+  text-align: start;
+  font-size: 20px;
+}
+.tc4 {
+  min-width: 58px;
+}
+.tc5 {
+  min-width: 100px;
+}
+.vin-table tr:nth-child(2n + 1) {
+  background-color: #f8f4e2;
+}
+.vin-table tr:nth-child(2n) {
+  background-color: #faf6dc;
+}
+.vin-table th {
+  color: #faf6dc;
+  background-color: #5e3815 !important;
+  cursor: default;
+  padding: 8px 0;
+}
+.win-link {
+  cursor: pointer;
+  background-color: #5e3815;
+  color: #faf6dc;
+  font-size: 24px;
+  width: 60%;
+  height: 44px;
+  margin: 20px 20% 2px 20%;
+  border: none;
+  border-radius: 9px;
+  text-decoration: none;
+  transition: 0.3s all ease-in-out;
+}
+.win-link:hover {
+  background-color: #915d2e;
+}
+.win-link b {
+  font-weight: 700;
+  font-size: 32px;
+}
+.pause-dialog {
+  width: 320px;
+  background-color: #ad7b4b;
+  border: 1px solid #271d37;
+  border-radius: 10px;
+  padding: 4px 5px 4px 5px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -410%);
+  box-shadow: 0 4px 8px rgba(55, 50, 50, 0.1);
+  z-index: 900;
+}
+.pause__btn {
+  cursor: pointer;
+  background-color: #e5bd86;
+  color: #4a290b;
+  font-size: 34px;
+  width: 100%;
+  height: 48px;
+
+  border: none;
+  border-radius: 9px;
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 500;
+  transition: 0.3s all ease-in-out;
+}
+.pause__btn:hover {
+  background-color: #f4d5aa;
+}
+.concert-section {
+  margin-top: 10px;
+}

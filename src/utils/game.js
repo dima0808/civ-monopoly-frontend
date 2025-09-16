@@ -89,21 +89,18 @@ export const getTransform = (index, total, orientation) => {
 };
 
 const EDGE_POSITIONS = [0, 13, 24, 37];
+const TOTAL_CELLS = 48;
 
 export const getPath = (start, end) => {
   if (start === end) return [];
 
-  const isForward = end > start;
-
-  if (isForward) {
-    const corners = EDGE_POSITIONS.filter(
-      (corner) => start < corner && corner < end,
-    );
-    return [...corners, end];
-  } else {
-    const corners = EDGE_POSITIONS.filter(
-      (corner) => end < corner && corner < start,
-    ).reverse();
-    return [...corners, end];
+  const path = [];
+  let current = start;
+  while (current !== end) {
+    current = (current + 1) % TOTAL_CELLS;
+    if (EDGE_POSITIONS.includes(current) || current === end) {
+      path.push(current);
+    }
   }
+  return path;
 };

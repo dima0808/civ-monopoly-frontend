@@ -52,6 +52,9 @@ const ContactList = () => {
         case 'SEND':
           setChats((prevChats) => {
             let found = false;
+            if (prevChats == null) {
+              prevChats = [];
+            }
             prevChats.map((c) => {
               if (c.reference === chat?.reference) {
                 found = true;
@@ -62,14 +65,17 @@ const ContactList = () => {
 
             if (
               !found &&
-              su ===
+              su.username ===
                 findSecondUser(openedChatRef.current?.users, user?.username)
+                  .username
             ) {
               setTimeout(() => dispatch(setOpenedChat(chat)), 0);
             }
 
             const filtered = prevChats.filter(
-              (c) => findSecondUser(c?.users, user?.username) !== su,
+              (c) =>
+                findSecondUser(c?.users, user?.username).username !==
+                su.username,
             );
             return [chat, ...filtered];
           });
@@ -132,7 +138,10 @@ const ContactList = () => {
           key={index}
           lastMessage={chat.messages.at(-1)?.message}
           secondUser={su}
-          isSelected={findSecondUser(openedChat?.users, user?.username) === su}
+          isSelected={
+            findSecondUser(openedChat?.users, user?.username)?.username ===
+            su?.username
+          }
           onClick={() => dispatch(setOpenedChat(chat))}
         />
       );

@@ -263,6 +263,9 @@
     font-size: 20px;
     color: #a695c2;
     text-align: center;
+    &--bigger {
+      font-size: 32px;
+    }
   }
   &--list {
     margin-top: 4px;
@@ -390,11 +393,12 @@
   background-color: rgba(178, 169, 239, 0.38);
   &--img {
     margin-top: 2px;
-    width: 46px;
-    height: 46px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     display: block;
     border: 2px solid #937cd7;
+    object-fit: cover;
   }
 
   &--nickname {

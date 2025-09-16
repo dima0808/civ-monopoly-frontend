@@ -11,6 +11,7 @@ import { LEADERS } from '../../../constants/game.js';
 const Member = ({ member, isLeader, showKickButton }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const { room } = useSelector((state) => state.room);
   const [isMemberSetupOpened, setIsMemberSetupOpened] = useState(false);
 
   const onKick = () => {
@@ -61,7 +62,7 @@ const Member = ({ member, isLeader, showKickButton }) => {
         <h2 className="player__stats-h2">{member.username}</h2>
 
         <div className="player-stats-grid">
-          {user?.username === member.username ? (
+          {user?.username === member.username && !room.isStarted ? (
             <div
               onClick={() => setIsMemberSetupOpened((prev) => !prev)}
               className="civ-selector"

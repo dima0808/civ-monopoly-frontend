@@ -26,7 +26,7 @@ const Chat = () => {
   const { t } = useTranslation();
   const { reference } = useParams();
   const { user } = useSelector((state) => state.auth);
-  const { room } = useSelector((state) => state.game);
+  const { room } = useSelector((state) => state.room);
   const wsConnected = useSelector((state) => state.ws.connected);
   const messageInputRef = useRef(null);
   const chatContainerRef = useRef(null);

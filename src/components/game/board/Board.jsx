@@ -9,21 +9,80 @@ import Chat from './chat/Chat.jsx';
 import { useSelector } from 'react-redux';
 import {
   calculatePosition,
+  getPath,
   getPropertiesForPlacement,
   getTransform,
 } from '../../../utils/game.js';
 import GoodyHutCell from './cell/GoodyHutCell.jsx';
 import BarbCell from './cell/BarbCell.jsx';
+import { useEffect, useRef, useState } from 'react';
+
+const STEP_DURATION = 1000; // 500ms на одну клітинку
 
 const Board = () => {
   const propertiesConfig = useSelector((state) => state.config.properties);
-  const { room } = useSelector((state) => state.game);
+  const { room } = useSelector((state) => state.room);
+
+  // Локальний стан для відображення позицій фішок
+  const [chipPositions, setChipPositions] = useState({});
+
+  // Зберігаємо попередні позиції (щоб визначати шлях)
+  const prevPositionsRef = useRef({});
+
+  // Коли room.members змінюється — анімуємо переміщення
+  useEffect(() => {
+    const newPositions = {};
+    room.members.forEach((member) => {
+      newPositions[member.username] = member.position;
+    });
+
+    const prevPositions = prevPositionsRef.current;
+    const animations = [];
+
+    room.members.forEach((member) => {
+      const prevPos = prevPositions[member.username];
+      const newPos = member.position;
+
+      if (prevPos !== undefined && prevPos !== newPos) {
+        // Отримуємо шлях переміщення
+        const path = getPath(prevPos, newPos);
+
+        // Анімація: поступово оновлюємо позицію
+        path.forEach((pos, stepIndex) => {
+          const timeout = setTimeout(
+            () => {
+              setChipPositions((prev) => ({
+                ...prev,
+                [member.username]: pos,
+              }));
+            },
+            STEP_DURATION * (stepIndex + 1),
+          );
+          animations.push(timeout);
+        });
+      } else {
+        // Якщо новий гравець або не рухався — просто ставимо на місце
+        setChipPositions((prev) => ({
+          ...prev,
+          [member.username]: newPos,
+        }));
+      }
+    });
+
+    // Запам'ятовуємо нові позиції
+    prevPositionsRef.current = newPositions;
+
+    return () => {
+      animations.forEach(clearTimeout);
+    };
+  }, [room.members]);
 
   const membersByPosition = room.members.reduce((acc, member) => {
-    if (!acc[member.position]) {
-      acc[member.position] = [];
+    const pos = chipPositions[member.username] ?? member.position;
+    if (!acc[pos]) {
+      acc[pos] = [];
     }
-    acc[member.position].push(member);
+    acc[pos].push(member);
     return acc;
   }, {});
 
@@ -71,10 +130,9 @@ const Board = () => {
         <EdgeCell src={bermudaImg} alt="bermuda" direction="right-down" />
 
         {room.members.map((member, index) => {
-          const { topValue, leftValue, orientation } = calculatePosition(
-            member.position,
-          );
-          const samePositionMembers = membersByPosition[member.position];
+          const pos = chipPositions[member.username] ?? member.position;
+          const { topValue, leftValue, orientation } = calculatePosition(pos);
+          const samePositionMembers = membersByPosition[pos] || [];
           const transform = getTransform(
             samePositionMembers.indexOf(member),
             samePositionMembers.length,
@@ -87,6 +145,7 @@ const Board = () => {
                 top: `${topValue}px`,
                 left: `${leftValue}px`,
                 transform,
+                // transition: `top ${STEP_DURATION}ms linear, left ${STEP_DURATION}ms linear`,
               }}
               className={'game-chip color-' + member.color.toLowerCase()}
             ></div>

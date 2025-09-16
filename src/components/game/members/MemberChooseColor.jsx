@@ -1,15 +1,15 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { changeColor, getAllColors } from '../../../http/requests/game.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { pushNotification } from '../../../store/slices/notificationSlice.js';
 import { NOTIFICATION_ERROR } from '../../../constants/notification.js';
-import { displayError, displayLoading } from '../../../utils/component.jsx';
+import { DisplayError, DisplayLoading } from '../../../utils/component.jsx';
 import { useTranslation } from 'react-i18next';
 
 const MemberChooseColor = ({ member }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { room } = useSelector((state) => state.game);
+  const { room } = useSelector((state) => state.room);
 
   const [colors, setColors] = useState(null);
   const [error, setError] = useState(null);
@@ -50,8 +50,8 @@ const MemberChooseColor = ({ member }) => {
     <div className="color-picker">
       <h1 className="color-picker--h1">{t('game.leaderChoose.chooseColor')}</h1>
       <div className="color-picker--div">
-        {colors == null && !error && displayLoading()}
-        {error && displayError(error)}
+        {colors == null && !error && <DisplayLoading />}
+        {error && <DisplayError error={error} />}
 
         {colors && displayColors()}
       </div>

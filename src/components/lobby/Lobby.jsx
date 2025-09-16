@@ -92,7 +92,7 @@ const Lobby = ({ room }) => {
         {room.isStarted && (
           <div className="in-game-div">
             <p className="in-game-p">{t('lobby.gameStarted')}</p>
-            <Link to={`/game/${room.name}`} className="view-img-btn">
+            <Link to={`/game/${room.reference}`} className="view-img-btn">
               <img src={viewImg} alt="viewImg" className="view-img" />
             </Link>
           </div>

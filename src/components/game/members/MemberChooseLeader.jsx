@@ -1,14 +1,14 @@
 import { useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getAllCivilizations } from '../../../http/requests/game.js';
 import LeaderOption from './LeaderOption.jsx';
 import { Scrollbars } from 'react-custom-scrollbars';
-import { displayError, displayLoading } from '../../../utils/component.jsx';
+import { DisplayError, DisplayLoading } from '../../../utils/component.jsx';
 import { useTranslation } from 'react-i18next';
 
 const MemberChooseLeader = ({ member }) => {
   const { t } = useTranslation();
-  const { room } = useSelector((state) => state.game);
+  const { room } = useSelector((state) => state.room);
 
   const [civilizations, setCivilizations] = useState(null);
   const [error, setError] = useState(null);
@@ -37,8 +37,8 @@ const MemberChooseLeader = ({ member }) => {
       </h1>
       <div className="member-setup--list">
         <Scrollbars className="member-setup--scroll">
-          {civilizations == null && !error && displayLoading()}
-          {error && displayError(error)}
+          {civilizations == null && !error && <DisplayLoading />}
+          {error && <DisplayError error={error} />}
 
           {civilizations && displayCivilizations()}
         </Scrollbars>

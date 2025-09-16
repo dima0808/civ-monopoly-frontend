@@ -14,7 +14,7 @@ export const onEnterClick = (event, action) => {
 };
 
 export const findSecondUser = (users, currentUsername) => {
-  return users?.find((username) => username !== currentUsername);
+  return users?.find((u) => u.username !== currentUsername);
 };
 
 export const scrollToBottom = (container, messages, user) => {

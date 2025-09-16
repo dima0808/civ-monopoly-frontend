@@ -1,45 +1,26 @@
 import './Profile.scss';
+import { useTranslation } from 'react-i18next';
 
-const ProfileCredentials = () => {
+const ProfileCredentials = ({ user }) => {
+  const { t } = useTranslation();
   return (
     <div className="profile-left-bottom">
       <label className="profile-label">
-        Nickname:
+        {t('profile.username')}
         <input
           type="text"
           className="profile-input"
-          defaultValue="nickname"
-          required
-          autoComplete="new-password"
+          defaultValue={user.username}
+          disabled={true}
         />
       </label>
       <label className="profile-label">
-        E-mail:
-        <input
-          type="email"
-          className="profile-input"
-          defaultValue="example@email.com"
-          required
-          autoComplete="new-password"
-        />
+        {t('profile.changePassword')}
+        <input type="password" className="profile-input" />
       </label>
       <label className="profile-label">
-        Change Password:
-        <input
-          type="password"
-          className="profile-input"
-          required
-          autoComplete="new-password"
-        />
-      </label>
-      <label className="profile-label">
-        Repeat the Password:
-        <input
-          type="password"
-          className="profile-input"
-          required
-          autoComplete="new-password"
-        />
+        {t('profile.repeatPassword')}
+        <input type="password" className="profile-input" />
       </label>
 
       <div className="flex-between">
@@ -60,7 +41,7 @@ const ProfileCredentials = () => {
           </svg>
         </button>
         <button className="update-profile-btn profile-btn">
-          Update profile
+          {t('profile.updateProfile')}
         </button>
       </div>
     </div>

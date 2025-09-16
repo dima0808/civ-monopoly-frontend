@@ -32,6 +32,7 @@
   border-bottom: none;
 }
 .profile-left-bottom {
+  padding: 20px 16px 0 16px;
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
   border: 1px solid #5c4284;
@@ -53,6 +54,7 @@
   border: 1px solid #5c4284;
 }
 .your-profile .profile-right-bottom {
+  padding-top: 30px;
   border-radius: 0 0 12px 12px;
   border: 1px solid #5c4284;
   border-top: none;
@@ -94,7 +96,7 @@
 .profile-left-top-img {
   width: 200px;
   height: 200px;
-
+  object-fit: cover;
   border-radius: 50%;
   box-shadow: 0 0 5px 1px rgba(39, 29, 55, 0.7);
 }
@@ -143,9 +145,7 @@
   font-size: 18px;
   flex-direction: column;
   color: #271d37;
-}
-.profile-left-bottom {
-  padding: 0 16px;
+  margin-bottom: 7px;
 }
 .reverse-btn {
   margin-top: 8px;
@@ -187,7 +187,7 @@
 }
 
 .profile-right-bottom {
-  padding: 5px 20px;
+  padding: 9px 20px;
 }
 .profile-right-bottom-p {
   font-size: 22px;
@@ -283,4 +283,23 @@
 .profile-statuses .view-img-btn {
   width: 25px;
   height: 25px;
+}
+/* your-profile */
+.profile-grid {
+  display: grid;
+  //grid-template-columns: 240px 1060px;
+  grid-template-columns: 240px 1fr;
+  grid-template-rows: 240px 350px;
+  min-height: 620px;
+  row-gap: 10px;
+}
+.your-profile .profile-grid {
+  row-gap: 0;
+  column-gap: 40px;
+  //grid-template-columns: 300px 960px;
+  grid-template-columns: 300px 1fr;
+  grid-template-rows: 240px 350px;
+}
+.profile {
+  margin-top: 40px;
 }

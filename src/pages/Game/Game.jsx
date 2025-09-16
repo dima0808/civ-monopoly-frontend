@@ -3,16 +3,20 @@ import './Game.scss';
 import Board from '../../components/game/board/Board.jsx';
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPropertiesConfig } from '../../store/slices/configSlice.js';
+import {
+  getGameConfig,
+  getPropertiesConfig,
+} from '../../store/slices/configSlice.js';
 import { useParams } from 'react-router-dom';
 import MemberList from '../../components/game/members/MemberList.jsx';
-import { getRoom, setRoom } from '../../store/slices/gameSlice.js';
+import { getRoom, setRoom } from '../../store/slices/roomSlice.js';
 import { getStompClient } from '../../store/slices/wsSlice.js';
+import Actions from '../../components/game/actions/Actions.jsx';
 
 const Game = () => {
   const dispatch = useDispatch();
   const { reference } = useParams();
-  const { room } = useSelector((state) => state.game);
+  const { room } = useSelector((state) => state.room);
   const wsConnected = useSelector((state) => state.ws.connected);
 
   const onGameMessageReceived = useCallback(
@@ -48,6 +52,7 @@ const Game = () => {
 
   useEffect(() => {
     dispatch(getPropertiesConfig());
+    dispatch(getGameConfig());
   }, [dispatch]);
 
   useEffect(() => {
@@ -73,6 +78,7 @@ const Game = () => {
     <div className="grid-3">
       <MemberList />
       <Board />
+      <Actions />
     </div>
   );
 };

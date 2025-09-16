@@ -1,6 +1,6 @@
 import '../Chat.scss';
 import Message from './Message.jsx';
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   createPrivateChat,
   getChatByReference,
@@ -35,7 +35,7 @@ const Chat = () => {
   const messageInputRef = useRef(null);
   const chatContainerRef = useRef(null);
 
-  const secondUser = findSecondUser(chat?.users, user?.username);
+  const secondUser = findSecondUser(chat?.users, user?.username)?.username;
 
   const onPrivateMessageReceived = (wsMessage) => {
     const { message, type } = JSON.parse(wsMessage.body);

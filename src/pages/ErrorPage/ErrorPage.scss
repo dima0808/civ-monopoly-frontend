@@ -1,0 +1,27 @@
+.not-found-div h1 {
+  font-size: 280px;
+  background: linear-gradient(to bottom, #ead4fd, #5c4284);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  /* Для підтримки в інших браузерах */
+  background-clip: text;
+  text-emphasis-color: transparent;
+}
+
+.not-found-div p {
+  font-size: 36px;
+  margin-top: -44px;
+  background: linear-gradient(to bottom, #5c4284, #271d37);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  /* Для підтримки в інших браузерах */
+  background-clip: text;
+  text-emphasis-color: transparent;
+  border-bottom: 3px solid #271d37;
+  word-spacing: 3px;
+}
+.not-found-div {
+  min-height: calc(100vh - 90px);
+  flex-direction: column;
+  padding-bottom: 120px;
+}

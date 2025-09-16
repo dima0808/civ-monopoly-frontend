@@ -1,7 +1,9 @@
 .header {
   height: 82px;
   width: 100%;
-
+  &--simple .header__ul {
+    display: flex !important;
+  }
   //background-color: #d1b5e8;
   background-color: #ccb3ea;
   box-shadow:
@@ -64,7 +66,6 @@
     margin-right: -10px;
   }
   &__anchor {
-    transition: 0.2s ease-out;
     font-size: 24px;
     /* text-shadow: 0 0 5px rgba(92, 66, 132, 0.5); */
     transition: box-shadow 0.3s ease;

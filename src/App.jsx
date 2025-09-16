@@ -3,6 +3,7 @@ import HomePage from './pages/HomePage/HomePage.jsx';
 import RulesPage from './pages/RulesPage/RulesPage.jsx';
 import SignInPage from './pages/authentication/SignInPage.jsx';
 import SignUpPage from './pages/authentication/SignUpPage.jsx';
+import ErrorPage from './pages/ErrorPage/ErrorPage.jsx';
 import { useTranslation } from 'react-i18next';
 import { DEFAULT_LANGUAGE, LANGUAGES } from './constants/lang.js';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -23,6 +24,7 @@ import {
 } from './constants/notification.js';
 import { findSecondUser } from './utils/chat.js';
 import Game from './pages/Game/Game.jsx';
+import Profile from './pages/Profile/Profile.jsx';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -48,7 +50,8 @@ const App = () => {
           <Route path="signin" element={<SignInPage />} />
           <Route path="signup" element={<SignUpPage />} />
           <Route path="game/:reference" element={<Game />} />
-          <Route path="*" element={<div>404 Not Found</div>} /> // TODO: 404page
+          <Route path="profile/:username" element={<Profile />} />
+          <Route path="*" element={<ErrorPage />} />
         </Route>
       </Routes>
     </ChatAndNotificationLayout>

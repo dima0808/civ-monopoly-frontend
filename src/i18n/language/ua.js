@@ -194,10 +194,16 @@ export const ua = {
     rottedPotatoes: 'Деякі картоплини зіпсувалися й потребують заміни',
   },
   profile: {
-    errorOccurred: 'Сталася помилка',
-    notFoundMessagePrefix: "Користувача з нікнеймом '",
-    notFoundMessageSuffix: "' не знайдено",
-    privateProfileClass: 'твій-профіль', // або залишити без перекладу, якщо це CSS клас
+    username: "Ім'я користувача:",
+    changePassword: 'Змінити пароль:',
+    repeatPassword: 'Повторити пароль:',
+    updateProfile: 'Оновити дані',
+    achievements: 'Досягнення',
+    inGame: 'В грі:',
+    writeMessage: 'Відкрити діалог',
+    matches: 'Матчі',
+    wins: 'Перемоги',
+    average: 'Ср.Місце',
   },
   notification: {
     clearAll: 'Почистити все',

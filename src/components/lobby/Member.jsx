@@ -1,10 +1,11 @@
 import './Lobby.scss';
-import avatarImg from '../../images/avatar.png';
+
 import { Link } from 'react-router-dom';
 import { kickMember } from '../../http/requests/room.js';
 import { pushNotification } from '../../store/slices/notificationSlice.js';
 import { NOTIFICATION_ERROR } from '../../constants/notification.js';
 import { useDispatch } from 'react-redux';
+import { HTTP_BASE_URL } from '../../constants/api.js';
 
 const Member = ({ member, isLeader, showKickButton }) => {
   const dispatch = useDispatch();
@@ -23,12 +24,15 @@ const Member = ({ member, isLeader, showKickButton }) => {
     <div className="lobby__member">
       <div className={`lobby__member-avatar${isLeader ? ' leader' : ''}`}>
         <img
-          src={avatarImg}
+          src={`${HTTP_BASE_URL}${member.avatarUrl}`}
           className="lobby__member-avatar-img"
           alt="avatar"
         />
       </div>
-      <Link to="/home" className="lobby__member-nickname">
+      <Link
+        to={`/profile/${member.username}`}
+        className="lobby__member-nickname"
+      >
         {member.username}
       </Link>
       {showKickButton && (

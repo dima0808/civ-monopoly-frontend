@@ -6,5 +6,5 @@ export const BACKEND_PORT = import.meta.env.VITE_HOST_BACKEND_PORT || '';
 export const HTTP_API_VERSION = '/api/v1';
 export const WS_ENDPOINT = '/ws';
 
-export const HTTP_BASE_URL = `${HTTP_PROTOCOL}://${IP}${BACKEND_PORT}${HTTP_API_VERSION}`;
-export const WS_BASE_URL = `${WS_PROTOCOL}://${IP}${BACKEND_PORT}${WS_ENDPOINT}`;
+export const HTTP_BASE_URL = `${HTTP_PROTOCOL}://${IP}${BACKEND_PORT}`;
+export const WS_BASE_URL = `${WS_PROTOCOL}://${IP}${BACKEND_PORT}`;
