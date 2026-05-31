@@ -26,3 +26,123 @@
 .events-hole {
   height: 430px;
 }
+
+.event-card {
+  border-radius: 6px;
+  background-color: #eee;
+  border: 1px solid #636466;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.event-card-header {
+  text-align: center;
+  cursor: default;
+  background-color: #636466cd;
+  padding: 2px 15px;
+  overflow-wrap: break-word;
+  color: #eee;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+}
+
+.event-card-body {
+  padding: 4px;
+}
+
+.event-card-grid {
+  display: grid;
+  grid-template-columns: 70px 1fr;
+  gap: 4px;
+  padding-bottom: 4px;
+}
+
+.event-card-img-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.event-card-img {
+  width: 64px;
+  height: 64px;
+}
+
+.event-card-stats {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+}
+
+.event-stat {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  letter-spacing: -0.5px;
+  color: #2b2732;
+}
+
+.event-stat-value {
+  display: flex;
+  align-items: center;
+  margin-left: 4px;
+  font-weight: 500;
+}
+
+.event-stat-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 2px;
+}
+
+.event-card-buttons {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 6px;
+  gap: 8px;
+}
+
+.event-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  border-radius: 6px;
+  border: 1px solid #2b2732;
+  font-size: 16px;
+  height: 28px;
+  flex: 1;
+  color: #eee;
+  font-family: inherit;
+  transition: all 0.2s ease-in-out;
+}
+
+.event-btn:disabled {
+  background-color: #7c7d7fcd;
+  border: none;
+  cursor: default;
+}
+
+.event-btn-buy {
+  background-color: #668a44;
+}
+.event-btn-buy:hover:not(:disabled) {
+  background-color: #7da558;
+}
+.event-btn-buy:active:not(:disabled) {
+  background-color: #95c06e;
+}
+
+.event-btn-skip {
+  background-color: #df1728;
+}
+.event-btn-skip:hover {
+  background-color: #e93443;
+}
+.event-btn-skip:active {
+  background-color: #f14d5a;
+}

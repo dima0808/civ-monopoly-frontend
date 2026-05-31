@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Events from './events/Events.jsx';
 import { setSelectedTab } from '../../../store/slices/gameSlice.js';
 
-const Actions = () => {
+const Actions = ({ events }) => {
   const dispatch = useDispatch();
   const { selectedTab } = useSelector((state) => state.game);
 
@@ -35,7 +35,11 @@ const Actions = () => {
 
         <div className="chousen-div">
           <div className="chousen-div-white">
-            {selectedTab === 'EVENTS' ? <Events /> : <div></div>}
+            {selectedTab === 'EVENTS' ? (
+              <Events events={events} />
+            ) : (
+              <div></div>
+            )}
           </div>
         </div>
       </div>

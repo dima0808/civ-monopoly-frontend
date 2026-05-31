@@ -14,6 +14,7 @@ import { getStompClient } from '../../store/slices/wsSlice.js';
 import Actions from '../../components/game/actions/Actions.jsx';
 import Dice from '../../components/game/board/dice/Dice.jsx';
 import diceRollSound from '../../sounds/dice-rolling.mp3';
+import Cookies from 'js-cookie';
 
 const diceRollAudio = new Audio(diceRollSound);
 diceRollAudio.volume = 0.05;
@@ -22,8 +23,10 @@ const Game = () => {
   const dispatch = useDispatch();
   const { reference } = useParams();
   const { room } = useSelector((state) => state.room);
+  const { user } = useSelector((state) => state.auth);
   const wsConnected = useSelector((state) => state.ws.connected);
   const [dice, setDice] = useState({ firstRoll: null, secondRoll: null });
+  const [events, setEvents] = useState([]);
 
   const onGameMessageReceived = useCallback(
     (wsMessage) => {
@@ -53,18 +56,53 @@ const Game = () => {
     [dispatch],
   );
 
+  const onEventMessageReceived = useCallback((wsMessage) => {
+    const { event, type } = JSON.parse(wsMessage.body);
+    switch (type) {
+      case 'ADD_EVENT':
+        setEvents((prev) => [...prev, event]);
+        break;
+      case 'DELETE_EVENT':
+        setEvents((prev) => prev.filter((e) => e.type !== event.type));
+        break;
+      case 'DELETE_ALL_EVENTS':
+        setEvents([]);
+        break;
+    }
+  }, []);
+
   useEffect(() => {
     const client = getStompClient();
     if (!client || !wsConnected) return;
+    const subscriptions = [];
 
-    const subscription = client.subscribe(
+    const gameSubscription = client.subscribe(
       '/topic/games/' + reference,
       onGameMessageReceived,
     );
+    subscriptions.push(gameSubscription);
+
+    if (user) {
+      const eventSubscription = client.subscribe(
+        `/user/${user.username}/events`,
+        onEventMessageReceived,
+        {
+          Authorization: `Bearer ${Cookies.get('token')}`,
+        },
+      );
+      subscriptions.push(eventSubscription);
+    }
+
     return () => {
-      subscription.unsubscribe();
+      subscriptions.forEach((sub) => sub.unsubscribe());
     };
-  }, [onGameMessageReceived, reference, wsConnected]);
+  }, [
+    onGameMessageReceived,
+    onEventMessageReceived,
+    reference,
+    user,
+    wsConnected,
+  ]);
 
   useEffect(() => {
     dispatch(getPropertiesConfig());
@@ -94,7 +132,7 @@ const Game = () => {
     <div className="grid-3">
       <MemberList />
       <Board dice={dice} />
-      <Actions />
+      <Actions events={events} />
     </div>
   );
 };

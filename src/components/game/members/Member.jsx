@@ -7,6 +7,10 @@ import { NOTIFICATION_ERROR } from '../../../constants/notification.js';
 import MemberSetupDialog from './MemberSetupDialog.jsx';
 import { useState } from 'react';
 import { LEADERS } from '../../../constants/game.js';
+import goldImg from '../../../images/icon-gold.png';
+import strengthImg from '../../../images/icon-strength.png';
+import tourismImg from '../../../images/icon-tourism.png';
+import scoreImg from '../../../images/icon-city-center.png';
 
 const Member = ({ member, isLeader, showKickButton }) => {
   const dispatch = useDispatch();
@@ -62,7 +66,30 @@ const Member = ({ member, isLeader, showKickButton }) => {
         <h2 className="player__stats-h2">{member.username}</h2>
 
         <div className="player-stats-grid">
-          {user?.username === member.username && !room.isStarted ? (
+          {room.isStarted ? (
+            <>
+              <div className="player-stat-gold no-select">
+                <img src={goldImg} className="recourse-img" alt="gold" />
+                {member.gold}
+              </div>
+              <div className="player-stat-strength no-select">
+                <img
+                  src={strengthImg}
+                  className="recourse-img strength-recourse-img"
+                  alt="strength"
+                />
+                {member.strength}
+              </div>
+              <div className="player-stat-tourism no-select">
+                <img src={tourismImg} className="recourse-img" alt="tourism" />
+                {member.tourism}
+              </div>
+              <div className="player-stat-score no-select">
+                <img src={scoreImg} className="recourse-img" alt="score" />
+                {member.score}
+              </div>
+            </>
+          ) : user?.username === member.username ? (
             <div
               onClick={() => setIsMemberSetupOpened((prev) => !prev)}
               className="civ-selector"
