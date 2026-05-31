@@ -264,7 +264,7 @@ export const LEADERS = {
   RANDOM: {
     src: leaderRandomImg,
     name: 'Random',
-    civilization: 'Frustration',
+    civilization: 'Random',
   },
   AMERICA: {
     src: leaderAmericaImg,

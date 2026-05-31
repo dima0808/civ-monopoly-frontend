@@ -15,11 +15,12 @@ import {
 } from '../../../utils/game.js';
 import GoodyHutCell from './cell/GoodyHutCell.jsx';
 import BarbCell from './cell/BarbCell.jsx';
+import Dice from './dice/Dice.jsx';
 import { useEffect, useRef, useState } from 'react';
 
 const STEP_DURATION = 1000; // 500ms на одну клітинку
 
-const Board = () => {
+const Board = ({ dice }) => {
   const propertiesConfig = useSelector((state) => state.config.properties);
   const { room } = useSelector((state) => state.room);
 
@@ -128,6 +129,8 @@ const Board = () => {
         />
 
         <EdgeCell src={bermudaImg} alt="bermuda" direction="right-down" />
+
+        <Dice dice={dice} />
 
         {room.members.map((member, index) => {
           const pos = chipPositions[member.username] ?? member.position;

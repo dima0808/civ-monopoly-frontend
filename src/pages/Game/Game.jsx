@@ -1,7 +1,7 @@
 import './Game.scss';
 
 import Board from '../../components/game/board/Board.jsx';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getGameConfig,
@@ -12,12 +12,18 @@ import MemberList from '../../components/game/members/MemberList.jsx';
 import { getRoom, setRoom } from '../../store/slices/roomSlice.js';
 import { getStompClient } from '../../store/slices/wsSlice.js';
 import Actions from '../../components/game/actions/Actions.jsx';
+import Dice from '../../components/game/board/dice/Dice.jsx';
+import diceRollSound from '../../sounds/dice-rolling.mp3';
+
+const diceRollAudio = new Audio(diceRollSound);
+diceRollAudio.volume = 0.05;
 
 const Game = () => {
   const dispatch = useDispatch();
   const { reference } = useParams();
   const { room } = useSelector((state) => state.room);
   const wsConnected = useSelector((state) => state.ws.connected);
+  const [dice, setDice] = useState({ firstRoll: null, secondRoll: null });
 
   const onGameMessageReceived = useCallback(
     (wsMessage) => {
@@ -28,10 +34,20 @@ const Game = () => {
           break;
         case 'END_TURN':
         case 'FORCE_END_TURN':
-        case 'ROLL_DICE':
-        case 'FORCE_ROLL_DICE':
           dispatch(setRoom(updatedRoom));
           break;
+        case 'ROLL_DICE':
+        case 'FORCE_ROLL_DICE': {
+          dispatch(setRoom(updatedRoom));
+          const diceResult = updatedRoom.ext.diceResult;
+          setDice({
+            firstRoll: diceResult.firstRoll,
+            secondRoll: diceResult.secondRoll,
+          });
+          diceRollAudio.currentTime = 0;
+          diceRollAudio.play().catch(() => {});
+          break;
+        }
       }
     },
     [dispatch],
@@ -77,7 +93,7 @@ const Game = () => {
   return (
     <div className="grid-3">
       <MemberList />
-      <Board />
+      <Board dice={dice} />
       <Actions />
     </div>
   );

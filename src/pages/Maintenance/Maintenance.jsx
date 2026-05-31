@@ -1,4 +1,4 @@
-import './Maintenance.css';
+import './Maintenance.scss';
 import potatoesImg from '../../images/potato-network.jpg';
 
 const Maintenance = () => {
