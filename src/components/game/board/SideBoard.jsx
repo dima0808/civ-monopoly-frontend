@@ -4,7 +4,12 @@ import Cell from './cell/Cell.jsx';
 import { BOARD_CELL_RANGE } from '../../../constants/game.js';
 import { cloneElement } from 'react';
 
-const SideBoard = ({ placement, properties, uniqueCells = [] }) => {
+const SideBoard = ({
+  placement,
+  properties,
+  ownedProperties = {},
+  uniqueCells = [],
+}) => {
   const cellOrientation =
     placement === 'left' || placement === 'right' ? 'horizontal' : 'vertical';
   const isCellMirrored = placement === 'down' || placement === 'right';
@@ -25,6 +30,7 @@ const SideBoard = ({ placement, properties, uniqueCells = [] }) => {
             placement={placement}
             isMirrored={isCellMirrored}
             property={properties[i]}
+            ownedProperty={ownedProperties[i]}
           />
         );
       } else if (

@@ -27,6 +27,13 @@ const roomSlice = createSlice({
         m.username === updatedMember.username ? updatedMember : m,
       );
     },
+    updateMembers: (state, action) => {
+      const updatedMembers = action.payload;
+      state.room.members = state.room.members.map((m) => {
+        const updated = updatedMembers.find((u) => u.username === m.username);
+        return updated || m;
+      });
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -39,6 +46,5 @@ const roomSlice = createSlice({
   },
 });
 
-export const { setRoom } = roomSlice.actions;
-export const { updateMember } = roomSlice.actions;
+export const { setRoom, updateMember, updateMembers } = roomSlice.actions;
 export default roomSlice.reducer;

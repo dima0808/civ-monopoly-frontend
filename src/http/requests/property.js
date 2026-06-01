@@ -13,3 +13,8 @@ export const payRent = async (position) => {
   });
   return data;
 };
+
+export const getPropertiesByRoom = async (roomReference) => {
+  const { data } = await axios.get(`${REQUEST_MAPPING}/room/${roomReference}`);
+  return data;
+};

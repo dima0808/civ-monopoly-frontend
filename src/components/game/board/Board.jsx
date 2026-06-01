@@ -20,7 +20,7 @@ import { useEffect, useRef, useState } from 'react';
 
 const STEP_DURATION = 1000; // 500ms на одну клітинку
 
-const Board = ({ dice }) => {
+const Board = ({ dice, ownedProperties }) => {
   const propertiesConfig = useSelector((state) => state.config.properties);
   const { room } = useSelector((state) => state.room);
 
@@ -103,6 +103,7 @@ const Board = ({ dice }) => {
         <SideBoard
           placement="up"
           properties={getPropertiesForPlacement('up', propertiesConfig)}
+          ownedProperties={ownedProperties}
           uniqueCells={[<GoodyHutCell />]}
         />
 
@@ -111,6 +112,7 @@ const Board = ({ dice }) => {
         <SideBoard
           placement="left"
           properties={getPropertiesForPlacement('left', propertiesConfig)}
+          ownedProperties={ownedProperties}
         />
 
         <Chat />
@@ -118,6 +120,7 @@ const Board = ({ dice }) => {
         <SideBoard
           placement="right"
           properties={getPropertiesForPlacement('right', propertiesConfig)}
+          ownedProperties={ownedProperties}
         />
 
         <EdgeCell src={projectsImg} alt="projects" direction="left-down" />
@@ -125,6 +128,7 @@ const Board = ({ dice }) => {
         <SideBoard
           placement="down"
           properties={getPropertiesForPlacement('down', propertiesConfig)}
+          ownedProperties={ownedProperties}
           uniqueCells={[<BarbCell />]}
         />
 

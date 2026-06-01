@@ -10,8 +10,26 @@ const Cell = ({
   placement,
   isMirrored,
   property: { name, type, upgrades },
+  ownedProperty,
 }) => {
+  const ownerColor = ownedProperty?.member?.color;
+
   const displayPrice = () => {
+    if (ownerColor) {
+      const isWonder = type === 'WONDER';
+      const isEncampment = type === 'DISTRICT_ENCAMPMENT';
+      const value = isWonder
+        ? upgrades['LEVEL_1'].tourism
+        : upgrades['LEVEL_1'].gos;
+      return (
+        <div
+          className={`object-${orientation}__price no-select price-${type.toLowerCase()} ${isWonder ? 'object-tourism' : 'object-gold-on-step'}`}
+        >
+          {value}
+          {isEncampment ? 'x' : ''}
+        </div>
+      );
+    }
     return (
       <div
         className={`object-${orientation}__price no-select price-${type.toLowerCase()} ${type === 'WONDER' ? 'object-tourism' : ''}`}
@@ -23,9 +41,10 @@ const Cell = ({
 
   const displayImage = () => {
     const lastLevelUpgraded = 'LEVEL_1';
+    const colorClass = ownerColor ? `color-${ownerColor.toLowerCase()}-g` : '';
     return (
       <div
-        className={`object-${orientation}__cell ${Object.keys(upgrades).length < 2 && `object-${orientation}__cell-none-upgrades`}`}
+        className={`object-${orientation}__cell ${colorClass} ${Object.keys(upgrades).length < 2 && `object-${orientation}__cell-none-upgrades`}`}
       >
         <div className="not-blur">
           <img

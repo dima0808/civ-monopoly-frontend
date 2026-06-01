@@ -9,10 +9,16 @@ import {
 } from '../../store/slices/configSlice.js';
 import { useParams } from 'react-router-dom';
 import MemberList from '../../components/game/members/MemberList.jsx';
-import { getRoom, setRoom } from '../../store/slices/roomSlice.js';
+import {
+  getRoom,
+  setRoom,
+  updateMembers,
+} from '../../store/slices/roomSlice.js';
 import { getStompClient } from '../../store/slices/wsSlice.js';
 import Actions from '../../components/game/actions/Actions.jsx';
 import Dice from '../../components/game/board/dice/Dice.jsx';
+import { getPropertiesByRoom } from '../../http/requests/property.js';
+import { getMyEvents } from '../../http/requests/event.js';
 import diceRollSound from '../../sounds/dice-rolling.mp3';
 import Cookies from 'js-cookie';
 
@@ -27,28 +33,48 @@ const Game = () => {
   const wsConnected = useSelector((state) => state.ws.connected);
   const [dice, setDice] = useState({ firstRoll: null, secondRoll: null });
   const [events, setEvents] = useState([]);
+  const [ownedProperties, setOwnedProperties] = useState({});
 
   const onGameMessageReceived = useCallback(
     (wsMessage) => {
-      const { room: updatedRoom, type } = JSON.parse(wsMessage.body);
+      const message = JSON.parse(wsMessage.body);
+      const { type } = message;
       switch (type) {
         case 'START':
-          dispatch(setRoom(updatedRoom));
+          dispatch(setRoom(message.room));
           break;
         case 'END_TURN':
         case 'FORCE_END_TURN':
-          dispatch(setRoom(updatedRoom));
+          dispatch(setRoom(message.room));
           break;
         case 'ROLL_DICE':
         case 'FORCE_ROLL_DICE': {
-          dispatch(setRoom(updatedRoom));
-          const diceResult = updatedRoom.ext.diceResult;
+          dispatch(setRoom(message.room));
+          const diceResult = message.room.ext.diceResult;
           setDice({
             firstRoll: diceResult.firstRoll,
             secondRoll: diceResult.secondRoll,
           });
           diceRollAudio.currentTime = 0;
           diceRollAudio.play().catch(() => {});
+          break;
+        }
+        case 'PROPERTY_BUY':
+        case 'PROPERTY_UPGRADE':
+        case 'PROPERTY_MORTGAGE':
+        case 'PROPERTY_DEMOTE':
+        case 'PROPERTY_BUYBACK':
+        case 'RENT_PAY': {
+          const { property, members } = message;
+          if (members && members.length > 0) {
+            dispatch(updateMembers(members));
+          }
+          if (property && type === 'PROPERTY_BUY') {
+            setOwnedProperties((prev) => ({
+              ...prev,
+              [property.position]: property,
+            }));
+          }
           break;
         }
       }
@@ -114,6 +140,22 @@ const Game = () => {
   }, [dispatch, reference]);
 
   useEffect(() => {
+    getPropertiesByRoom(reference).then((properties) => {
+      const map = {};
+      properties.forEach((p) => {
+        map[p.position] = p;
+      });
+      setOwnedProperties(map);
+    });
+  }, [reference]);
+
+  useEffect(() => {
+    getMyEvents().then((fetchedEvents) => {
+      setEvents(fetchedEvents);
+    });
+  }, []);
+
+  useEffect(() => {
     document.documentElement.classList.add('game-html');
     return () => {
       document.documentElement.classList.remove('game-html');
@@ -131,7 +173,7 @@ const Game = () => {
   return (
     <div className="grid-3">
       <MemberList />
-      <Board dice={dice} />
+      <Board dice={dice} ownedProperties={ownedProperties} />
       <Actions events={events} />
     </div>
   );
