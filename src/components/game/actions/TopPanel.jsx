@@ -1,10 +1,12 @@
 import './Actions.scss';
 
 import goldPerTurnImg from '../../../images/icon-gold-per-turn.png';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ArmySpending from './ArmySpending.jsx';
+import { setSelectedTab } from '../../../store/slices/gameSlice.js';
 
 const TopPanel = () => {
+  const dispatch = useDispatch();
   const gameConfig = useSelector((state) => state.config.game);
 
   const displayArmySpending = () => {
@@ -56,7 +58,12 @@ const TopPanel = () => {
       <ul className="military-economic">{displayArmySpending()}</ul>
 
       <div className="flex-between management-btns">
-        <button className={'management-btn available-upgrade'}>Empire</button>
+        <button
+          className={'management-btn available-upgrade'}
+          onClick={() => dispatch(setSelectedTab('MANAGEMENT'))}
+        >
+          Empire
+        </button>
         <button className="management-btn">Wins</button>
       </div>
     </div>

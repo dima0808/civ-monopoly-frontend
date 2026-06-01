@@ -69,7 +69,7 @@ const Game = () => {
           if (members && members.length > 0) {
             dispatch(updateMembers(members));
           }
-          if (property && type === 'PROPERTY_BUY') {
+          if (property) {
             setOwnedProperties((prev) => ({
               ...prev,
               [property.position]: property,
@@ -142,6 +142,7 @@ const Game = () => {
   useEffect(() => {
     getPropertiesByRoom(reference).then((properties) => {
       const map = {};
+      console.log(properties);
       properties.forEach((p) => {
         map[p.position] = p;
       });
@@ -174,7 +175,7 @@ const Game = () => {
     <div className="grid-3">
       <MemberList />
       <Board dice={dice} ownedProperties={ownedProperties} />
-      <Actions events={events} />
+      <Actions events={events} ownedProperties={ownedProperties} />
     </div>
   );
 };

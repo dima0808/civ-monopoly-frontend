@@ -1,0 +1,49 @@
+.empire-list {
+  height: 490px;
+  overflow-y: auto;
+  padding: 2px;
+}
+
+.empire-card {
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.empire-card-name {
+  text-align: center;
+  cursor: default;
+  padding: 2px 15px;
+  overflow-wrap: break-word;
+  color: #eee;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+}
+
+.empire-card .event-card-body {
+  background-color: #aba6a671;
+  padding-bottom: 4px;
+}
+
+.empire-card-mortgaged {
+  position: relative;
+}
+
+.empire-card-mortgaged .event-card-body {
+  background-color: rgba(125, 123, 123, 0.687);
+}
+
+.empire-card-mortgaged .event-card-img {
+  filter: grayscale(55%);
+}
+
+.empire-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 490px;
+  color: #636466;
+  font-size: 18px;
+}

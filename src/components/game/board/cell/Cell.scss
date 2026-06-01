@@ -132,6 +132,29 @@
   width: 100%;
   height: 70px;
 }
+.gray-blur {
+  background-color: rgba(125, 123, 123, 0.687);
+  position: relative;
+}
+.gray-blur::after {
+  position: absolute;
+  content: var(--mortgage-value);
+  height: 28px;
+  width: 28px;
+  z-index: 50;
+  top: 0;
+  right: 0;
+  background-image: url('../../../../images/icon-locked.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  padding-top: 10px;
+  text-align: center;
+  font-size: 16px;
+  color: #eee;
+}
+.gray-blur .cell-img {
+  filter: grayscale(55%);
+}
 .object-horizontal__cell .not-blur {
   height: 100%;
 }

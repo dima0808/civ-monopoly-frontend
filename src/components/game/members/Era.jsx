@@ -32,9 +32,8 @@ const Era = ({ turn }) => {
   for (const [era, max] of eras) {
     previousMax = maxTurn;
     maxTurn = max;
+    currentEra = era;
     if (turn <= max) {
-      currentEra = era;
-      maxTurn = max;
       break;
     }
   }

@@ -13,6 +13,8 @@ const Cell = ({
   ownedProperty,
 }) => {
   const ownerColor = ownedProperty?.member?.color;
+  const isMortgaged =
+    ownedProperty?.mortgage != null && ownedProperty.mortgage !== -1;
 
   const displayPrice = () => {
     if (ownerColor) {
@@ -46,7 +48,14 @@ const Cell = ({
       <div
         className={`object-${orientation}__cell ${colorClass} ${Object.keys(upgrades).length < 2 && `object-${orientation}__cell-none-upgrades`}`}
       >
-        <div className="not-blur">
+        <div
+          className={`not-blur ${isMortgaged ? 'gray-blur' : ''}`}
+          style={
+            isMortgaged
+              ? { '--mortgage-value': `"${ownedProperty.mortgage}"` }
+              : undefined
+          }
+        >
           <img
             src={CELL_IMAGES[name][lastLevelUpgraded]}
             alt={upgrades[lastLevelUpgraded].name}

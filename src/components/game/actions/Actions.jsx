@@ -3,9 +3,10 @@ import './Actions.scss';
 import TopPanel from './TopPanel.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import Events from './events/Events.jsx';
+import Empire from './empire/Empire.jsx';
 import { setSelectedTab } from '../../../store/slices/gameSlice.js';
 
-const Actions = ({ events }) => {
+const Actions = ({ events, ownedProperties }) => {
   const dispatch = useDispatch();
   const { selectedTab } = useSelector((state) => state.game);
 
@@ -38,7 +39,7 @@ const Actions = ({ events }) => {
             {selectedTab === 'EVENTS' ? (
               <Events events={events} />
             ) : (
-              <div></div>
+              <Empire ownedProperties={ownedProperties} />
             )}
           </div>
         </div>
