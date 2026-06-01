@@ -20,9 +20,12 @@ const Cell = ({
     if (ownerColor) {
       const isWonder = type === 'WONDER';
       const isEncampment = type === 'DISTRICT_ENCAMPMENT';
-      const value = isWonder
-        ? upgrades['LEVEL_1'].tourism
-        : upgrades['LEVEL_1'].gos;
+      const ownedUpgrades = ownedProperty?.upgrades || [];
+      const value = ownedUpgrades.reduce((sum, level) => {
+        const levelData = upgrades[level];
+        if (!levelData) return sum;
+        return sum + (isWonder ? levelData.tourism : levelData.gos);
+      }, 0);
       return (
         <div
           className={`object-${orientation}__price no-select price-${type.toLowerCase()} ${isWonder ? 'object-tourism' : 'object-gold-on-step'}`}
