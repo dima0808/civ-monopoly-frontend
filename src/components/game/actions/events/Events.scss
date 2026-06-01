@@ -98,6 +98,30 @@
   margin-right: 2px;
 }
 
+.event-req-div {
+  background-color: #cfd1d3cd;
+  border-radius: 6px;
+  margin: 3px 8px;
+  padding: 2px 4px;
+}
+
+.event-req-text {
+  overflow-wrap: break-word;
+  font-size: 16px;
+  letter-spacing: -0.5px;
+  word-spacing: 1px;
+  line-height: 1.1;
+  color: #2b2732;
+}
+
+.event-req-div.event-req-div-unmet {
+  background-color: #9a9c9ecd;
+}
+
+.event-req-div.event-req-div-unmet .event-req-text {
+  color: #641a2b;
+}
+
 .event-card-buttons {
   display: flex;
   justify-content: space-between;

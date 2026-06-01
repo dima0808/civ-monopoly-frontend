@@ -45,3 +45,8 @@ export const buybackProperty = async (position) => {
   });
   return data;
 };
+
+export const getPropertyRequirements = async () => {
+  const { data } = await axios.get(`${REQUEST_MAPPING}/requirements`);
+  return data;
+};

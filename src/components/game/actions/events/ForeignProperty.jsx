@@ -3,13 +3,35 @@ import goldPerTurnImg from '../../../../images/icon-gold-per-turn.png';
 import tourismImg from '../../../../images/icon-tourism.png';
 import { CELL_IMAGES } from '../../../../constants/game.js';
 
-const ForeignProperty = ({ propertyConfig, roll, member, onPay }) => {
+const LEVEL_ORDER = [
+  'LEVEL_1',
+  'LEVEL_2',
+  'LEVEL_3',
+  'LEVEL_4',
+  'LEVEL_4_1',
+  'LEVEL_4_2',
+  'LEVEL_4_3',
+];
+
+const ForeignProperty = ({
+  propertyConfig,
+  ownedProperty,
+  roll,
+  member,
+  onPay,
+}) => {
   const upgrade = propertyConfig.upgrades['LEVEL_1'];
-  const image = CELL_IMAGES[propertyConfig.name]?.['LEVEL_1'];
+  const ownedUpgrades = ownedProperty?.upgrades || [];
+  const highestLevel =
+    LEVEL_ORDER.filter((l) => ownedUpgrades.includes(l)).at(-1) || 'LEVEL_1';
+  const image = CELL_IMAGES[propertyConfig.name]?.[highestLevel];
   const rentAmount = upgrade.gos * (roll || 1);
+  const ownerColor = ownedProperty?.member?.color;
 
   return (
-    <div className="event-card">
+    <div
+      className={`event-card ${ownerColor ? `color-${ownerColor.toLowerCase()}-g` : ''}`}
+    >
       <div className="event-card-header">{propertyConfig.name}</div>
       <div className="event-card-body">
         <div className="event-card-grid">

@@ -105,6 +105,54 @@ import wonderOxfordUniversityImg from '../images/wonder_oxford_university.png';
 
 import districtSpaceportImg from '../images/icon_district_spaceport.png';
 
+// Building / upgrade images
+import stableImg from '../images/building_encampment_build1_icon_stable.png';
+import armoryImg from '../images/building_encampment_build2_icon_armory.png';
+import militaryAcademyImg from '../images/building_encampment_build3_icon_military_academy.png';
+
+import warlordsThroneImg from '../images/building_government_build1_icon_gov_conquest.png';
+import intelligenceAgencyImg from '../images/building_government_build2_icon_gov_spies.png';
+import scienceDepartmentImg from '../images/building_government_build3-1_icon_gov_science.png';
+import cultureDepartmentImg from '../images/building_government_build3-2_icon_gov_culture.png';
+import warDepartmentImg from '../images/building_government_build3-3_icon_gov_military.png';
+
+import workshopImg from '../images/building_industrial_zone_build1_icon_workshop.png';
+import factoryImg from '../images/building_industrial_zone_build2_icon_factory.png';
+import powerPlantImg from '../images/building_industrial_zone_build3_icon_coal_power_plant.png';
+
+import libraryImg from '../images/building_campus_build1_icon_library.png';
+import universityImg from '../images/building_campus_build2_icon_university.png';
+import researchLabImg from '../images/building_campus_build3_icon_research_lab.png';
+
+import lighthouseImg from '../images/building_harbor_build1_icon_lighthouse.png';
+import shipyardImg from '../images/building_harbor_build2_icon_shipyard.png';
+import seaportImg from '../images/building_harbor_build3_icon_seaport.png';
+
+import marketImg from '../images/building_commercial_hub_build1_icon_market.png';
+import bankImg from '../images/building_commercial_hub_build2_icon_bank.png';
+import stockExchangeImg from '../images/building_commercial_hub_build3_icon_stock_exchange.png';
+
+import amphitheaterImg from '../images/building_theatre_square_build1_icon_amphitheater.png';
+import artMuseumImg from '../images/building_theatre_square_build2_icon_museum_art.png';
+import broadcastCenterImg from '../images/building_theatre_square_build3_icon_broadcast_center.png';
+
+import arenaImg from '../images/building_entertainment_build1_icon_arena.png';
+import zooImg from '../images/building_entertainment_build2_icon_zoo.png';
+import stadiumImg from '../images/building_entertainment_build3_icon_stadium.png';
+
+import hydroelectricDamImg from '../images/building_dam_build1_icon_hydroelectric_dam.png';
+
+import foodMarketImg from '../images/building_neighborhood_build1_icon_food_market.png';
+import shoppingMallImg from '../images/building_neighborhood_build2_icon_shopping_mall.png';
+
+import pastureImg from '../images/icon_improvement_pasture.png';
+import plantationImg from '../images/icon_improvement_plantation.png';
+import campImg from '../images/icon_improvement_camp.png';
+import mineImg from '../images/icon_improvement_mine.png';
+import fishingBoatsImg from '../images/icon_improvement_fishing_boats.png';
+import farmImg from '../images/icon_improvement_farm.png';
+import waterMillImg from '../images/icon_improvement_water_mill.png';
+
 import leaderRandomImg from '../images/leader_random.png';
 import leaderAmericaImg from '../images/leader_america_abraham_lincoln.png';
 import leaderAztecImg from '../images/leader_aztec_montezuma.png';
@@ -260,6 +308,45 @@ export const CELL_IMAGES = {
   },
 };
 
+export const UPGRADE_IMAGES = {
+  Pasture: pastureImg,
+  Plantation: plantationImg,
+  Camp: campImg,
+  Mine: mineImg,
+  'Fishing Boats': fishingBoatsImg,
+  Farm: farmImg,
+  'Water Mill': waterMillImg,
+  Stable: stableImg,
+  Armory: armoryImg,
+  'Military Academy': militaryAcademyImg,
+  "Warlord's Throne": warlordsThroneImg,
+  'Intelligence Agency': intelligenceAgencyImg,
+  'War Department': warDepartmentImg,
+  'Science Department': scienceDepartmentImg,
+  'Culture Department': cultureDepartmentImg,
+  Workshop: workshopImg,
+  Factory: factoryImg,
+  'Coal Power Plant': powerPlantImg,
+  Library: libraryImg,
+  University: universityImg,
+  'Research Lab': researchLabImg,
+  Lighthouse: lighthouseImg,
+  Shipyard: shipyardImg,
+  Seaport: seaportImg,
+  Market: marketImg,
+  Bank: bankImg,
+  'Stock Exchange': stockExchangeImg,
+  Amphitheater: amphitheaterImg,
+  'Art Museum': artMuseumImg,
+  'Broadcast Center': broadcastCenterImg,
+  Arena: arenaImg,
+  Zoo: zooImg,
+  Stadium: stadiumImg,
+  'Hydroelectric Dam': hydroelectricDamImg,
+  'Food Market': foodMarketImg,
+  'Shopping Mall': shoppingMallImg,
+};
+
 export const LEADERS = {
   RANDOM: {
     src: leaderRandomImg,
@@ -316,6 +403,64 @@ export const LEADERS = {
     name: 'Suleiman Kanuni',
     civilization: 'Ottoman',
   },
+};
+
+export const REQUIREMENT_DESCRIPTIONS = {
+  MAKE_ONE_ROUND: 'Make 1 round',
+  MAKE_TWO_ROUNDS: 'Make 2 rounds',
+  MAKE_THREE_ROUNDS: 'Make 3 rounds',
+  MAKE_FOUR_ROUNDS: 'Make 4 rounds',
+  MAKE_FIVE_ROUNDS: 'Make 5 rounds',
+  MAKE_ONE_TURN: 'Wait 1 turn',
+  MAKE_TWO_TURNS: 'Wait 2 turns',
+  MAKE_THREE_TURNS: 'Wait 3 turns',
+  MAKE_FOUR_TURNS: 'Wait 4 turns',
+  MAKE_FIVE_TURNS: 'Wait 5 turns',
+  HAVE_LOW_GOLD: 'Have 1600 gold',
+  HAVE_MEDIUM_GOLD: 'Have 2000 gold',
+  HAVE_HIGH_GOLD: 'Have 2600 gold',
+  HAVE_LOW_GOLD_PER_TURN: 'Have 50 g.p.t.',
+  HAVE_MEDIUM_GOLD_PER_TURN: 'Have 120 g.p.t.',
+  HAVE_HIGH_GOLD_PER_TURN: 'Have 200 g.p.t.',
+  HAVE_LOW_TOURISM: 'Have 800 tourism',
+  HAVE_MEDIUM_TOURISM: 'Have 1200 tourism',
+  HAVE_HIGH_TOURISM: 'Have 2000 tourism',
+  HAVE_LOW_STRENGTH: 'Have 300 strength',
+  HAVE_MEDIUM_STRENGTH: 'Have 400 strength',
+  HAVE_HIGH_STRENGTH: 'Have 500 strength',
+  ON_CLASSICAL_ERA: 'Be in Classical Era',
+  ON_MEDIEVAL_ERA: 'Be in Medieval Era',
+  ON_RENAISSANCE_ERA: 'Be in Renaissance Era',
+  ON_INDUSTRIAL_ERA: 'Be in Industrial Era',
+  ON_MODERN_ERA: 'Be in Modern Era',
+  ON_ATOMIC_ERA: 'Be in Atomic Era',
+  ON_INFORMATION_ERA: 'Be in Information Era',
+  OWN_CAMP: 'Own a Camp',
+  OWN_ENCAMPMENT: 'Own an Encampment',
+  OWN_CAMPUS: 'Own a Campus',
+  OWN_LIBRARY: 'Own a Library',
+  OWN_UNIVERSITY: 'Own a University',
+  OWN_HARBOR: 'Own a Harbor',
+  OWN_ARENA: 'Own an Arena',
+  OWN_STADIUM: 'Own a Stadium',
+  OWN_FACTORY: 'Own a Factory',
+  OWN_STOCK_EXCHANGE: 'Own a Stock Exchange',
+  OWN_GOVERNMENT_PLAZA: 'Own a Government Plaza',
+  NOT_OWN_GOVERNMENT_PLAZA: "Don't own a Government Plaza",
+  OWN_NO_GOVERNMENT_PLAZA: "Don't own a Government Plaza",
+  OWN_ENTERTAINMENT_COMPLEX: 'Own an Entertainment Complex',
+  OWN_INDUSTRIAL_ZONE: 'Own an Industrial Zone',
+  OWN_COMMERCIAL_HUB: 'Own a Commercial Hub',
+  OWN_SPACEPORT_OR_LAB: 'Own a Spaceport or Lab',
+  OWN_DEER_OR_FURS: 'Own Deer or Furs',
+  OWN_TWO_RESOURCES: 'Have 2 upgraded resources',
+  OWN_TWO_WONDERS: 'Have 2 wonders',
+  OWN_RESEARCH_GRANTS: 'Own Research Grants',
+  HAVE_RESEARCH_GRANTS: 'Own Research Grants',
+  WIDE_EMPIRE: 'Have 7 tiles',
+  SUPER_WIDE_EMPIRE: 'Have 11 tiles',
+  TALL_EMPIRE: 'Have 9 upgrades',
+  SUPER_TALL_EMPIRE: 'Have 15 upgrades',
 };
 
 export const UP_BOARD_CELL_RANGE = [1, 12];

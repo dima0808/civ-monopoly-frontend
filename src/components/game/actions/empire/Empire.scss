@@ -27,16 +27,30 @@
   padding-bottom: 4px;
 }
 
-.empire-card-mortgaged {
+.empire-card-mortgaged .event-card-img {
+  filter: grayscale(55%);
+}
+
+.empire-card .gray-blur {
+  background-color: rgba(125, 123, 123, 0.687);
   position: relative;
 }
 
-.empire-card-mortgaged .event-card-body {
-  background-color: rgba(125, 123, 123, 0.687);
-}
-
-.empire-card-mortgaged .event-card-img {
-  filter: grayscale(55%);
+.empire-card .gray-blur::after {
+  position: absolute;
+  content: var(--mortgage-value);
+  height: 28px;
+  width: 28px;
+  z-index: 50;
+  top: 4px;
+  right: 4px;
+  background-image: url('../../../../images/icon-locked.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  padding-top: 10px;
+  text-align: center;
+  font-size: 16px;
+  color: #eee;
 }
 
 .empire-empty {
@@ -46,4 +60,118 @@
   height: 490px;
   color: #636466;
   font-size: 18px;
+}
+
+/* Upgrade level cards */
+.empire-levels {
+  padding: 0 4px;
+}
+
+.empire-level {
+  position: relative;
+  margin: 7px 0;
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: #747677b8;
+}
+
+.empire-level-owned {
+  outline: 3px solid #116908;
+  background-color: #ffffffd0;
+}
+
+.empire-level-next {
+  background-color: #ffffffd0;
+}
+
+.empire-level-future {
+  filter: grayscale(60%);
+  opacity: 0.6;
+}
+
+.empire-level-req-text.empire-level-req-unmet {
+  color: #c0392b;
+}
+
+.empire-level-h3 {
+  text-align: center;
+  cursor: default;
+  padding: 0 20px 2px 15px;
+  overflow-wrap: break-word;
+  color: #eee;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+  line-height: 1;
+  background-color: #63646694;
+}
+
+.empire-level-grid {
+  display: grid;
+  grid-template-columns: 40px 1fr 85px;
+  align-items: center;
+}
+
+.empire-level-img-div {
+  width: 40px;
+  height: 40px;
+}
+
+.empire-level-img {
+  width: 40px;
+  height: 40px;
+}
+
+.empire-level-requirements {
+  padding: 2px 4px;
+}
+
+.empire-level-req-text {
+  font-size: 13px;
+  line-height: 0.95;
+  color: #2b2732;
+}
+
+.empire-level-req-text + .empire-level-req-text {
+  margin-top: 3px;
+  padding-top: 3px;
+  border-top: 1px solid #5c5a5a50;
+}
+
+.empire-level-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background-color: #eeeeee53;
+  height: 100%;
+  min-height: 44px;
+  padding: 1px 0 2px 0;
+  border-radius: 0 0 0 6px;
+}
+
+.empire-stat-row {
+  padding-right: 3px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.empire-stat-label {
+  text-align: center;
+  font-size: 13px;
+  letter-spacing: -1px;
+  color: #2b2732;
+}
+
+.empire-stat-value {
+  display: flex;
+  align-items: center;
+  margin-left: 3px;
+  font-size: 15px;
+}
+
+.empire-stat-icon {
+  height: 15px;
+  width: 15px;
+  margin-right: 1px;
 }

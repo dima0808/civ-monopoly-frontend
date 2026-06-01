@@ -2,10 +2,11 @@ import './Actions.scss';
 import strengthImg from '../../../images/icon-strength.png';
 import goldImg from '../../../images/icon-gold.png';
 
-const ArmySpending = ({ strength, gold, isSelected, isDisabled }) => {
+const ArmySpending = ({ strength, gold, isSelected, isDisabled, onClick }) => {
   return (
     <li
       className={`li-army-gold ${isSelected ? 'selected-military' : ''} ${isDisabled ? 'li-army-gold-disabled' : ''}`}
+      onClick={!isDisabled ? onClick : undefined}
     >
       <div className="player-stat-strength no-select">
         <img

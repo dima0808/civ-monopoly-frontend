@@ -8,11 +8,12 @@ import { NOTIFICATION_ERROR } from '../../../../constants/notification.js';
 import BuyProperty from './BuyProperty.jsx';
 import ForeignProperty from './ForeignProperty.jsx';
 
-const Events = ({ events }) => {
+const Events = ({ events, propertyRequirements, ownedProperties }) => {
   const dispatch = useDispatch();
   const { room } = useSelector((state) => state.room);
   const { user } = useSelector((state) => state.auth);
   const propertiesConfig = useSelector((state) => state.config.properties);
+  const { armySpendingIndex } = useSelector((state) => state.game);
 
   const isUserTurn =
     room.members.at(room.turnIndex)?.username === user?.username;
@@ -20,7 +21,7 @@ const Events = ({ events }) => {
   const currentMember = room.members.find((m) => m.username === user?.username);
 
   const onEndTurn = () => {
-    endTurn()
+    endTurn(armySpendingIndex)
       .then()
       .catch((e) => {
         dispatch(
@@ -79,6 +80,7 @@ const Events = ({ events }) => {
             <BuyProperty
               key={event.reference}
               propertyConfig={propertyConfig}
+              requirements={propertyRequirements[position]}
               member={currentMember}
               onBuy={onBuyProperty}
               onSkip={() => onSkipEvent('BUY_PROPERTY')}
@@ -90,6 +92,7 @@ const Events = ({ events }) => {
             <ForeignProperty
               key={event.reference}
               propertyConfig={propertyConfig}
+              ownedProperty={ownedProperties[position]}
               roll={event.ext?.roll || 0}
               member={currentMember}
               onPay={onPayRent}

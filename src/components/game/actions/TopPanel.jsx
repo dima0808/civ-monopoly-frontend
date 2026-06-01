@@ -1,13 +1,55 @@
 import './Actions.scss';
 
+import { useEffect } from 'react';
 import goldPerTurnImg from '../../../images/icon-gold-per-turn.png';
 import { useDispatch, useSelector } from 'react-redux';
 import ArmySpending from './ArmySpending.jsx';
-import { setSelectedTab } from '../../../store/slices/gameSlice.js';
+import {
+  setSelectedTab,
+  setArmySpendingIndex,
+} from '../../../store/slices/gameSlice.js';
 
-const TopPanel = () => {
+const TopPanel = ({ hasAvailableUpgrade, ownedProperties }) => {
   const dispatch = useDispatch();
   const gameConfig = useSelector((state) => state.config.game);
+  const propertiesConfig = useSelector((state) => state.config.properties);
+  const { armySpendingIndex } = useSelector((state) => state.game);
+  const { room } = useSelector((state) => state.room);
+  const { user } = useSelector((state) => state.auth);
+
+  const currentMember = room?.members?.find(
+    (m) => m.username === user?.username,
+  );
+
+  const totalGpt = propertiesConfig
+    ? Object.values(ownedProperties)
+        .filter((p) => p.member?.username === user?.username)
+        .reduce((sum, prop) => {
+          const config = propertiesConfig[prop.position];
+          if (!config) return sum;
+          for (const level of prop.upgrades) {
+            sum += config.upgrades[level]?.gpt || 0;
+          }
+          return sum;
+        }, 0)
+    : 0;
+
+  const isSpendingDisabled = (spending) => {
+    if (!currentMember) return false;
+    return (
+      currentMember.gold < -spending.gold ||
+      currentMember.strength < -spending.strength
+    );
+  };
+
+  useEffect(() => {
+    if (
+      gameConfig?.armySpending &&
+      isSpendingDisabled(gameConfig.armySpending[armySpendingIndex])
+    ) {
+      dispatch(setArmySpendingIndex(0));
+    }
+  }, [currentMember?.gold, currentMember?.strength]);
 
   const displayArmySpending = () => {
     return gameConfig.armySpending.map((spending, index) => (
@@ -15,8 +57,13 @@ const TopPanel = () => {
         key={index}
         gold={spending.gold}
         strength={spending.strength}
-        isSelected={false}
-        isDisabled={false}
+        isSelected={index === armySpendingIndex}
+        isDisabled={isSpendingDisabled(spending)}
+        onClick={() => {
+          if (!isSpendingDisabled(spending)) {
+            dispatch(setArmySpendingIndex(index));
+          }
+        }}
       />
     ));
   };
@@ -28,7 +75,7 @@ const TopPanel = () => {
           <h2>Gold per turn:</h2>
           <div className="player-stat-gold gold-per-turn width-full pointer no-select">
             <img src={goldPerTurnImg} className="recourse-img" alt="gold" />+
-            {10}
+            {totalGpt}
           </div>
         </div>
         <button className="satings-btn">
@@ -59,7 +106,7 @@ const TopPanel = () => {
 
       <div className="flex-between management-btns">
         <button
-          className={'management-btn available-upgrade'}
+          className={`management-btn ${hasAvailableUpgrade ? 'available-upgrade' : ''}`}
           onClick={() => dispatch(setSelectedTab('MANAGEMENT'))}
         >
           Empire

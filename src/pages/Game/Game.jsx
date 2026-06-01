@@ -17,7 +17,10 @@ import {
 import { getStompClient } from '../../store/slices/wsSlice.js';
 import Actions from '../../components/game/actions/Actions.jsx';
 import Dice from '../../components/game/board/dice/Dice.jsx';
-import { getPropertiesByRoom } from '../../http/requests/property.js';
+import {
+  getPropertiesByRoom,
+  getPropertyRequirements,
+} from '../../http/requests/property.js';
 import { getMyEvents } from '../../http/requests/event.js';
 import diceRollSound from '../../sounds/dice-rolling.mp3';
 import Cookies from 'js-cookie';
@@ -34,6 +37,13 @@ const Game = () => {
   const [dice, setDice] = useState({ firstRoll: null, secondRoll: null });
   const [events, setEvents] = useState([]);
   const [ownedProperties, setOwnedProperties] = useState({});
+  const [propertyRequirements, setPropertyRequirements] = useState({});
+
+  const fetchRequirements = useCallback(() => {
+    getPropertyRequirements()
+      .then(setPropertyRequirements)
+      .catch(() => {});
+  }, []);
 
   const onGameMessageReceived = useCallback(
     (wsMessage) => {
@@ -46,9 +56,11 @@ const Game = () => {
         case 'END_TURN':
         case 'FORCE_END_TURN':
           dispatch(setRoom(message.room));
+          fetchRequirements();
           break;
         case 'ROLL_DICE':
         case 'FORCE_ROLL_DICE': {
+          console.log(message.room);
           dispatch(setRoom(message.room));
           const diceResult = message.room.ext.diceResult;
           setDice({
@@ -57,8 +69,24 @@ const Game = () => {
           });
           diceRollAudio.currentTime = 0;
           diceRollAudio.play().catch(() => {});
+          fetchRequirements();
           break;
         }
+        case 'NEW_TURN':
+          setOwnedProperties((prev) => {
+            const updated = {};
+            for (const [pos, prop] of Object.entries(prev)) {
+              if (prop.mortgage !== -1) {
+                const newMortgage = prop.mortgage - 1;
+                if (newMortgage <= 0) continue;
+                updated[pos] = { ...prop, mortgage: newMortgage };
+              } else {
+                updated[pos] = prop;
+              }
+            }
+            return updated;
+          });
+          break;
         case 'PROPERTY_BUY':
         case 'PROPERTY_UPGRADE':
         case 'PROPERTY_MORTGAGE':
@@ -75,11 +103,12 @@ const Game = () => {
               [property.position]: property,
             }));
           }
+          fetchRequirements();
           break;
         }
       }
     },
-    [dispatch],
+    [dispatch, fetchRequirements],
   );
 
   const onEventMessageReceived = useCallback((wsMessage) => {
@@ -142,13 +171,13 @@ const Game = () => {
   useEffect(() => {
     getPropertiesByRoom(reference).then((properties) => {
       const map = {};
-      console.log(properties);
       properties.forEach((p) => {
         map[p.position] = p;
       });
       setOwnedProperties(map);
     });
-  }, [reference]);
+    fetchRequirements();
+  }, [reference, fetchRequirements]);
 
   useEffect(() => {
     getMyEvents().then((fetchedEvents) => {
@@ -175,7 +204,11 @@ const Game = () => {
     <div className="grid-3">
       <MemberList />
       <Board dice={dice} ownedProperties={ownedProperties} />
-      <Actions events={events} ownedProperties={ownedProperties} />
+      <Actions
+        events={events}
+        ownedProperties={ownedProperties}
+        propertyRequirements={propertyRequirements}
+      />
     </div>
   );
 };

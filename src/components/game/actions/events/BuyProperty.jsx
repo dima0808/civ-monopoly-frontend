@@ -1,10 +1,22 @@
 import goldImg from '../../../../images/icon-gold.png';
 import goldPerTurnImg from '../../../../images/icon-gold-per-turn.png';
 import tourismImg from '../../../../images/icon-tourism.png';
-import { CELL_IMAGES } from '../../../../constants/game.js';
+import {
+  CELL_IMAGES,
+  REQUIREMENT_DESCRIPTIONS,
+} from '../../../../constants/game.js';
 
-const BuyProperty = ({ propertyConfig, member, onBuy, onSkip }) => {
+const BuyProperty = ({
+  propertyConfig,
+  requirements,
+  member,
+  onBuy,
+  onSkip,
+}) => {
   const upgrade = propertyConfig.upgrades['LEVEL_1'];
+  const allReqsMet =
+    !requirements?.requirements ||
+    Object.values(requirements.requirements).every(Boolean);
   const image = CELL_IMAGES[propertyConfig.name]?.['LEVEL_1'];
 
   return (
@@ -64,9 +76,23 @@ const BuyProperty = ({ propertyConfig, member, onBuy, onSkip }) => {
             )}
           </div>
         </div>
+        {upgrade.requirements?.length > 0 &&
+          upgrade.requirements.map((req) => {
+            const isMet = requirements?.requirements?.[req] !== false;
+            return (
+              <div
+                key={req}
+                className={`event-req-div ${!isMet ? 'event-req-div-unmet' : ''}`}
+              >
+                <p className="event-req-text">
+                  {REQUIREMENT_DESCRIPTIONS[req] || req}
+                </p>
+              </div>
+            );
+          })}
         <div className="event-card-buttons">
           <button
-            disabled={member?.gold < upgrade.price}
+            disabled={member?.gold < upgrade.price || !allReqsMet}
             onClick={onBuy}
             className="event-btn event-btn-buy"
           >

@@ -13,6 +13,8 @@ import { useSelector } from 'react-redux';
 const Era = ({ turn }) => {
   const gameConfig = useSelector((state) => state.config.game);
 
+  if (!gameConfig) return null;
+
   const eraImages = {
     ANCIENT: ancientEraImg,
     CLASSICAL: classicalEraImg,
@@ -26,16 +28,15 @@ const Era = ({ turn }) => {
 
   const eras = Object.entries(gameConfig.eras);
   let currentEra = 'ANCIENT';
-  let previousMax = 1;
-  let maxTurn = 0;
+  let rangeStart = 0;
+  let rangeEnd = eras.length > 0 ? eras[0][1] - 1 : 0;
 
-  for (const [era, max] of eras) {
-    previousMax = maxTurn;
-    maxTurn = max;
+  for (let i = 0; i < eras.length; i++) {
+    const [era, startTurn] = eras[i];
+    if (turn < startTurn) break;
     currentEra = era;
-    if (turn <= max) {
-      break;
-    }
+    rangeStart = startTurn;
+    rangeEnd = i < eras.length - 1 ? eras[i + 1][1] - 1 : startTurn;
   }
 
   return (
@@ -48,7 +49,9 @@ const Era = ({ turn }) => {
       <div className="turn-div epoch-div">
         <p>
           {currentEra.at(0) + currentEra.slice(1).toLowerCase()} era:{' '}
-          {previousMax + 1}-{maxTurn}
+          {rangeStart === rangeEnd
+            ? `${rangeStart}+`
+            : `${rangeStart}-${rangeEnd}`}
         </p>
       </div>
     </div>

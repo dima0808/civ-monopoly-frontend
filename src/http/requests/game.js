@@ -36,7 +36,9 @@ export const rollDice = async () => {
   return data;
 };
 
-export const endTurn = async () => {
-  const { data } = await axios.post(`${REQUEST_MAPPING}/end-turn`);
+export const endTurn = async (armySpendingIndex) => {
+  const { data } = await axios.post(`${REQUEST_MAPPING}/end-turn`, null, {
+    params: { armySpendingIndex },
+  });
   return data;
 };
