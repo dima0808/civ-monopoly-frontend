@@ -1,0 +1,172 @@
+.win {
+  height: 492px;
+  overflow-y: auto;
+}
+.win__img {
+  width: 60px;
+  height: 60px;
+}
+.win__player-img-div .win__img {
+  border-radius: 50%;
+}
+.win__choose {
+  width: 60px;
+  height: 60px;
+  border-radius: 6px;
+  transition: all 0.3s ease-in-out;
+  background-color: #7a532f;
+  cursor: pointer;
+}
+.win__choose:hover {
+  background-color: #875e37;
+}
+.win__chosen {
+  background-color: #b98453 !important;
+}
+.win__div {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px;
+  background-color: #7a532f;
+  border-radius: 8px;
+}
+.win__victory-h2 {
+  text-align: center;
+  color: #271d37;
+  margin: 6px 0 6px 0;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  word-spacing: 1px;
+}
+.win__victory-h3 {
+  font-size: 22px;
+  font-weight: 500;
+}
+.win__victory-army .win__victory-h2 {
+  color: #710f22;
+}
+.win__victory-culture .win__victory-h2 {
+  color: #5f1d99;
+}
+.win__victory-science .win__victory-h2 {
+  color: #44679b;
+}
+.win__victory-score .win__victory-h2 {
+  color: #434c64;
+}
+.win__victory-background {
+  border-radius: 6px;
+  background-color: #bdbdbd;
+  width: 90px;
+  height: 90px;
+  margin: 0 10px 0 0;
+  clear: right;
+  float: right;
+}
+.win__victory-p {
+  color: #271d37;
+  font-size: 16px;
+  letter-spacing: -0.5px;
+  word-spacing: 1.2px;
+}
+.victory-explain {
+  padding: 0 0 0 8px;
+}
+.win__victory-background-color {
+  background-color: #444;
+  border-radius: 38%;
+  padding: 6px 0 0 0;
+  width: 90px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.win__victory-army .win__victory-background-color {
+  background-color: #710f22;
+}
+.win__victory-culture .win__victory-background-color {
+  background-color: #5f1d99;
+}
+.win__victory-science .win__victory-background-color {
+  background-color: #44679b;
+}
+.win__victory-score .win__victory-background-color {
+  background-color: #434c64;
+}
+.win__victory-background-color .win__img {
+  width: 80px;
+  height: 80px;
+}
+.half-height {
+  height: 22px !important;
+  padding: 0 4px 0 23px;
+}
+.half-height .recourse-img {
+  margin-top: 1px;
+  height: 19px;
+  width: 19px;
+}
+.win__player {
+  background-color: #c5c1c18c;
+  display: grid;
+  grid-template-columns: 66px 1fr;
+  min-height: 63px;
+}
+.not-civ-color {
+  border-radius: 6px;
+  border: 1px solid #636466;
+  overflow: hidden;
+  min-height: 63px;
+}
+.win-stats {
+  margin-top: 3px;
+  display: flex;
+  gap: 8px;
+}
+.win__stats-nickname {
+  margin-top: 3px;
+  width: 200px;
+  font-size: 22px;
+  color: #271d37;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.win__player-img-div {
+  padding: 2px 2px 0 2px;
+}
+.win__players-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-bottom: 6px;
+}
+.win__name-and-stats .player-stat-tourism {
+  padding: 0 4px 0 23px;
+}
+.win .player-stat-science {
+  padding: 0 4px 0 4px;
+  border-radius: 10px;
+  color: #361c71;
+}
+.win__value {
+  display: flex;
+  gap: 2px;
+}
+.win__value p {
+  color: #271d37;
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+}
+.win__victory-science .win-stats {
+  margin-top: 0;
+  padding-bottom: 2px;
+  flex-direction: column;
+  gap: 3px;
+}
+.win__victory-science .win__player-img-div {
+  margin-top: 10px;
+}

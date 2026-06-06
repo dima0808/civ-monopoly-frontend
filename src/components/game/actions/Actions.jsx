@@ -4,6 +4,7 @@ import TopPanel from './TopPanel.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import Events from './events/Events.jsx';
 import Empire from './empire/Empire.jsx';
+import Wins from './wins/Wins.jsx';
 import { setSelectedTab } from '../../../store/slices/gameSlice.js';
 import clockTimer from '../../../images/clock_timer.png';
 
@@ -14,7 +15,7 @@ const Actions = ({
   timeLeft,
 }) => {
   const dispatch = useDispatch();
-  const { selectedTab } = useSelector((state) => state.game);
+  const { selectedTab, managementTab } = useSelector((state) => state.game);
   const { room } = useSelector((state) => state.room);
   const { user } = useSelector((state) => state.auth);
   const propertiesConfig = useSelector((state) => state.config.properties);
@@ -77,6 +78,8 @@ const Actions = ({
                   propertyRequirements={propertyRequirements}
                   ownedProperties={ownedProperties}
                 />
+              ) : managementTab === 'WINS' ? (
+                <Wins ownedProperties={ownedProperties} />
               ) : (
                 <Empire
                   ownedProperties={ownedProperties}

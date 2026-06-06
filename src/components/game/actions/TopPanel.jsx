@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import ArmySpending from './ArmySpending.jsx';
 import {
   setSelectedTab,
+  setManagementTab,
   setArmySpendingIndex,
 } from '../../../store/slices/gameSlice.js';
 
@@ -107,11 +108,22 @@ const TopPanel = ({ hasAvailableUpgrade, ownedProperties }) => {
       <div className="flex-between management-btns">
         <button
           className={`management-btn ${hasAvailableUpgrade ? 'available-upgrade' : ''}`}
-          onClick={() => dispatch(setSelectedTab('MANAGEMENT'))}
+          onClick={() => {
+            dispatch(setSelectedTab('MANAGEMENT'));
+            dispatch(setManagementTab('EMPIRE'));
+          }}
         >
           Empire
         </button>
-        <button className="management-btn">Wins</button>
+        <button
+          className="management-btn"
+          onClick={() => {
+            dispatch(setSelectedTab('MANAGEMENT'));
+            dispatch(setManagementTab('WINS'));
+          }}
+        >
+          Wins
+        </button>
       </div>
     </div>
   );
