@@ -7,7 +7,7 @@ import { useRef, useState } from 'react';
 import Cookies from 'js-cookie';
 import { getMe } from '../../store/slices/authSlice.js';
 import { useDispatch } from 'react-redux';
-import { Scrollbars } from 'react-custom-scrollbars';
+import { Scrollbars } from 'react-custom-scrollbars-2';
 
 const SignInPage = () => {
   const { t } = useTranslation();

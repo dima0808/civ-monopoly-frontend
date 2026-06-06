@@ -1,6 +1,6 @@
 import './ErrorPage.scss';
 import Header from '../../components/header/Header.jsx';
-import { Scrollbars } from 'react-custom-scrollbars';
+import { Scrollbars } from 'react-custom-scrollbars-2';
 const ErrorPage = () => {
   return (
     <Scrollbars style={{ height: '100vh' }}>

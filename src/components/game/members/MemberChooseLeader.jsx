@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 import { getAllCivilizations } from '../../../http/requests/game.js';
 import LeaderOption from './LeaderOption.jsx';
-import { Scrollbars } from 'react-custom-scrollbars';
+import { Scrollbars } from 'react-custom-scrollbars-2';
 import { DisplayError, DisplayLoading } from '../../../utils/component.jsx';
 import { useTranslation } from 'react-i18next';
 

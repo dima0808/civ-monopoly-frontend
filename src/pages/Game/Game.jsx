@@ -38,6 +38,7 @@ const Game = () => {
   const [events, setEvents] = useState([]);
   const [ownedProperties, setOwnedProperties] = useState({});
   const [propertyRequirements, setPropertyRequirements] = useState({});
+  const [timeLeft, setTimeLeft] = useState(null);
 
   const fetchRequirements = useCallback(() => {
     getPropertyRequirements()
@@ -50,6 +51,10 @@ const Game = () => {
       const message = JSON.parse(wsMessage.body);
       const { type } = message;
       switch (type) {
+        case 'TIMER_TURN_UPDATE':
+        case 'TIMER_DICE_UPDATE':
+          setTimeLeft(message.timeLeft);
+          break;
         case 'START':
           dispatch(setRoom(message.room));
           break;
@@ -208,6 +213,7 @@ const Game = () => {
         events={events}
         ownedProperties={ownedProperties}
         propertyRequirements={propertyRequirements}
+        timeLeft={timeLeft}
       />
     </div>
   );

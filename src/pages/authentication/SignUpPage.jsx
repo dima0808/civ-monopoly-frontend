@@ -7,7 +7,7 @@ import Cookies from 'js-cookie';
 import { getMe } from '../../store/slices/authSlice.js';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { Scrollbars } from 'react-custom-scrollbars';
+import { Scrollbars } from 'react-custom-scrollbars-2';
 
 const SignUpPage = () => {
   const { t } = useTranslation();

@@ -1,9 +1,41 @@
+.actions-wrapper {
+  position: relative;
+}
 .actions {
   height: 720px;
   /* background-color: #dac7a3; */
   background-color: #d6bd9d;
   border-radius: 9px;
   overflow: hidden;
+}
+.turn-timer {
+  position: absolute;
+  bottom: -16px;
+  right: -18px;
+  width: 66px;
+  height: 80px;
+  z-index: 10;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.35));
+}
+.turn-timer__img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.turn-timer__value {
+  position: absolute;
+  top: 61%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #271d37;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1;
+}
+.turn-timer__value--urgent {
+  color: #c0392b;
 }
 .static-choises {
   border-radius: 8px;

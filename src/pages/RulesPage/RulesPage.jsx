@@ -7,7 +7,7 @@ import rules25Img from '../../images/rules25.png';
 import rules26Img from '../../images/rules26.png';
 import Header from '../../components/header/Header.jsx';
 import { useTranslation } from 'react-i18next';
-import { Scrollbars } from 'react-custom-scrollbars';
+import { Scrollbars } from 'react-custom-scrollbars-2';
 
 const RulesPage = () => {
   const { t } = useTranslation();

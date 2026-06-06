@@ -18,7 +18,7 @@
     "i18next-browser-languagedetector": "^8.2.0",
     "js-cookie": "^3.0.5",
     "react": "^19.1.0",
-    "react-custom-scrollbars": "^4.2.1",
+    "react-custom-scrollbars-2": "^4.5.0",
     "react-dom": "^19.1.0",
     "react-i18next": "^15.5.3",
     "react-redux": "^9.2.0",

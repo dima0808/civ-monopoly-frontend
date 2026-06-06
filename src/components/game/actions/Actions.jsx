@@ -5,8 +5,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import Events from './events/Events.jsx';
 import Empire from './empire/Empire.jsx';
 import { setSelectedTab } from '../../../store/slices/gameSlice.js';
+import clockTimer from '../../../images/clock_timer.png';
 
-const Actions = ({ events, ownedProperties, propertyRequirements }) => {
+const Actions = ({
+  events,
+  ownedProperties,
+  propertyRequirements,
+  timeLeft,
+}) => {
   const dispatch = useDispatch();
   const { selectedTab } = useSelector((state) => state.game);
   const { room } = useSelector((state) => state.room);
@@ -36,50 +42,68 @@ const Actions = ({ events, ownedProperties, propertyRequirements }) => {
     });
 
   return (
-    <section className="actions">
-      {/* <SettingsDialog /> */}
-      {/*<GamePauseDialog />*/}
-      {/*<GameWinnerDialog />*/}
+    <div className="actions-wrapper">
+      <section className="actions">
+        {/* <SettingsDialog /> */}
+        {/*<GamePauseDialog />*/}
+        {/*<GameWinnerDialog />*/}
 
-      <TopPanel
-        hasAvailableUpgrade={hasAvailableUpgrade}
-        ownedProperties={ownedProperties}
-      />
+        <TopPanel
+          hasAvailableUpgrade={hasAvailableUpgrade}
+          ownedProperties={ownedProperties}
+        />
 
-      <div className="not-static-choises">
-        <div className="not-static-choises-checkbox">
-          <button
-            onClick={() => dispatch(setSelectedTab('EVENTS'))}
-            className={`not-static-btn ${selectedTab === 'EVENTS' ? 'selected-static-btn' : ''}`}
-          >
-            Events
-          </button>
-          <button
-            onClick={() => dispatch(setSelectedTab('MANAGEMENT'))}
-            className={`not-static-btn ${selectedTab === 'MANAGEMENT' ? 'selected-static-btn' : ''}`}
-          >
-            Management
-          </button>
-        </div>
+        <div className="not-static-choises">
+          <div className="not-static-choises-checkbox">
+            <button
+              onClick={() => dispatch(setSelectedTab('EVENTS'))}
+              className={`not-static-btn ${selectedTab === 'EVENTS' ? 'selected-static-btn' : ''}`}
+            >
+              Events
+            </button>
+            <button
+              onClick={() => dispatch(setSelectedTab('MANAGEMENT'))}
+              className={`not-static-btn ${selectedTab === 'MANAGEMENT' ? 'selected-static-btn' : ''}`}
+            >
+              Management
+            </button>
+          </div>
 
-        <div className="chousen-div">
-          <div className="chousen-div-white">
-            {selectedTab === 'EVENTS' ? (
-              <Events
-                events={events}
-                propertyRequirements={propertyRequirements}
-                ownedProperties={ownedProperties}
-              />
-            ) : (
-              <Empire
-                ownedProperties={ownedProperties}
-                propertyRequirements={propertyRequirements}
-              />
-            )}
+          <div className="chousen-div">
+            <div className="chousen-div-white">
+              {selectedTab === 'EVENTS' ? (
+                <Events
+                  events={events}
+                  propertyRequirements={propertyRequirements}
+                  ownedProperties={ownedProperties}
+                />
+              ) : (
+                <Empire
+                  ownedProperties={ownedProperties}
+                  propertyRequirements={propertyRequirements}
+                />
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      {timeLeft != null && (
+        <div className="turn-timer">
+          <img
+            src={clockTimer}
+            alt="timer"
+            className="turn-timer__img"
+            draggable="false"
+          />
+          <span
+            className={`turn-timer__value ${timeLeft <= 10 ? 'turn-timer__value--urgent' : ''}`}
+          >
+            {timeLeft}
+          </span>
+        </div>
+      )}
+    </div>
   );
 };
 

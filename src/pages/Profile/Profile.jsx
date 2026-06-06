@@ -1,5 +1,5 @@
 import './Profile.scss';
-import { Scrollbars } from 'react-custom-scrollbars';
+import { Scrollbars } from 'react-custom-scrollbars-2';
 import Header from '../../components/header/Header.jsx';
 import React, { useEffect, useState } from 'react';
 import ProfileImage from '../../components/profile/ProfileImage';

@@ -1,5 +1,5 @@
 import './HomePage.scss';
-import { Scrollbars } from 'react-custom-scrollbars';
+import { Scrollbars } from 'react-custom-scrollbars-2';
 import Header from '../../components/header/Header.jsx';
 import Chat from '../../components/Chat/public/Chat.jsx';
 import dog from '../../images/icon_unit_scout.png';
