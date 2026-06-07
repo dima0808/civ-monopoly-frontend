@@ -3,16 +3,25 @@ import { useDispatch, useSelector } from 'react-redux';
 import { endTurn, rollDice } from '../../../../http/requests/game.js';
 import { buyProperty, payRent } from '../../../../http/requests/property.js';
 import { skipEvent } from '../../../../http/requests/event.js';
+import {
+  chooseProject,
+  doScienceProject,
+  doConcert,
+} from '../../../../http/requests/project.js';
 import { pushNotification } from '../../../../store/slices/notificationSlice.js';
 import { NOTIFICATION_ERROR } from '../../../../constants/notification.js';
 import BuyProperty from './BuyProperty.jsx';
 import ForeignProperty from './ForeignProperty.jsx';
+import Projects from './Projects.jsx';
+import ScienceProjects from './ScienceProjects.jsx';
+import GiveConcert from './GiveConcert.jsx';
 
 const Events = ({ events, propertyRequirements, ownedProperties }) => {
   const dispatch = useDispatch();
   const { room } = useSelector((state) => state.room);
   const { user } = useSelector((state) => state.auth);
   const propertiesConfig = useSelector((state) => state.config.properties);
+  const gameConfig = useSelector((state) => state.config.game);
   const { armySpendingIndex } = useSelector((state) => state.game);
 
   const isUserTurn =
@@ -66,6 +75,30 @@ const Events = ({ events, propertyRequirements, ownedProperties }) => {
     });
   };
 
+  const onChooseProject = (projectType) => {
+    chooseProject(projectType).catch((e) => {
+      dispatch(
+        pushNotification({ type: NOTIFICATION_ERROR, error: e.message }),
+      );
+    });
+  };
+
+  const onScienceProject = () => {
+    doScienceProject().catch((e) => {
+      dispatch(
+        pushNotification({ type: NOTIFICATION_ERROR, error: e.message }),
+      );
+    });
+  };
+
+  const onConcert = () => {
+    doConcert().catch((e) => {
+      dispatch(
+        pushNotification({ type: NOTIFICATION_ERROR, error: e.message }),
+      );
+    });
+  };
+
   const renderEvents = () => {
     if (!events || !propertiesConfig || !currentMember) return null;
 
@@ -96,6 +129,41 @@ const Events = ({ events, propertyRequirements, ownedProperties }) => {
               roll={event.ext?.roll || 0}
               member={currentMember}
               onPay={onPayRent}
+            />
+          );
+        case 'PROJECTS_EDGE':
+          if (!gameConfig) return null;
+          return (
+            <Projects
+              key={event.reference}
+              ownedProperties={ownedProperties}
+              member={currentMember}
+              gameConfig={gameConfig}
+              onChoose={onChooseProject}
+            />
+          );
+        case 'PROJECTS_SCIENCE':
+          if (!gameConfig) return null;
+          return (
+            <ScienceProjects
+              key={event.reference}
+              member={currentMember}
+              price={gameConfig.science.cost}
+              onConfirm={onScienceProject}
+              onSkip={() => onSkipEvent('PROJECTS_SCIENCE')}
+            />
+          );
+        case 'PROJECTS_CULTURE':
+          if (!gameConfig) return null;
+          return (
+            <GiveConcert
+              key={event.reference}
+              member={currentMember}
+              price={gameConfig.concert.cost}
+              lowerBound={gameConfig.concert.tourismLowerBound}
+              upperBound={gameConfig.concert.tourismUpperBound}
+              onConfirm={onConcert}
+              onSkip={() => onSkipEvent('PROJECTS_CULTURE')}
             />
           );
         default:

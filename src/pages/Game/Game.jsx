@@ -111,6 +111,15 @@ const Game = () => {
           fetchRequirements();
           break;
         }
+        case 'PROJECT_CHOICE':
+        case 'SCIENCE_PROJECT':
+        case 'CONCERT': {
+          const { members } = message;
+          if (members && members.length > 0) {
+            dispatch(updateMembers(members));
+          }
+          break;
+        }
       }
     },
     [dispatch, fetchRequirements],

@@ -22,7 +22,7 @@ const TopPanel = ({ hasAvailableUpgrade, ownedProperties }) => {
     (m) => m.username === user?.username,
   );
 
-  const totalGpt = propertiesConfig
+  const propertyGpt = propertiesConfig
     ? Object.values(ownedProperties)
         .filter((p) => p.member?.username === user?.username)
         .reduce((sum, prop) => {
@@ -34,6 +34,13 @@ const TopPanel = ({ hasAvailableUpgrade, ownedProperties }) => {
           return sum;
         }, 0)
     : 0;
+
+  const effectGpt = (currentMember?.additionalEffects ?? []).reduce(
+    (sum, effect) => sum + (effect.goldPerTurn || 0),
+    0,
+  );
+
+  const totalGpt = propertyGpt + effectGpt;
 
   const isSpendingDisabled = (spending) => {
     if (!currentMember) return false;

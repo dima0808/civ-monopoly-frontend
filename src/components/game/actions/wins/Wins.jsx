@@ -16,9 +16,9 @@ import leaderImg from '../../../../images/leader_random.png';
 // Total properties on the board required for a military victory.
 const MILITARY_TARGET = 30;
 
-// TODO: Culture / Science / Score still show placeholder "X" rows until their
-// data is wired up.
-const PLACEHOLDER_PLAYERS = Array.from({ length: 4 });
+// The launch milestones that count toward a science victory.
+const SCIENCE_MILESTONES = ['SATELLITE', 'MOON', 'MARS', 'EXOPLANET'];
+const SCIENCE_TARGET = SCIENCE_MILESTONES.length;
 
 const Wins = ({ ownedProperties = {} }) => {
   const [selectedVictory, setSelectedVictory] = useState('Military');
@@ -42,6 +42,13 @@ const Wins = ({ ownedProperties = {} }) => {
     );
     return 2 * maxOther + (gameConfig?.tourismAdditionalThreshold ?? 0);
   };
+
+  const scienceCompleted = (member) =>
+    (member.finishedScienceProjects ?? []).filter((p) =>
+      SCIENCE_MILESTONES.includes(p),
+    ).length;
+
+  const expeditionTarget = gameConfig?.science?.expeditionTurnAmount ?? 50;
 
   const renderPlayerHead = (civilization) => (
     <div className="win__player-img-div">
@@ -201,30 +208,48 @@ const Wins = ({ ownedProperties = {} }) => {
             </div>
             <h3 className="win__victory-h2 win__victory-h3">Top players:</h3>
             <div className="win__players-list">
-              {PLACEHOLDER_PLAYERS.map((_, index) => (
-                <div key={index} className="not-civ-color">
-                  <div className="win__player">
-                    {renderPlayerHead()}
-                    <div className="win__name-and-stats">
-                      <h2 className="win__stats-nickname">X</h2>
-                      <div className="win-stats">
-                        <div className="win__value">
-                          <p>Projects completed:</p>
-                          <div className="player-stat-science width-full half-height no-select">
-                            X/4
+              {[...members]
+                .sort((a, b) => {
+                  const diff = scienceCompleted(b) - scienceCompleted(a);
+                  if (diff !== 0) return diff;
+                  const aTurns =
+                    a.expeditionTurns < 0 ? Infinity : a.expeditionTurns;
+                  const bTurns =
+                    b.expeditionTurns < 0 ? Infinity : b.expeditionTurns;
+                  return aTurns - bTurns;
+                })
+                .map((member) => (
+                  <div
+                    key={member.username}
+                    className={`not-civ-color color-${member.color.toLowerCase()}-g`}
+                  >
+                    <div className="win__player">
+                      {renderPlayerHead(member.civilization)}
+                      <div className="win__name-and-stats">
+                        <h2 className="win__stats-nickname">
+                          {member.username}
+                        </h2>
+                        <div className="win-stats">
+                          <div className="win__value">
+                            <p>Projects completed:</p>
+                            <div className="player-stat-science width-full half-height no-select">
+                              {scienceCompleted(member)}/{SCIENCE_TARGET}
+                            </div>
                           </div>
-                        </div>
-                        <div className="win__value">
-                          <p>Turns to expedition:</p>
-                          <div className="player-stat-science width-full half-height no-select">
-                            X/50
+                          <div className="win__value">
+                            <p>Turns to expedition:</p>
+                            <div className="player-stat-science width-full half-height no-select">
+                              {member.expeditionTurns < 0
+                                ? '—'
+                                : member.expeditionTurns}
+                              /{expeditionTarget}
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
           </div>
         );
