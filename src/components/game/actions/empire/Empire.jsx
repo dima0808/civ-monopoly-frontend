@@ -16,6 +16,7 @@ import {
 } from '../../../../http/requests/property.js';
 import { pushNotification } from '../../../../store/slices/notificationSlice.js';
 import { NOTIFICATION_ERROR } from '../../../../constants/notification.js';
+import GovernmentDepartments from './GovernmentDepartments.jsx';
 
 const LEVEL_ORDER = [
   'LEVEL_1',
@@ -127,6 +128,12 @@ const Empire = ({ ownedProperties, propertyRequirements }) => {
         const allLevels = LEVEL_ORDER.filter(
           (l) => config.upgrades[l] && !l.startsWith('LEVEL_4_'),
         );
+
+        // Government Plaza branches at level 4: once LEVEL_3 is owned the player
+        // picks one of three departments instead of a linear upgrade.
+        const isGovBranch =
+          config.upgrades['LEVEL_4_1'] != null &&
+          property.upgrades.includes('LEVEL_3');
 
         return (
           <div
@@ -295,45 +302,61 @@ const Empire = ({ ownedProperties, propertyRequirements }) => {
                 </div>
               )}
 
-              <div className="event-card-buttons">
-                {!isMortgaged && nextUpgrade && (
-                  <button
-                    disabled={
-                      !isUserTurn ||
-                      !canUpgrade ||
-                      currentMember.gold < nextUpgrade.price
-                    }
-                    onClick={() => onUpgrade(property.position, nextLevel)}
-                    className="event-btn event-btn-buy"
-                  >
-                    upgrade:
-                    <img src={goldImg} className="event-stat-icon" alt="gold" />
-                    {nextUpgrade.price}
-                  </button>
-                )}
-                {isMortgaged && (
-                  <button
-                    disabled={!isUserTurn}
-                    onClick={() => onBuyback(property.position)}
-                    className="event-btn event-btn-buy"
-                  >
-                    redeem
-                  </button>
-                )}
-                {!isMortgaged && (
-                  <button
-                    disabled={!isUserTurn}
-                    onClick={() =>
-                      hasHigherUpgrades
-                        ? onDemote(property.position)
-                        : onMortgage(property.position)
-                    }
-                    className="event-btn event-btn-skip"
-                  >
-                    {hasHigherUpgrades ? 'demote' : 'pledge'}
-                  </button>
-                )}
-              </div>
+              {isGovBranch && !isMortgaged ? (
+                <GovernmentDepartments
+                  config={config}
+                  property={property}
+                  reqData={reqData}
+                  currentMember={currentMember}
+                  isUserTurn={isUserTurn}
+                  onUpgrade={onUpgrade}
+                  onDemote={onDemote}
+                />
+              ) : (
+                <div className="event-card-buttons">
+                  {!isMortgaged && nextUpgrade && (
+                    <button
+                      disabled={
+                        !isUserTurn ||
+                        !canUpgrade ||
+                        currentMember.gold < nextUpgrade.price
+                      }
+                      onClick={() => onUpgrade(property.position, nextLevel)}
+                      className="event-btn event-btn-buy"
+                    >
+                      upgrade:
+                      <img
+                        src={goldImg}
+                        className="event-stat-icon"
+                        alt="gold"
+                      />
+                      {nextUpgrade.price}
+                    </button>
+                  )}
+                  {isMortgaged && (
+                    <button
+                      disabled={!isUserTurn}
+                      onClick={() => onBuyback(property.position)}
+                      className="event-btn event-btn-buy"
+                    >
+                      redeem
+                    </button>
+                  )}
+                  {!isMortgaged && (
+                    <button
+                      disabled={!isUserTurn}
+                      onClick={() =>
+                        hasHigherUpgrades
+                          ? onDemote(property.position)
+                          : onMortgage(property.position)
+                      }
+                      className="event-btn event-btn-skip"
+                    >
+                      {hasHigherUpgrades ? 'demote' : 'pledge'}
+                    </button>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         );
