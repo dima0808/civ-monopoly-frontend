@@ -20,12 +20,33 @@ const ForeignProperty = ({
   member,
   onPay,
 }) => {
-  const upgrade = propertyConfig.upgrades['LEVEL_1'];
   const ownedUpgrades = ownedProperty?.upgrades || [];
+  const ownedBonuses = ownedProperty?.bonuses || [];
   const highestLevel =
     LEVEL_ORDER.filter((l) => ownedUpgrades.includes(l)).at(-1) || 'LEVEL_1';
   const image = CELL_IMAGES[propertyConfig.name]?.[highestLevel];
-  const rentAmount = upgrade.gos * (roll || 1);
+
+  let totalGos = 0;
+  let totalGpt = 0;
+  let totalTourism = 0;
+  for (const level of ownedUpgrades) {
+    const u = propertyConfig.upgrades[level];
+    if (u) {
+      totalGos += u.gos || 0;
+      totalGpt += u.gpt || 0;
+      totalTourism += u.tourism || 0;
+    }
+  }
+  for (const bonus of ownedBonuses) {
+    const b = propertyConfig.bonuses?.[bonus];
+    if (b) {
+      totalGos += b.gos || 0;
+      totalGpt += b.gpt || 0;
+      totalTourism += b.tourism || 0;
+    }
+  }
+
+  const rentAmount = totalGos * (roll || 1);
   const ownerColor = ownedProperty?.member?.color;
 
   return (
@@ -49,11 +70,11 @@ const ForeignProperty = ({
               Gold on step:
               <span className="event-stat-value">
                 <img src={goldImg} className="event-stat-icon" alt="gold" />
-                {upgrade.gos}
+                {totalGos}
                 {roll > 0 ? 'x' : ''}
               </span>
             </div>
-            {upgrade.gpt > 0 && (
+            {totalGpt > 0 && (
               <div className="event-stat">
                 Gold per turn:
                 <span className="event-stat-value">
@@ -62,11 +83,11 @@ const ForeignProperty = ({
                     className="event-stat-icon"
                     alt="gpt"
                   />
-                  {upgrade.gpt}
+                  {totalGpt}
                 </span>
               </div>
             )}
-            {upgrade.tourism > 0 && (
+            {totalTourism > 0 && (
               <div className="event-stat">
                 Tourism:
                 <span className="event-stat-value">
@@ -75,7 +96,7 @@ const ForeignProperty = ({
                     className="event-stat-icon"
                     alt="tourism"
                   />
-                  {upgrade.tourism}
+                  {totalTourism}
                 </span>
               </div>
             )}

@@ -14,7 +14,7 @@ import { startGame } from '../../../http/requests/game.js';
 import { useTranslation } from 'react-i18next';
 import Era from './Era.jsx';
 
-const MemberList = () => {
+const MemberList = ({ timeLeft, timerPhase }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -104,6 +104,8 @@ const MemberList = () => {
           showKickButton={
             !room.isStarted && index !== 0 && isUserLeaderCookies(members, user)
           }
+          timeLeft={index === room.turnIndex ? timeLeft : null}
+          timerPhase={index === room.turnIndex ? timerPhase : null}
         />
       );
     });

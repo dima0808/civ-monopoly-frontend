@@ -65,6 +65,9 @@ const TopPanel = ({ hasAvailableUpgrade, ownedProperties }) => {
   }, [currentMember?.gold, currentMember?.strength]);
 
   const displayArmySpending = () => {
+    if (!gameConfig) {
+      return <div></div>;
+    }
     return gameConfig.armySpending.map((spending, index) => (
       <ArmySpending
         key={index}

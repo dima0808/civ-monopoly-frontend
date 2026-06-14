@@ -6,13 +6,17 @@ import { pushNotification } from '../../../store/slices/notificationSlice.js';
 import { NOTIFICATION_ERROR } from '../../../constants/notification.js';
 import MemberSetupDialog from './MemberSetupDialog.jsx';
 import { useState } from 'react';
-import { LEADERS } from '../../../constants/game.js';
+import {
+  LEADERS,
+  DICE_TIMER_DURATION,
+  TURN_TIMER_DURATION,
+} from '../../../constants/game.js';
 import goldImg from '../../../images/icon-gold.png';
 import strengthImg from '../../../images/icon-strength.png';
 import tourismImg from '../../../images/icon-tourism.png';
 import scoreImg from '../../../images/icon-city-center.png';
 
-const Member = ({ member, isLeader, showKickButton }) => {
+const Member = ({ member, isLeader, showKickButton, timeLeft, timerPhase }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { room } = useSelector((state) => state.room);
@@ -28,8 +32,16 @@ const Member = ({ member, isLeader, showKickButton }) => {
       });
   };
 
+  const maxDuration =
+    timerPhase === 'dice' ? DICE_TIMER_DURATION : TURN_TIMER_DURATION;
+  const showTimer = timeLeft != null && timeLeft > 0;
+  const progress = showTimer ? (timeLeft / maxDuration) * 360 : 0;
+
   return (
-    <div className={`player color-${member.color.toLowerCase()}`}>
+    <div
+      className={`player color-${member.color.toLowerCase()}${showTimer ? ' timer-active' : ''}`}
+      style={showTimer ? { '--progress': `${progress}deg` } : undefined}
+    >
       {isMemberSetupOpened && (
         <MemberSetupDialog
           member={member}

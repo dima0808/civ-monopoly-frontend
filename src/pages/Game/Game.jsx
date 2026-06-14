@@ -39,6 +39,7 @@ const Game = () => {
   const [ownedProperties, setOwnedProperties] = useState({});
   const [propertyRequirements, setPropertyRequirements] = useState({});
   const [timeLeft, setTimeLeft] = useState(null);
+  const [timerPhase, setTimerPhase] = useState(null);
 
   const fetchRequirements = useCallback(() => {
     getPropertyRequirements()
@@ -51,9 +52,13 @@ const Game = () => {
       const message = JSON.parse(wsMessage.body);
       const { type } = message;
       switch (type) {
-        case 'TIMER_TURN_UPDATE':
         case 'TIMER_DICE_UPDATE':
           setTimeLeft(message.timeLeft);
+          setTimerPhase('dice');
+          break;
+        case 'TIMER_TURN_UPDATE':
+          setTimeLeft(message.timeLeft);
+          setTimerPhase('turn');
           break;
         case 'START':
           dispatch(setRoom(message.room));
@@ -198,7 +203,6 @@ const Game = () => {
       properties.forEach((p) => {
         map[p.position] = p;
       });
-      console.log(map);
       setOwnedProperties(map);
     });
     fetchRequirements();
@@ -227,7 +231,7 @@ const Game = () => {
 
   return (
     <div className="grid-3">
-      <MemberList />
+      <MemberList timeLeft={timeLeft} timerPhase={timerPhase} />
       <Board dice={dice} ownedProperties={ownedProperties} />
       <Actions
         events={events}

@@ -16,7 +16,7 @@ const Cell = ({
   placement,
   isMirrored,
   position,
-  property: { name, type, upgrades },
+  property: { name, type, upgrades, bonuses: configBonuses },
   ownedProperty,
 }) => {
   const dispatch = useDispatch();
@@ -35,11 +35,18 @@ const Cell = ({
       const isWonder = type === 'WONDER';
       const isEncampment = type === 'DISTRICT_ENCAMPMENT';
       const ownedUpgrades = ownedProperty?.upgrades || [];
-      const value = ownedUpgrades.reduce((sum, level) => {
+      let value = ownedUpgrades.reduce((sum, level) => {
         const levelData = upgrades[level];
         if (!levelData) return sum;
         return sum + (isWonder ? levelData.tourism : levelData.gos);
       }, 0);
+      const ownedBonuses = ownedProperty?.bonuses ?? [];
+      for (const bonus of ownedBonuses) {
+        const b = configBonuses?.[bonus];
+        if (b) {
+          value += isWonder ? b.tourism || 0 : b.gos || 0;
+        }
+      }
       return (
         <div
           className={`object-${orientation}__price no-select price-${type.toLowerCase()} ${isWonder ? 'object-tourism' : 'object-gold-on-step'}`}

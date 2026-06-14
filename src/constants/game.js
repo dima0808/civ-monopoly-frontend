@@ -485,6 +485,9 @@ export const BONUS_IMAGES = {
   DAM: districtDamImg,
 };
 
+export const DICE_TIMER_DURATION = 5;
+export const TURN_TIMER_DURATION = 60;
+
 export const UP_BOARD_CELL_RANGE = [1, 12];
 export const RIGHT_BOARD_CELL_RANGE = [14, 23];
 export const DOWN_BOARD_CELL_RANGE = [25, 36];

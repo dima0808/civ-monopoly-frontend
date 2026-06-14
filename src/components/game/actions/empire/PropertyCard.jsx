@@ -327,6 +327,7 @@ const PropertyCard = ({ position, ownedProperty, reqData }) => {
                   key={bonus}
                   className={`empire-bonus ${isWonder ? 'empire-bonus-wonder' : 'empire-bonus-adjacency'}`}
                 >
+                  <h3 className="empire-bonus-h3">{bonusConfig.name}</h3>
                   <div className="empire-bonus-grid">
                     <div className="empire-bonus-img-div">
                       {BONUS_IMAGES[bonus] && (
@@ -337,7 +338,7 @@ const PropertyCard = ({ position, ownedProperty, reqData }) => {
                         />
                       )}
                     </div>
-                    <div className="empire-bonus-name">{bonusConfig.name}</div>
+                    <div className="empire-bonus-name"></div>
                     <div className="empire-bonus-stats">
                       {bonusConfig.gos > 0 && (
                         <div className="empire-stat-row">

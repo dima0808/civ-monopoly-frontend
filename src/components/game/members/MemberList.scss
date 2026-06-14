@@ -1,4 +1,5 @@
 .player {
+  position: relative;
   transition: all 0.2s ease-in-out;
   border-radius: 9px;
   display: flex;
@@ -6,6 +7,39 @@
   height: 100px;
   width: 100%;
   margin-bottom: 2px;
+  overflow: hidden;
+}
+
+.player::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9px;
+  padding: 3px;
+  background: transparent;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.player.timer-active::before {
+  background: conic-gradient(
+    from -90deg,
+    rgba(255, 255, 246, 0.7) var(--progress),
+    transparent var(--progress)
+  );
+}
+
+.player.color-yellow.timer-active::before {
+  background: conic-gradient(
+    from -90deg,
+    rgba(231, 243, 255, 0.93) var(--progress),
+    transparent var(--progress)
+  );
 }
 .player__stats {
   width: 154px;
