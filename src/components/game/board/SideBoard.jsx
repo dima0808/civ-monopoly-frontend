@@ -29,6 +29,7 @@ const SideBoard = ({
             orientation={cellOrientation}
             placement={placement}
             isMirrored={isCellMirrored}
+            position={i}
             property={properties[i]}
             ownedProperty={ownedProperties[i]}
           />

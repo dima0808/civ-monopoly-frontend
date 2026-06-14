@@ -9,8 +9,16 @@ import commercialImg from '../../../../images/icon_project_enhance_district_comm
 import encampmentImg from '../../../../images/icon_project_enhance_district_encampment.png';
 import harborImg from '../../../../images/icon_project_enhance_district_harbor.png';
 import theaterImg from '../../../../images/icon_project_enhance_district_theatre_square.png';
+import satelliteImg from '../../../../images/icon_project_launch_earth_satellite.png';
+import moonImg from '../../../../images/icon_project_launch_moon_landing.png';
+import marsImg from '../../../../images/icon_project_launch_mars_base.png';
+import exoplanetImg from '../../../../images/icon_project_exoplanet_expedition.png';
+import laserImg from '../../../../images/icon_project_terrestrial_laser_station.png';
 
 const DISTRICT_LEVELS = ['LEVEL_1', 'LEVEL_2', 'LEVEL_3', 'LEVEL_4'];
+
+const SPACEPORT_POSITION = 47;
+const CAMPUS_POSITIONS = [15, 45];
 
 // Only the project types the backend currently accepts in /projects/choose are
 // listed. BREAD_AND_CIRCUSES and INDUSTRIAL_ZONE_LOGISTICS are intentionally
@@ -49,6 +57,59 @@ const PROJECTS = [
   },
 ];
 
+// The next space launch becomes selectable on the corner once a player can space,
+// letting them advance science without waiting for the timed science event.
+const SCIENCE_LAUNCHES = [
+  {
+    type: 'LAUNCH_EARTH_SATELLITE',
+    title: 'Launch Earth Satellite',
+    img: satelliteImg,
+    gate: 'SATELLITE',
+    desc: 'Launch the earth satellite.',
+  },
+  {
+    type: 'LAUNCH_MOON_LANDING',
+    title: 'Launch Moon Landing',
+    img: moonImg,
+    requires: 'SATELLITE',
+    gate: 'MOON',
+    desc: 'Land on the moon.',
+  },
+  {
+    type: 'LAUNCH_MARS_COLONY',
+    title: 'Launch Mars Colony',
+    img: marsImg,
+    requires: 'MOON',
+    gate: 'MARS',
+    desc: 'Establish a Mars colony.',
+  },
+  {
+    type: 'EXOPLANET_EXPEDITION',
+    title: 'Exoplanet Expedition',
+    img: exoplanetImg,
+    requires: 'MARS',
+    gate: 'EXOPLANET',
+    desc: 'Begin the exoplanet expedition.',
+  },
+  {
+    type: 'TERRESTRIAL_LASER_STATION',
+    title: 'Terrestrial Laser Station',
+    img: laserImg,
+    requires: 'EXOPLANET',
+    gate: 'LASER',
+    desc: 'Speed up the exoplanet expedition.',
+  },
+];
+
+const getNextLaunch = (finished) => {
+  for (const launch of SCIENCE_LAUNCHES) {
+    if (finished.includes(launch.gate)) continue;
+    if (launch.requires && !finished.includes(launch.requires)) return null;
+    return launch;
+  }
+  return null;
+};
+
 const Projects = ({ ownedProperties, member, gameConfig, onChoose }) => {
   const [selected, setSelected] = useState(null);
 
@@ -69,7 +130,7 @@ const Projects = ({ ownedProperties, member, gameConfig, onChoose }) => {
     return best;
   };
 
-  const available = PROJECTS.filter((project) => {
+  const availableDistricts = PROJECTS.filter((project) => {
     if (!project.positions.some(ownsPosition)) return false;
     if (
       project.scienceGate &&
@@ -80,12 +141,14 @@ const Projects = ({ ownedProperties, member, gameConfig, onChoose }) => {
     return true;
   });
 
-  const effectiveSelected =
-    selected && available.some((p) => p.type === selected)
-      ? selected
-      : (available[0]?.type ?? null);
+  const finished = member.finishedScienceProjects ?? [];
+  const ableToSpace =
+    ownsPosition(SPACEPORT_POSITION) ||
+    districtLevelIndex(CAMPUS_POSITIONS) >= DISTRICT_LEVELS.indexOf('LEVEL_4');
+  const nextLaunch =
+    ableToSpace && finished.includes('CAMPUS') ? getNextLaunch(finished) : null;
 
-  const renderEffect = (project) => {
+  const renderDistrictEffect = (project) => {
     const levelIndex = Math.max(districtLevelIndex(project.positions), 0);
     const level = DISTRICT_LEVELS[levelIndex];
 
@@ -150,26 +213,50 @@ const Projects = ({ ownedProperties, member, gameConfig, onChoose }) => {
     }
   };
 
+  const options = [
+    ...availableDistricts.map((project) => ({
+      type: project.type,
+      title: project.title,
+      img: project.img,
+      content: renderDistrictEffect(project),
+    })),
+    ...(nextLaunch
+      ? [
+          {
+            type: nextLaunch.type,
+            title: nextLaunch.title,
+            img: nextLaunch.img,
+            content: <p className="project-desc">{nextLaunch.desc}</p>,
+          },
+        ]
+      : []),
+  ];
+
+  const effectiveSelected =
+    selected && options.some((o) => o.type === selected)
+      ? selected
+      : (options[0]?.type ?? null);
+
   return (
     <div className="projects-choose">
       <h2 className="project-title">Choose your project</h2>
-      {available.map((project) => (
+      {options.map((option) => (
         <div
-          key={project.type}
-          onClick={() => setSelected(project.type)}
-          className={`event-card project-card ${effectiveSelected === project.type ? 'project-card-selected' : ''}`}
+          key={option.type}
+          onClick={() => setSelected(option.type)}
+          className={`event-card project-card ${effectiveSelected === option.type ? 'project-card-selected' : ''}`}
         >
-          <div className="event-card-header">{project.title}</div>
+          <div className="event-card-header">{option.title}</div>
           <div className="event-card-body">
             <div className="event-card-grid">
               <div className="event-card-img-div">
                 <img
-                  src={project.img}
+                  src={option.img}
                   className="event-card-img"
-                  alt={project.title}
+                  alt={option.title}
                 />
               </div>
-              <div className="event-card-stats">{renderEffect(project)}</div>
+              <div className="event-card-stats">{option.content}</div>
             </div>
           </div>
         </div>

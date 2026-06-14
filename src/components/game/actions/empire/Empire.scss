@@ -22,6 +22,19 @@
   line-height: 1.2;
 }
 
+// Dark name for unowned cards (white background) and light player colors,
+// where the default light name would be unreadable.
+.empire-card--unowned .empire-card-name,
+.color-yellow-g .empire-card-name,
+.color-pink-g .empire-card-name,
+.color-orange-g .empire-card-name {
+  color: #2b2732;
+}
+
+.empire-card--unowned .empire-card-name {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
 .empire-card .event-card-body {
   background-color: #aba6a671;
   padding-bottom: 4px;

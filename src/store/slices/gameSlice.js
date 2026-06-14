@@ -5,6 +5,7 @@ const gameSlice = createSlice({
   initialState: {
     selectedTab: 'EVENTS',
     managementTab: 'EMPIRE',
+    selectedProperty: null,
     armySpendingIndex: 1,
   },
   reducers: {
@@ -14,12 +15,19 @@ const gameSlice = createSlice({
     setManagementTab: (state, action) => {
       state.managementTab = action.payload;
     },
+    setSelectedProperty: (state, action) => {
+      state.selectedProperty = action.payload;
+    },
     setArmySpendingIndex: (state, action) => {
       state.armySpendingIndex = action.payload;
     },
   },
 });
 
-export const { setSelectedTab, setManagementTab, setArmySpendingIndex } =
-  gameSlice.actions;
+export const {
+  setSelectedTab,
+  setManagementTab,
+  setSelectedProperty,
+  setArmySpendingIndex,
+} = gameSlice.actions;
 export default gameSlice.reducer;

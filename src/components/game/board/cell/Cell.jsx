@@ -4,14 +4,28 @@ import blueStarImg from '../../../../images/star-blue.png';
 import yellowStarImg from '../../../../images/star-yellow.png';
 
 import { CELL_IMAGES } from '../../../../constants/game.js';
+import { useDispatch } from 'react-redux';
+import {
+  setSelectedTab,
+  setManagementTab,
+  setSelectedProperty,
+} from '../../../../store/slices/gameSlice.js';
 
 const Cell = ({
   orientation,
   placement,
   isMirrored,
+  position,
   property: { name, type, upgrades },
   ownedProperty,
 }) => {
+  const dispatch = useDispatch();
+
+  const handleOpenProperty = () => {
+    dispatch(setSelectedProperty(position));
+    dispatch(setManagementTab('PROPERTY'));
+    dispatch(setSelectedTab('MANAGEMENT'));
+  };
   const ownerColor = ownedProperty?.member?.color;
   const isMortgaged =
     ownedProperty?.mortgage != null && ownedProperty.mortgage !== -1;
@@ -165,7 +179,10 @@ const Cell = ({
   };
 
   return (
-    <div className={`object-${orientation} ${isMirrored && 'mirror'} border`}>
+    <div
+      onClick={handleOpenProperty}
+      className={`object-${orientation} ${isMirrored && 'mirror'} border`}
+    >
       {displayBlocksByPlacement()}
     </div>
   );
