@@ -3,6 +3,7 @@ import {
   CELL_IMAGES,
   UPGRADE_IMAGES,
   REQUIREMENT_DESCRIPTIONS,
+  BONUS_IMAGES,
 } from '../../../../constants/game.js';
 import goldImg from '../../../../images/icon-gold.png';
 import goldPerTurnImg from '../../../../images/icon-gold-per-turn.png';
@@ -39,7 +40,12 @@ const getNextLevel = (ownedUpgrades, configUpgrades) => {
   );
 };
 
-const getTotalStats = (ownedUpgrades, configUpgrades) => {
+const getTotalStats = (
+  ownedUpgrades,
+  configUpgrades,
+  ownedBonuses,
+  configBonuses,
+) => {
   let gos = 0;
   let gpt = 0;
   let tourism = 0;
@@ -49,6 +55,14 @@ const getTotalStats = (ownedUpgrades, configUpgrades) => {
       gos += upgrade.gos || 0;
       gpt += upgrade.gpt || 0;
       tourism += upgrade.tourism || 0;
+    }
+  }
+  for (const bonus of ownedBonuses ?? []) {
+    const b = configBonuses?.[bonus];
+    if (b) {
+      gos += b.gos || 0;
+      gpt += b.gpt || 0;
+      tourism += b.tourism || 0;
     }
   }
   return { gos, gpt, tourism };
@@ -98,7 +112,13 @@ const PropertyCard = ({ position, ownedProperty, reqData }) => {
   };
 
   const summaryUpgrades = ownedProperty ? ownedUpgrades : ['LEVEL_1'];
-  const totals = getTotalStats(summaryUpgrades, config.upgrades);
+  const ownedBonuses = ownedProperty?.bonuses ?? [];
+  const totals = getTotalStats(
+    summaryUpgrades,
+    config.upgrades,
+    ownedBonuses,
+    config.bonuses,
+  );
   const highestLevel = getHighestLevel(ownedUpgrades);
   const image = CELL_IMAGES[config.name]?.[highestLevel];
 
@@ -284,6 +304,77 @@ const PropertyCard = ({ position, ownedProperty, reqData }) => {
                               alt="gpt"
                             />
                             {upgrade.gpt}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {ownedBonuses.length > 0 && (
+          <div className="empire-bonuses">
+            <h4 className="empire-bonuses-title">Buffs:</h4>
+            {ownedBonuses.map((bonus) => {
+              const bonusConfig = config.bonuses?.[bonus];
+              if (!bonusConfig) return null;
+              const isWonder = bonusConfig.type === 0;
+              return (
+                <div
+                  key={bonus}
+                  className={`empire-bonus ${isWonder ? 'empire-bonus-wonder' : 'empire-bonus-adjacency'}`}
+                >
+                  <div className="empire-bonus-grid">
+                    <div className="empire-bonus-img-div">
+                      {BONUS_IMAGES[bonus] && (
+                        <img
+                          src={BONUS_IMAGES[bonus]}
+                          className="empire-bonus-img"
+                          alt={bonusConfig.name}
+                        />
+                      )}
+                    </div>
+                    <div className="empire-bonus-name">{bonusConfig.name}</div>
+                    <div className="empire-bonus-stats">
+                      {bonusConfig.gos > 0 && (
+                        <div className="empire-stat-row">
+                          <span className="empire-stat-label">g.o.s</span>
+                          <span className="empire-stat-value">
+                            <img
+                              src={goldImg}
+                              className="empire-stat-icon"
+                              alt="gos"
+                            />
+                            {bonusConfig.gos}
+                          </span>
+                        </div>
+                      )}
+                      {bonusConfig.tourism > 0 && (
+                        <div className="empire-stat-row">
+                          <span className="empire-stat-label">t.o.s</span>
+                          <span className="empire-stat-value">
+                            <img
+                              src={tourismImg}
+                              className="empire-stat-icon"
+                              alt="tourism"
+                            />
+                            {bonusConfig.tourism}
+                          </span>
+                        </div>
+                      )}
+                      {bonusConfig.gpt > 0 && (
+                        <div className="empire-stat-row">
+                          <span className="empire-stat-label">g.p.t</span>
+                          <span className="empire-stat-value">
+                            <img
+                              src={goldPerTurnImg}
+                              className="empire-stat-icon"
+                              alt="gpt"
+                            />
+                            {bonusConfig.gpt}
                           </span>
                         </div>
                       )}

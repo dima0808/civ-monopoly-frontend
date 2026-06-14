@@ -24,12 +24,17 @@ const TopPanel = ({ hasAvailableUpgrade, ownedProperties }) => {
 
   const propertyGpt = propertiesConfig
     ? Object.values(ownedProperties)
-        .filter((p) => p.member?.username === user?.username)
+        .filter(
+          (p) => p.member?.username === user?.username && p.mortgage === -1,
+        )
         .reduce((sum, prop) => {
           const config = propertiesConfig[prop.position];
           if (!config) return sum;
           for (const level of prop.upgrades) {
             sum += config.upgrades[level]?.gpt || 0;
+          }
+          for (const bonus of prop.bonuses ?? []) {
+            sum += config.bonuses?.[bonus]?.gpt || 0;
           }
           return sum;
         }, 0)
@@ -79,7 +84,13 @@ const TopPanel = ({ hasAvailableUpgrade, ownedProperties }) => {
   return (
     <div className="static-choises">
       <div className="flex-between top-flex">
-        <div className="value">
+        <div
+          className="value clickable-gpt"
+          onClick={() => {
+            dispatch(setSelectedTab('MANAGEMENT'));
+            dispatch(setManagementTab('CASHFLOW'));
+          }}
+        >
           <h2>Gold per turn:</h2>
           <div className="player-stat-gold gold-per-turn width-full pointer no-select">
             <img src={goldPerTurnImg} className="recourse-img" alt="gold" />+

@@ -105,6 +105,8 @@ import wonderOxfordUniversityImg from '../images/wonder_oxford_university.png';
 
 import districtSpaceportImg from '../images/icon_district_spaceport.png';
 
+import wondersImg from '../images/wonders.png';
+
 // Building / upgrade images
 import stableImg from '../images/building_encampment_build1_icon_stable.png';
 import armoryImg from '../images/building_encampment_build2_icon_armory.png';
@@ -461,6 +463,26 @@ export const REQUIREMENT_DESCRIPTIONS = {
   SUPER_WIDE_EMPIRE: 'Have 11 tiles',
   TALL_EMPIRE: 'Have 9 upgrades',
   SUPER_TALL_EMPIRE: 'Have 15 upgrades',
+};
+
+export const BONUS_IMAGES = {
+  TEMPLE_OF_ARTEMIS: wonderTempleOfArtemisImg,
+  CASA_DE_CONTRATACION: wonderCasaDeContratacionImg,
+  COLOSSEUM: wonderColosseumImg,
+  ETEMENANKI: wonderEtemenankiImg,
+  MAUSOLEUM_AT_HALICARNASSUS: wonderMausoleumAtHalicarnassusImg,
+  RUHR_VALLEY: wonderRuhrValleyImg,
+  ESTADIO_DO_MARACANA: wonderEstadioDoMaracanaImg,
+  GOVERNMENT_PLAZA: districtGovernmentPlazaImg,
+  IRON: resourceIronImg,
+  FABRIC: districtIndustrialZoneImg,
+  SHIPYARD: districtHarborImg,
+  REEF: featureReefImg,
+  WONDER: wondersImg,
+  ENTERTAINMENT_COMPLEX: districtEntertainmentComplexImg,
+  FARMS: farmImg,
+  AQUEDUCT: districtAqueductImg,
+  DAM: districtDamImg,
 };
 
 export const UP_BOARD_CELL_RANGE = [1, 12];

@@ -4,6 +4,7 @@ import TopPanel from './TopPanel.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import Events from './events/Events.jsx';
 import Empire from './empire/Empire.jsx';
+import Cashflow from './cashflow/Cashflow.jsx';
 import Wins from './wins/Wins.jsx';
 import Property from './property/Property.jsx';
 import { setSelectedTab } from '../../../store/slices/gameSlice.js';
@@ -81,6 +82,8 @@ const Actions = ({
                   propertyRequirements={propertyRequirements}
                   ownedProperties={ownedProperties}
                 />
+              ) : managementTab === 'CASHFLOW' ? (
+                <Cashflow ownedProperties={ownedProperties} />
               ) : managementTab === 'WINS' ? (
                 <Wins ownedProperties={ownedProperties} />
               ) : managementTab === 'PROPERTY' ? (

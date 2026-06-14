@@ -1,0 +1,64 @@
+.cashflow {
+  height: 490px;
+  overflow-y: auto;
+  padding: 4px;
+}
+
+.cashflow-summary {
+  margin-top: 4px;
+  background-color: #f3edbd;
+  padding: 2px 4px;
+  border-radius: 6px;
+}
+
+.cashflow-summary .value {
+  margin: 0;
+}
+
+.cashflow-section {
+  border-radius: 6px;
+  margin-top: 6px;
+  padding: 2px 3px;
+}
+
+.cashflow-income {
+  background-color: #ebf1cf;
+}
+
+.cashflow-list {
+  padding-left: 12px;
+  list-style-type: none;
+}
+
+.cashflow-list .value {
+  margin-top: 5px;
+}
+
+.cashflow-list .value h3 {
+  font-size: 16px;
+  line-height: 1;
+  font-weight: 400;
+  letter-spacing: -0.5px;
+  word-spacing: 1px;
+}
+
+.cashflow-list .gold-per-turn {
+  width: 54px;
+  padding-right: 4px;
+  margin: 0 2px 0 0;
+}
+
+.cashflow-source {
+  max-width: 196px;
+}
+
+.cashflow-name {
+  cursor: pointer;
+  font-weight: 500;
+  color: #32690d;
+}
+
+.cashflow-turns {
+  font-size: 13px;
+  color: #636466;
+}

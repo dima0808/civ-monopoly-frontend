@@ -103,16 +103,21 @@ const Game = () => {
         case 'PROPERTY_DEMOTE':
         case 'PROPERTY_BUYBACK':
         case 'RENT_PAY': {
-          const { property, members } = message;
+          const { property, bonusUpdates, members } = message;
           if (members && members.length > 0) {
             dispatch(updateMembers(members));
           }
-          if (property) {
-            setOwnedProperties((prev) => ({
-              ...prev,
-              [property.position]: property,
-            }));
-          }
+          setOwnedProperties((prev) => {
+            const updated = property
+              ? { ...prev, [property.position]: property }
+              : { ...prev };
+            if (bonusUpdates) {
+              for (const p of bonusUpdates) {
+                updated[p.position] = p;
+              }
+            }
+            return updated;
+          });
           fetchRequirements();
           break;
         }
@@ -193,6 +198,7 @@ const Game = () => {
       properties.forEach((p) => {
         map[p.position] = p;
       });
+      console.log(map);
       setOwnedProperties(map);
     });
     fetchRequirements();
