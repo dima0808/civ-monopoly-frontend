@@ -42,3 +42,10 @@ export const endTurn = async (armySpendingIndex) => {
   });
   return data;
 };
+
+export const teleport = async (position) => {
+  const { data } = await axios.post(`${REQUEST_MAPPING}/teleport`, null, {
+    params: { position },
+  });
+  return data;
+};

@@ -92,6 +92,10 @@ const Game = () => {
             return updated;
           });
           break;
+        case 'TELEPORT':
+          dispatch(setRoom(message.room));
+          fetchRequirements();
+          break;
         case 'PROPERTY_BUY':
         case 'PROPERTY_UPGRADE':
         case 'PROPERTY_MORTGAGE':

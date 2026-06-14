@@ -1,6 +1,6 @@
 import './Events.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { endTurn, rollDice } from '../../../../http/requests/game.js';
+import { endTurn, rollDice, teleport } from '../../../../http/requests/game.js';
 import { buyProperty, payRent } from '../../../../http/requests/property.js';
 import { skipEvent } from '../../../../http/requests/event.js';
 import {
@@ -15,6 +15,7 @@ import ForeignProperty from './ForeignProperty.jsx';
 import Projects from './Projects.jsx';
 import ScienceProjects from './ScienceProjects.jsx';
 import GiveConcert from './GiveConcert.jsx';
+import Teleport from './Teleport.jsx';
 
 const Events = ({ events, propertyRequirements, ownedProperties }) => {
   const dispatch = useDispatch();
@@ -99,6 +100,14 @@ const Events = ({ events, propertyRequirements, ownedProperties }) => {
     });
   };
 
+  const onTeleport = (position) => {
+    teleport(position).catch((e) => {
+      dispatch(
+        pushNotification({ type: NOTIFICATION_ERROR, error: e.message }),
+      );
+    });
+  };
+
   const renderEvents = () => {
     if (!events || !propertiesConfig || !currentMember) return null;
 
@@ -164,6 +173,20 @@ const Events = ({ events, propertyRequirements, ownedProperties }) => {
               upperBound={gameConfig.concert.tourismUpperBound}
               onConfirm={onConcert}
               onSkip={() => onSkipEvent('PROJECTS_CULTURE')}
+            />
+          );
+        case 'TELEPORT':
+          return (
+            <Teleport
+              key={event.reference}
+              options={[
+                event.ext.teleportOption1,
+                event.ext.teleportOption2,
+                event.ext.teleportOption3,
+              ]}
+              propertiesConfig={propertiesConfig}
+              ownedProperties={ownedProperties}
+              onTeleport={onTeleport}
             />
           );
         default:
