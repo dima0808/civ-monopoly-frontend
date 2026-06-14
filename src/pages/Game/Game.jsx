@@ -93,6 +93,7 @@ const Game = () => {
           });
           break;
         case 'TELEPORT':
+        case 'CHEAT':
           dispatch(setRoom(message.room));
           fetchRequirements();
           break;
