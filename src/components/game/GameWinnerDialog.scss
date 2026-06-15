@@ -1,0 +1,88 @@
+.game-winner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  background-color: #f5f0e8;
+  border-radius: 12px;
+  padding: 32px 48px;
+  min-width: 320px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.game-winner__victory-icon {
+  width: 80px;
+  height: 80px;
+}
+
+.game-winner__title {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin: 0;
+}
+
+.game-winner__leader {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 3px solid #7a532f;
+  object-fit: cover;
+}
+
+.game-winner__username {
+  font-size: 22px;
+  font-weight: 600;
+  color: #271d37;
+  margin: 0;
+}
+
+.game-winner__btn {
+  margin-top: 8px;
+  padding: 10px 32px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  background-color: #7a532f;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.game-winner__btn:hover {
+  background-color: #875e37;
+}
+
+.game-winner--military .game-winner__title {
+  color: #710f22;
+}
+
+.game-winner--military .game-winner__leader {
+  border-color: #710f22;
+}
+
+.game-winner--culture .game-winner__title {
+  color: #5f1d99;
+}
+
+.game-winner--culture .game-winner__leader {
+  border-color: #5f1d99;
+}
+
+.game-winner--science .game-winner__title {
+  color: #44679b;
+}
+
+.game-winner--science .game-winner__leader {
+  border-color: #44679b;
+}
+
+.game-winner--score .game-winner__title {
+  color: #434c64;
+}
+
+.game-winner--score .game-winner__leader {
+  border-color: #434c64;
+}

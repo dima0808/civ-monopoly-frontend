@@ -16,6 +16,7 @@ import {
 } from '../../store/slices/roomSlice.js';
 import { getStompClient } from '../../store/slices/wsSlice.js';
 import Actions from '../../components/game/actions/Actions.jsx';
+import GameWinnerDialog from '../../components/game/GameWinnerDialog.jsx';
 import Dice from '../../components/game/board/dice/Dice.jsx';
 import {
   getPropertiesByRoom,
@@ -96,6 +97,9 @@ const Game = () => {
             }
             return updated;
           });
+          break;
+        case 'GAME_OVER':
+          dispatch(setRoom(message.room));
           break;
         case 'TELEPORT':
         case 'CHEAT':
@@ -239,6 +243,13 @@ const Game = () => {
         propertyRequirements={propertyRequirements}
         timeLeft={timeLeft}
       />
+      {room?.winner && (
+        <GameWinnerDialog
+          winner={room.winner}
+          victoryType={room.victoryType}
+          members={room.members}
+        />
+      )}
     </div>
   );
 };

@@ -51,7 +51,6 @@ const Actions = ({
       <section className="actions">
         {/* <SettingsDialog /> */}
         {/*<GamePauseDialog />*/}
-        {/*<GameWinnerDialog />*/}
 
         <TopPanel
           hasAvailableUpgrade={hasAvailableUpgrade}
