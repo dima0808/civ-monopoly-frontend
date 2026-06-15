@@ -202,8 +202,7 @@ const Wins = ({ ownedProperties = {} }) => {
                 using a laboratory, spaceport, or Science Department. After
                 completing four scientific projects (Exoplanet Expedition), a
                 countdown to victory begins, which can also be sped up with the
-                Terrestrial Laser Station project. The final goal will be to
-                build a base on the Mars.
+                Terrestrial Laser Station project.
               </p>
             </div>
             <h3 className="win__victory-h2 win__victory-h3">Top players:</h3>
@@ -237,11 +236,11 @@ const Wins = ({ ownedProperties = {} }) => {
                             </div>
                           </div>
                           <div className="win__value">
-                            <p>Turns to expedition:</p>
+                            <p>Expedition progress:</p>
                             <div className="player-stat-science width-full half-height no-select">
                               {member.expeditionTurns < 0
                                 ? '—'
-                                : member.expeditionTurns}
+                                : expeditionTarget - member.expeditionTurns}
                               /{expeditionTarget}
                             </div>
                           </div>

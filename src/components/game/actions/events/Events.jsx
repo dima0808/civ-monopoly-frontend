@@ -148,7 +148,9 @@ const Events = ({ events, propertyRequirements, ownedProperties }) => {
               ownedProperties={ownedProperties}
               member={currentMember}
               gameConfig={gameConfig}
+              currentTurn={room.turn}
               onChoose={onChooseProject}
+              onSkip={() => onSkipEvent('PROJECTS_EDGE')}
             />
           );
         case 'PROJECTS_SCIENCE':

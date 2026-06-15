@@ -110,7 +110,14 @@ const getNextLaunch = (finished) => {
   return null;
 };
 
-const Projects = ({ ownedProperties, member, gameConfig, onChoose }) => {
+const Projects = ({
+  ownedProperties,
+  member,
+  gameConfig,
+  currentTurn,
+  onChoose,
+  onSkip,
+}) => {
   const [selected, setSelected] = useState(null);
 
   const ownsPosition = (position) =>
@@ -129,6 +136,8 @@ const Projects = ({ ownedProperties, member, gameConfig, onChoose }) => {
     });
     return best;
   };
+
+  const isModernEra = currentTurn >= (gameConfig.eras?.MODERN ?? Infinity);
 
   const availableDistricts = PROJECTS.filter((project) => {
     if (!project.positions.some(ownsPosition)) return false;
@@ -214,12 +223,23 @@ const Projects = ({ ownedProperties, member, gameConfig, onChoose }) => {
   };
 
   const options = [
-    ...availableDistricts.map((project) => ({
-      type: project.type,
-      title: project.title,
-      img: project.img,
-      content: renderDistrictEffect(project),
-    })),
+    ...availableDistricts.map((project) => {
+      const eraLocked =
+        project.type === 'CAMPUS_RESEARCH_GRANTS' && !isModernEra;
+      return {
+        type: project.type,
+        title: project.title,
+        img: project.img,
+        disabled: eraLocked,
+        content: eraLocked ? (
+          <p className="project-desc project-desc-locked">
+            Available after Modern era (turn {gameConfig.eras?.MODERN})
+          </p>
+        ) : (
+          renderDistrictEffect(project)
+        ),
+      };
+    }),
     ...(nextLaunch
       ? [
           {
@@ -232,10 +252,11 @@ const Projects = ({ ownedProperties, member, gameConfig, onChoose }) => {
       : []),
   ];
 
+  const selectableOptions = options.filter((o) => !o.disabled);
   const effectiveSelected =
-    selected && options.some((o) => o.type === selected)
+    selected && selectableOptions.some((o) => o.type === selected)
       ? selected
-      : (options[0]?.type ?? null);
+      : (selectableOptions[0]?.type ?? null);
 
   return (
     <div className="projects-choose">
@@ -243,8 +264,8 @@ const Projects = ({ ownedProperties, member, gameConfig, onChoose }) => {
       {options.map((option) => (
         <div
           key={option.type}
-          onClick={() => setSelected(option.type)}
-          className={`event-card project-card ${effectiveSelected === option.type ? 'project-card-selected' : ''}`}
+          onClick={() => !option.disabled && setSelected(option.type)}
+          className={`event-card project-card ${effectiveSelected === option.type ? 'project-card-selected' : ''} ${option.disabled ? 'project-card-disabled' : ''}`}
         >
           <div className="event-card-header">{option.title}</div>
           <div className="event-card-body">
@@ -268,6 +289,9 @@ const Projects = ({ ownedProperties, member, gameConfig, onChoose }) => {
           className="event-btn event-btn-buy"
         >
           accept
+        </button>
+        <button onClick={onSkip} className="event-btn event-btn-skip">
+          skip
         </button>
       </div>
     </div>
